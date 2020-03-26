@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import Msg.Msg;
 
@@ -35,16 +36,25 @@ public class Receiver implements Runnable {
 			oos = new ObjectOutputStream(os);
 		
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 	}
 	
 	@Override
 	public void run() {
+		
+		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
+		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
+		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+       
+        
 		while(ois!=null) {
+			
 			Msg msg = null;
 			try {
+				
+				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
 				ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
@@ -54,14 +64,15 @@ public class Receiver implements Runnable {
 				//Web 이 접속했을 경우에만 Pad 로 Send
 				if(!msg.getSrcID().contains("tab")) {
 					Runnable r= new Sender(msg);
-					Thread senderThread = new Thread(r);
-					senderThread.start();
-					System.out.println("Sender Thread started");
-					
+					//Thread senderThread = new Thread(r);
+					//senderThread.start();
+					Main.executorService.submit(r);
 				}
 				
+				
+				
 			} catch (ClassNotFoundException | IOException e) {
-				//e.printStackTrace();
+				//ActiveConnection.executorService.shutdown();
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
 					
 				//value 값으로 key 값 찾기
@@ -74,7 +85,7 @@ public class Receiver implements Runnable {
 				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
 				
 				break;
-			}//catch
+			}//catch	
 		}//while
 		
 		try {
@@ -84,6 +95,7 @@ public class Receiver implements Runnable {
 			if (socket != null) {
 				socket.close();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
