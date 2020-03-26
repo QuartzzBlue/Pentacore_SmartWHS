@@ -9,7 +9,7 @@ public class MainController {
 	@RequestMapping("/main.hc")
 	public ModelAndView main() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("main1");
+		mv.setViewName("main");
 		return mv;
 	}
 }
