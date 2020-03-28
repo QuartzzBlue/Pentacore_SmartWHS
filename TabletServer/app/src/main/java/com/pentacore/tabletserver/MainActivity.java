@@ -5,11 +5,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import logistics.ForkLift;
+import logistics.Warehouse;
+import network.Server;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,10 +26,20 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout layoutWarehouseMap;
     View forkLiftView1, forkLiftView2, forkLiftView3, forkLiftView4;
 
+    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        int port=8888;
+
+        Runnable r = new Server(port);
+        //Thread serverThread = new Thread(r);
+        //serverThread.start();
+        //ActiveConnection.executorService.execute(r);
+        executorService.execute(r);
 
         warehouse = new Warehouse(26, 14);
         forkLift1 = new ForkLift("forkLift1");

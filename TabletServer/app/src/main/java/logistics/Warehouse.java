@@ -1,12 +1,12 @@
-package com.pentacore.tabletserver;
+package logistics;
 
 import android.util.Log;
 
 public class Warehouse {
     int cellCountWidth;
     int cellCountHeight;
-    float[] axisX;
-    float[] axisY;
+    public float[] axisX;
+    public float[] axisY;
     int screenWidth;
     int screenHeight;
     float cellWidth;

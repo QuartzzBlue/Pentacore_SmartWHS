@@ -1,4 +1,4 @@
-package com.pentacore.tabletserver;
+package logistics;
 
 public class ForkLift {
     String name;
