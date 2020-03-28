@@ -4,13 +4,11 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.vo.UserVO" alias="user"/>
-	    <typeAlias type="com.vo.Product" alias="product"/>
+		<typeAlias type="com.vo.ForkliftVO" alias="forklift"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="com/mybatis/usermapper.xml"/>
-		<mapper resource="com/mybatis/productmapper.xml"/>
+		<mapper resource="com/mybatis/forkliftmapper.xml"/>
 	</mappers>
 </configuration>
 
