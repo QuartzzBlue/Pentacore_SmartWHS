@@ -1,10 +1,10 @@
-package Server;
+package server;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import Msg.Msg;
+import msg.Msg;
 
 public class Sender implements Runnable {
 	
