@@ -69,8 +69,8 @@
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
 			value="jdbc:mysql://127.0.0.1/hexacore?serverTimezone=UTC" />
-		<property name="username" value="root" />
-		<property name="password" value="1234" />
+		<property name="username" value="#" />
+		<property name="password" value="#" />
 	</bean>
 
 	<!-- 2. Transaction Setting -->
