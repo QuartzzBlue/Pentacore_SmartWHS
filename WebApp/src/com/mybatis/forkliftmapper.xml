@@ -17,11 +17,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</delete>
 	
 	<select id="select" parameterType="forklift" 
-	resultType="user">
+	resultType="forklift">
 		SELECT * FROM forklift WHERE forkid=#{forkid}
 	</select>
 	
-	<select id="selectAll" resultType="forklift">
+	<select id="selectAll" parameterType="forklift" resultType="forklift">
 		SELECT * FROM forklift 
 	</select>
 	

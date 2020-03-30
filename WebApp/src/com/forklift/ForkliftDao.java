@@ -36,8 +36,8 @@ public class ForkliftDao implements Dao<ForkliftVO> {
 	}
 
 	@Override
-	public ArrayList<ForkliftVO> select() throws Exception {
-		return flmapper.selectAll();
+	public ArrayList<ForkliftVO> selectAll(ForkliftVO v) throws Exception {
+		return flmapper.selectAll(v);
 	}
 
 }
