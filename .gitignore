@@ -458,4 +458,9 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+
+### MySQL jdbc connection ###
+mySpring.xml
+spring.xml
+
 # End of https://www.gitignore.io/api/androidstudio
