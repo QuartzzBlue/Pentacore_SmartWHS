@@ -65,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    boolean firstFocusOnWindowFlag = true;
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        if(!firstFocusOnWindowFlag) return;
         layoutWarehouseMap = findViewById(R.id.layoutWarehouseMap);
         warehouse.setScreenSize(layoutWarehouseMap.getWidth(), layoutWarehouseMap.getHeight());
 
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         locateForkLift(forkLiftView2, 12, 13);
         locateForkLift(forkLiftView3, 13, 13);
         locateForkLift(forkLiftView4, 14, 13);
+        firstFocusOnWindowFlag = false;
     }
 
     public void btnClick() {
