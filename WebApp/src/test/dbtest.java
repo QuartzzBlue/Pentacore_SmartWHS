@@ -16,15 +16,34 @@ public class dbtest {
 		ForkliftVO fl1 = new ForkliftVO("id1112", "wh1112", null, "sgld-298-sgl", null);
 		ForkliftVO fl2 = new ForkliftVO(null, null, null, null, null);
 		System.out.println("--- App start ---");
-		try {
-			ArrayList<ForkliftVO> list = null;
-			list = biz.selectAll(fl2);
-			for(ForkliftVO f : list) {
-				System.out.println(f);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		//insert
+//		try {
+//			biz.insert(fl1);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		//delete
+//		try {
+//			biz.delete(new ForkliftVO("id1112", null, null, null, null));
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+		//selectAll
+//		try {
+//			ArrayList<ForkliftVO> list = null;
+//			list = biz.selectAll(fl2);
+//			for(ForkliftVO f : list) {
+//				System.out.println(f);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		factory.close();
 	}
