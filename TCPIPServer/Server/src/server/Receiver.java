@@ -47,6 +47,8 @@ public class Receiver implements Runnable {
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
 		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+		
+		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
        
         
 		while(ois!=null) {
@@ -56,7 +58,6 @@ public class Receiver implements Runnable {
 				
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
-				ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
 				System.out.println("Connected : "+msg.getSrcID() + ", 접속 수 : " + ActiveConnection.ipToOos.size());	
 					
