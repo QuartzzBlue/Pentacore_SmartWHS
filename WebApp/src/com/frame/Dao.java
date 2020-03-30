@@ -7,5 +7,5 @@ public interface Dao<V> {
 	public void delete(V v) throws Exception;
 	public void update(V v) throws Exception;
 	public V select(V v) throws Exception;
-	public ArrayList<V> select() throws Exception;
+	public ArrayList<V> selectAll(V v) throws Exception;
 }

@@ -9,5 +9,5 @@ public interface ForkliftMapper {
 	public void delete(ForkliftVO vo);
 	public void update(ForkliftVO vo);
 	public ForkliftVO select(ForkliftVO vo);
-	public ArrayList<ForkliftVO> selectAll();
+	public ArrayList<ForkliftVO> selectAll(ForkliftVO vo);
 }

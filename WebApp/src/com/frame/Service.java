@@ -13,5 +13,5 @@ public interface Service<V> {
 	public void update(V v) throws Exception;
 	
 	public V select(V v) throws Exception;
-	public ArrayList<V> select() throws Exception;
+	public ArrayList<V> selectAll(V v) throws Exception;
 }
