@@ -12,12 +12,8 @@ import java.util.concurrent.Executors;
 
 import logistics.ForkLift;
 import logistics.Warehouse;
+import network.Client;
 import network.Server;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,20 +27,23 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout layoutWarehouseMap;
     View forkLiftView1, forkLiftView2, forkLiftView3, forkLiftView4;
 
-    public static ExecutorService executorService = Executors.newFixedThreadPool(5);
+    public static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Run TabletServer
         int port=8888;
+        Runnable server = new Server(port);
+        executorService.execute(server);
 
-        Runnable r = new Server(port);
-        //Thread serverThread = new Thread(r);
-        //serverThread.start();
-        //ActiveConnection.executorService.execute(r);
-        executorService.execute(r);
+        // Connect to TCP/IP Server
+        String dstnIP = "192.168.0.225";
+        int dstnPort = 8888;
+        Runnable client = new Client(dstnIP, dstnPort);
+        executorService.execute(client);
 
         warehouse = new Warehouse(26, 14);
         forkLift1 = new ForkLift("forkLift1");
@@ -66,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    boolean firstFocusOnWindowFlag = true;
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        if(!firstFocusOnWindowFlag) return;
         layoutWarehouseMap = findViewById(R.id.layoutWarehouseMap);
         warehouse.setScreenSize(layoutWarehouseMap.getWidth(), layoutWarehouseMap.getHeight());
 
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         locateForkLift(forkLiftView2, 12, 13);
         locateForkLift(forkLiftView3, 13, 13);
         locateForkLift(forkLiftView4, 14, 13);
+        firstFocusOnWindowFlag = false;
     }
 
     public void btnClick() {

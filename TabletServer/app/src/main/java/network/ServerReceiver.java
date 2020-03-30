@@ -12,8 +12,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
 
-public class Receiver implements Runnable {
-	
+public class ServerReceiver implements Runnable {
+
 	InputStream is;
 	ObjectInputStream ois;
 
@@ -21,75 +21,73 @@ public class Receiver implements Runnable {
 	ObjectOutputStream oos;
 
 	Socket socket;
-	
-	public Receiver() {
-		
+
+	public ServerReceiver() {
+
 	}
-	
-	public Receiver(Socket socket) {
-		
+
+	public ServerReceiver(Socket socket) {
+		System.out.println("ServerReceiver ê°ì²´ ìƒì„±");
 		this.socket = socket;
-		
+
 		try {
-			
+
 			is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			oos = new ObjectOutputStream(os);
-		
+
+			ActiveConnection.ipToOos.put(socket.getInetAddress().toString(), oos);
+			System.out.println("Connected : " + socket.getInetAddress().toString() + ", ì ‘ì† ìˆ˜ : " + ActiveConnection.ipToOos.size());
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) MainActivity.executorService;
-		int poolSize = threadPoolExecutor.getPoolSize();//½º·¹µå Ç® »çÀÌÁî ¾ò±â
-		String threadName = Thread.currentThread().getName();//½º·¹µå Ç®¿¡ ÀÖ´Â ÇØ´ç ½º·¹µå ÀÌ¸§ ¾ò±â
-       
-        
+		int poolSize = threadPoolExecutor.getPoolSize();//ìŠ¤ë ˆë“œ í’€ ì‚¬ì´ì¦ˆ ì–»ê¸°
+		String threadName = Thread.currentThread().getName();//ìŠ¤ë ˆë“œ í’€ì— ìˆëŠ” í•´ë‹¹ ìŠ¤ë ˆë“œ ì´ë¦„ ì–»ê¸°
+		System.out.println("ServerReceiver [ì´ ìŠ¤ë ˆë“œ ê°œìˆ˜:" + poolSize + "] ì‘ì—… ìŠ¤ë ˆë“œ ì´ë¦„: "+threadName);
+
 		while(ois!=null) {
-			
+
 			Msg msg = null;
 			try {
-				
-				System.out.println("Receiver [ÃÑ ½º·¹µå °³¼ö:" + poolSize + "] ÀÛ¾÷ ½º·¹µå ÀÌ¸§: "+threadName);
+
+				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
+				System.out.println(msg.getSrcID() + "ë¡œë¶€í„° msg ìˆ˜ì‹ , ë‚´ìš© : " + msg.getContent());
+
 				msg = (Msg) ois.readObject();
-				ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
-				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("Connected : "+msg.getSrcID() + ", Á¢¼Ó ¼ö : " + ActiveConnection.ipToOos.size());	
-					
-					
-				//Web ÀÌ Á¢¼ÓÇßÀ» °æ¿ì¿¡¸¸ Pad ·Î Send
-				if(!msg.getSrcID().contains("tab")) {
-					Runnable r= new Sender(msg);
-					//Thread senderThread = new Thread(r);
-					//senderThread.start();
-					MainActivity.executorService.submit(r);
+				if(msg.getSrcID().contains("tcpipServer")) {
+					// TCP/IP Serverì—ì„œ Task ë„ì°©í•œ ê²½ìš°, íì— TASK ì¶”ê°€
+
+				} else if (msg.getSrcID().contains("forkLift")) {
+					// 1. HTTPë¡œ WebAppSerì— ë³´ë‚´ì„œ ë¡œê·¸ ìŒ“ê²Œ í•  ìˆ˜ ìˆê²Œ í•˜ê¸°
+					// 2. forkLift Statusì˜ ê²½ìš°ì—ëŠ” runOnUiThread()ë¡œ í™”ë©´ì— ìƒíƒœë³€í™” í‘œì‹œí•˜ê¸°
 				}
-				
-				
-				
+
 			} catch (ClassNotFoundException | IOException e) {
 				//ActiveConnection.executorService.shutdown();
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
-					
-				//value °ªÀ¸·Î key °ª Ã£±â
+
+				//value ê°’ìœ¼ë¡œ key ê°’ ì°¾ê¸°
 				for(String id : ActiveConnection.idToIp.keySet()) {
 					if(socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
 						ActiveConnection.idToIp.remove(id);
-					}		
+					}
 				}
 				System.out.println("Disconnected : " + socket.getInetAddress().toString());
-				System.out.println("Á¢¼Ó ¼ö : " + ActiveConnection.ipToOos.size());
-				
+				System.out.println("ì ‘ì† ìˆ˜ : " + ActiveConnection.ipToOos.size());
+
 				break;
-			}//catch	
+			}//catch
 		}//while
-		
+
 		try {
 			if (ois != null) {
 				ois.close();
@@ -97,11 +95,11 @@ public class Receiver implements Runnable {
 			if (socket != null) {
 				socket.close();
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
