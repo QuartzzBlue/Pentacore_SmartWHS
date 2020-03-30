@@ -13,6 +13,11 @@ import java.util.concurrent.Executors;
 import logistics.ForkLift;
 import logistics.Warehouse;
 import network.Server;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 

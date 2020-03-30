@@ -23,7 +23,7 @@ public class Server implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Server Start (Server °´Ã¼ »ı¼º)");
+		System.out.println("Server Start (Server ê°ì²´ ìƒì„±)");
 		
 	}
 
@@ -36,11 +36,11 @@ public class Server implements Runnable {
 				socket = serverSocket.accept();
 				System.out.println("new Client Accepted : "+socket.getInetAddress());
 				
-				ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) MainActivity.executorService;
-				int poolSize = threadPoolExecutor.getPoolSize();//½º·¹µå Ç® »çÀÌÁî ¾ò±â
-				String threadName = Thread.currentThread().getName();//½º·¹µå Ç®¿¡ ÀÖ´Â ÇØ´ç ½º·¹µå ÀÌ¸§ ¾ò±â
+				ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
+				int poolSize = threadPoolExecutor.getPoolSize();//ìŠ¤ë ˆë“œ í’€ ì‚¬ì´ì¦ˆ ì–»ê¸°
+				String threadName = Thread.currentThread().getName();//ìŠ¤ë ˆë“œ í’€ì— ìˆëŠ” í•´ë‹¹ ìŠ¤ë ˆë“œ ì´ë¦„ ì–»ê¸°
 	            
-	            System.out.println(" Server [ÃÑ ½º·¹µå °³¼ö:" + poolSize + "] ÀÛ¾÷ ½º·¹µå ÀÌ¸§: "+threadName);
+	            System.out.println(" Server [ì´ ìŠ¤ë ˆë“œ ê°œìˆ˜:" + poolSize + "] ì‘ì—… ìŠ¤ë ˆë“œ ì´ë¦„: "+threadName);
 				
 				
 				Runnable r = new Receiver(socket);
@@ -54,5 +54,3 @@ public class Server implements Runnable {
 	}
 	
 }
-
-

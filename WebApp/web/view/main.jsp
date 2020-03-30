@@ -29,7 +29,7 @@
 	<!--*******************
         Preloader start
     ********************-->
-	<div id="preloader">
+	<div id="preloader">  
 		<div class="loader">
 			<svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none"
@@ -50,6 +50,7 @@
 		<!--**********************************
             Nav header start
         ***********************************-->
+        
 		<div class="nav-header">
 			<div class="brand-logo">
 				<a href="index.html"> <b class="logo-abbr"><img
@@ -60,6 +61,7 @@
 				</a>
 			</div>
 		</div>
+		
 		<!--**********************************
             Nav header end
         ***********************************-->
@@ -75,6 +77,8 @@
 						<span class="toggle-icon"><i class="icon-menu"></i></span>
 					</div>
 				</div>
+				
+				<!-- 
 				<div class="header-left">
 					<div class="input-group icons">
 						<div class="input-group-prepend">
@@ -90,8 +94,10 @@
 							</form>
 						</div>
 					</div>
-				
 				</div>
+				 -->
+				 
+				 
 				<div class="header-right">
 					<ul class="clearfix">
 						<!-- 메일박스 -->
@@ -145,11 +151,13 @@
             Sidebar start <메뉴!!!>
         ***********************************-->
 		<div class="nk-sidebar">
+		
 			<div class="nk-nav-scroll">
 				<ul class="metismenu" id="menu">
 					<!-- <li class="nav-label">Dashboard</li> -->
 					<li>
-						<!-- 상품 입출고 --> <a class="has-arrow" href="pdpage.hc"
+						<!-- 상품 입출고 --> 
+						<a href="pdpage.hc"
 						aria-expanded="false"> <i class="icon-note menu-icon"></i><span
 							class="nav-text">Product Management</span>
 					</a>
@@ -159,13 +167,15 @@
                         </ul> -->
 					</li>
 					<li>
-						<!-- 지게차 관리 --> <a class="has-arrow" href="flpage.hc"
+						<!-- 지게차 관리 --> 
+						<a href="flpage.hc"
 						aria-expanded="false"> <i class="icon-speedometer menu-icon"></i><span
 							class="nav-text">Forklift Management</span>
 					</a>
 					</li>
 					<li>
-						<!-- 솔루션 --> <a class="has-arrow" href="solpage.hc"
+						<!-- 솔루션 --> 
+						<a href="solpage.hc"
 						aria-expanded="false"> <i class="icon-globe-alt menu-icon"></i><span
 							class="nav-text">Solution</span>
 					</a>
@@ -248,10 +258,7 @@
 		src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 	<!-- JQeury -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="./js/dashboard/dashboard-1.js"></script>
 
 </body>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ForkliftMapper">
+	
+	<insert id="insert" parameterType="forklift">
+		INSERT INTO forklift VALUES (#{forkid},#{wareid},#{forkpurdate},#{forkmodel},#{forklastcheckdate})	
+	</insert>
+	
+	<update id="update" parameterType="forklift">
+		UPDATE forklift SET wareid=#{wareid},forkpurdate=#{forkpurdate},forkmodel=#{forkmodel},forklastcheckdate=#{forklastcheckdate} WHERE forkid=#{forkid}
+	</update>
+	
+	<delete id="delete" parameterType="forklift">
+		DELETE FROM forklift WHERE forkid=#{forkid}
+	</delete>
+	
+	<select id="select" parameterType="forklift" 
+	resultType="user">
+		SELECT * FROM forklift WHERE forkid=#{forkid}
+	</select>
+	
+	<select id="selectAll" resultType="forklift">
+		SELECT * FROM forklift 
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
