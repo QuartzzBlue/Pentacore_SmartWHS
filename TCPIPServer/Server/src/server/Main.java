@@ -14,10 +14,7 @@ public class Main {
 		int port=8888; //port ÇÊ¿ä
 		
 		Runnable r = new Server(port);
-		//Thread serverThread = new Thread(r);
-		//serverThread.start();
-		//ActiveConnection.executorService.execute(r);
-		executorService.execute(r);
+		executorService.submit(r);
 	}
 
 }

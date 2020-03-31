@@ -1,13 +1,14 @@
-package server;
+package infomatics;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
 
-public class Sender implements Runnable {
+public class Sender implements Runnable{
 	
 	 OutputStream os;
      ObjectOutputStream oos;
@@ -18,8 +19,19 @@ public class Sender implements Runnable {
 		
 	}
 	
+	public Sender(Socket socket) throws IOException {
+		os = socket.getOutputStream();
+		oos = new ObjectOutputStream(os);
+	}
+	
 	public Sender(Msg msg) {
 		this.msg = msg;
+	}
+	
+	public Sender(Socket socket,Msg msg) throws IOException {
+		this.msg = msg;
+		os = socket.getOutputStream();
+		oos = new ObjectOutputStream(os);
 	}
 
 	@Override
@@ -29,24 +41,18 @@ public class Sender implements Runnable {
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
 		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
-	
+     
 		System.out.println("Sender [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
-          
-		
-		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
-		+", dstnid : "+msg.getDstnID()+", content : " + msg.getForkLift());
-		
-		if(ActiveConnection.idToIp.containsKey(msg.getDstnID())) {
-			String ip = ActiveConnection.idToIp.get(msg.getDstnID());	
+         
+		if(oos!=null) {
+			
 			try {
-				ActiveConnection.ipToOos.get(ip).writeObject(msg);
+				oos.writeObject(msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		
 	}
-	
 
 }
