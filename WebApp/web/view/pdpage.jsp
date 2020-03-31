@@ -4,12 +4,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<!-- Custom Stylesheet -->
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+   
+    <!-- Custom Stylesheet -->
     <link href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
-<!-- Date picker plugins css -->
+    <!-- Page plugins css -->
+    <link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css" rel="stylesheet">
+    <!-- Color picker plugins css -->
+    <link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css" rel="stylesheet">
+    <!-- Date picker plugins css -->
     <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
-</head>
+    <!-- Daterange picker plugins css -->
+    <link href="./plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+    <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+    </head>
 <body>
 	<div class="content-body">
 		<div class="container-fluid mt-3">
@@ -224,6 +236,58 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Data Table</h4>
+							<div class="table-responsive">
+							<table class="table">
+									<thead>
+										<tr>
+											<th>Product ID</th>
+											<th>Product Name</th>
+											<th>Warehouse ID</th>
+											<th>Qty</th>
+											<th>In/Ex-Warehouse</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="text" class="form-control" id="#"
+												name="#" placeholder="상품 ID"></td>
+											<td><input type="text" class="form-control" id="#"
+												name="#" placeholder="상품명"></td>
+											<td><input type="text" class="form-control" id="#"
+												name="#" placeholder="창고ID"></td>
+											<td><input type="text" class="form-control" id="#"
+												name="#" placeholder="개수"></td>
+											<td><select class="form-control" id="val-skill"
+												name="val-skill">
+													<option value="">입/출고</option>
+													<option value="In-W">In-Warehouse</option>
+													<option value="Ex-W">Ex-Warehouse</option>
+											</select></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											
+											<td><button type="button"
+													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Order</button></td>
+										</tr>
+									</tbody>
+								</table>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+							
 
 			<div class="row">
 				<div class="col-lg-12">
@@ -231,6 +295,7 @@
 						<div class="card-body">
 							<h4 class="card-title">Data Table</h4>
 							<div class="table-responsive">
+								
 								<table class="table">
 									<thead>
 										<tr>
@@ -272,10 +337,12 @@
 											<td></td>
 											
 											<td><button type="button"
-													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Register</button></td>
+													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
 										</tr>
 									</tbody>
 								</table>
+								
+								
 							</div>
 							
 							<div class="table-responsive">
@@ -584,9 +651,29 @@
 	</div>
 	
 
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="plugins/common/common.min.js"></script>
+    <script src="js/custom.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/gleek.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+
     <script src="./plugins/moment/moment.js"></script>
     <script src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-	<!-- Date Picker Plugin JavaScript -->
+    <!-- Clock Plugin JavaScript -->
+    <script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+    <!-- Color Picker Plugin JavaScript -->
+    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+    <script src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+    <script src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+    <!-- Date Picker Plugin JavaScript -->
     <script src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-</body>
+    <!-- Date range Plugin JavaScript -->
+    <script src="./plugins/timepicker/bootstrap-timepicker.min.js"></script>
+    <script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <script src="./js/plugins-init/form-pickers-init.js"></script>
+    </body>
 </html>
