@@ -1,4 +1,4 @@
-package server;
+package infomatics;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,67 +10,60 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
 
-public class Receiver implements Runnable {
-	
+class Receiver implements Runnable {
+
 	InputStream is;
 	ObjectInputStream ois;
-
+	
 	OutputStream os;
 	ObjectOutputStream oos;
 
 	Socket socket;
 	
 	public Receiver() {}
-	
-	public Receiver(Socket socket) {
-		
+
+	public Receiver(Socket socket) throws IOException {
 		this.socket = socket;
-		
-		try {
-			
-			is = socket.getInputStream();
-			ois = new ObjectInputStream(is);
-			os = socket.getOutputStream();
-			oos = new ObjectOutputStream(os);
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		is = socket.getInputStream();
+		ois = new ObjectInputStream(is);
+		os = socket.getOutputStream();
+		oos = new ObjectOutputStream(os);
 	}
-	
+
 	@Override
 	public void run() {
-		
+
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
-		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
-		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+		int poolSize = threadPoolExecutor.getPoolSize();// 스레드 풀 사이즈 얻기
+		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
+
+		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
+		System.out.println("Connected : "+socket.getInetAddress() + ", 접속 수 : " + ActiveConnection.ipToOos.size());		
 		
-		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos); //while 문 말고 여기서 put, 03/30 by yeojin
-       
-        
-		while(ois!=null) {
-			
+		
+	
+
+		while (ois != null) {
 			Msg msg = null;
 			try {
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("source ID : "+msg.getSrcID());				
-					
-				//Web 이 접속했을 경우에만 Pad 로 Send
-//				if(!msg.getSrcID().contains("tab")) {
-//					Runnable r= new Sender(msg);
-//					Main.executorService.submit(r);
-//				}
+				System.out.println("source ID : "+msg.getSrcID());		
+				int  battery = msg.getForkLift().getBattery();
 				
+				System.out.println("battery : "+battery);
 				
+				//ecu 가 접속했을 때만 Pad 로 전송
+				if(!msg.getSrcID().contains("tab")) {
+					Runnable r = new Sender(Client.socket,msg);
+					Main.executorService.submit(r);
+				}
 				
+
 			} catch (Exception e) {
-				e.printStackTrace();
-				//ActiveConnection.executorService.shutdown();
+				System.out.println("Server Die");
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
-					
 				//value 값으로 key 값 찾기
 				for(String id : ActiveConnection.idToIp.keySet()) {
 					if(socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
@@ -79,11 +72,10 @@ public class Receiver implements Runnable {
 				}
 				System.out.println("Disconnected : " + socket.getInetAddress().toString());
 				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
-				
 				break;
-			}//catch	
-		}//while
-		
+			}
+		}
+
 		try {
 			if (ois != null) {
 				ois.close();
@@ -91,11 +83,9 @@ public class Receiver implements Runnable {
 			if (socket != null) {
 				socket.close();
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 }
