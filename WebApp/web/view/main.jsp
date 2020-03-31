@@ -97,6 +97,46 @@
 				</div>
 				 -->
 				 
+				 <!--**********************************
+		            Sidebar start <메뉴!!!>
+		        ***********************************-->
+				<div class="nk-sidebar">
+				
+					<div class="nk-nav-scroll">
+						<ul class="metismenu cf" id="menu">
+							<!-- <li class="nav-label">Dashboard</li> -->
+							<li>
+								<!-- 상품 입출고 --> 
+								<a href="pdpage.hc"
+								aria-expanded="false"> <i class="icon-note menu-icon"></i><span
+									class="nav-text">Product Management</span>
+							</a>
+								 <!-- <ul aria-expanded="false">
+		                            <li><a href="./index.html">Home 1</a></li>
+		                             <li><a href="./index-2.html">Home 2</a></li> 
+		                        </ul> -->
+							</li>
+							<li>
+								<!-- 지게차 관리 --> 
+								<a href="flpage.hc"
+								aria-expanded="false"> <i class="icon-speedometer menu-icon"></i><span
+									class="nav-text">Forklift Management</span>
+							</a>
+							</li>
+							<li>
+								<!-- 솔루션 --> 
+								<a href="solpage.hc"
+								aria-expanded="false"> <i class="icon-globe-alt menu-icon"></i><span
+									class="nav-text">Solution</span>
+							</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!--**********************************
+		            Sidebar end
+		        ***********************************-->
+				 
 				 
 				<div class="header-right">
 					<ul class="clearfix">
@@ -147,45 +187,7 @@
             Header end ti-comment-alt
         ***********************************-->
 		
-		<!--**********************************
-            Sidebar start <메뉴!!!>
-        ***********************************-->
-		<div class="nk-sidebar">
 		
-			<div class="nk-nav-scroll">
-				<ul class="metismenu" id="menu">
-					<!-- <li class="nav-label">Dashboard</li> -->
-					<li>
-						<!-- 상품 입출고 --> 
-						<a href="pdpage.hc"
-						aria-expanded="false"> <i class="icon-note menu-icon"></i><span
-							class="nav-text">Product Management</span>
-					</a>
-						 <!-- <ul aria-expanded="false">
-                            <li><a href="./index.html">Home 1</a></li>
-                             <li><a href="./index-2.html">Home 2</a></li> 
-                        </ul> -->
-					</li>
-					<li>
-						<!-- 지게차 관리 --> 
-						<a href="flpage.hc"
-						aria-expanded="false"> <i class="icon-speedometer menu-icon"></i><span
-							class="nav-text">Forklift Management</span>
-					</a>
-					</li>
-					<li>
-						<!-- 솔루션 --> 
-						<a href="solpage.hc"
-						aria-expanded="false"> <i class="icon-globe-alt menu-icon"></i><span
-							class="nav-text">Solution</span>
-					</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!--**********************************
-            Sidebar end
-        ***********************************-->
 
 		<!--**********************************
             Content body start <Center>

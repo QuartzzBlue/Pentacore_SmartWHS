@@ -8137,13 +8137,14 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       margin-left: 14.375rem; } }
 
 .nk-sidebar {
-  width: 15.1875rem;
-  padding-bottom: 112px;
-  height: 100%;
+  wid th: 15.1875rem;
+  padd ing-bottom: 112px;
+  heig ht: 100%;
   position: absolute;
-  top: 5rem;
-  padding-top: 0;
-  z-index: 99;
+  left:5%;
+  top:14px;
+  padd ing-top: 0;
+  z-idex: 99;
   background: #fff;
   transition: all .2s ease; }
   @media only screen and (min-width: 1200px) and (max-width: 1350px) {
@@ -8155,15 +8156,16 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     list-style: none;
     background: #fafafa; }
   .nk-sidebar .metismenu {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    background: #fff; }
+    disp lay: -webkit-box;
+    disp lay: -ms-flexbox;
+    disp lay: flex;
+    -webkit- box-orient: vertical;
+    -webkit-b ox-direction: normal;
+    -ms-flex-d irection: column;
+    flex-dire ction: column;
+    backgr ound: #fff; }
     .nk-sidebar .metismenu > li {
+      float:left;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
