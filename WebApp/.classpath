@@ -19,6 +19,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Pentacore_SmartWHS/WebApp/web/WEB-INF/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Pentacore_SmartWHS/WebApp/web/WEB-INF/lib/mysql-connector-java-8.0.18.jar"/>
-	<classpathentry kind="lib" path="C:/lib/mysql-connector-java-8.0.18.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
