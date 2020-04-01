@@ -62,7 +62,7 @@ public class ServerReceiver implements Runnable {
 			Msg msg = null;
 			try {
 				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
-				System.out.println(msg.getSrcID() + "로부터 msg 수신, 내용 : " + msg.getContent());
+				System.out.println(msg.getSrcID() + "로부터 msg 수신");
 
 				msg = (Msg) ois.readObject();
 

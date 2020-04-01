@@ -54,7 +54,7 @@ public class ClientReceiver implements Runnable {
                 // taskUI 바꿔주는 메소드 호출;
 
                 // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
-                MainActivity.assignTask("task");
+                MainActivity.assignTask();
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }

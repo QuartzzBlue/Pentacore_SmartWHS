@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.concurrent.Executors;
 
 import logistics.ForkLift;
 import logistics.ForkLiftViewSet;
+import logistics.TaskQueueAdapter;
 import logistics.Warehouse;
 import msg.Msg;
 import network.Client;
@@ -40,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
     static ConstraintLayout layoutWarehouseMap;
     public static Queue taskQueue;
     public static Queue waitingForkLiftQueue;
+
+    private Context taskQueueContext;
+    private ListView taskQueueListView;
+    private static TaskQueueAdapter taskQueueAdapter;
+
+
 
     public static ExecutorService executorService = Executors.newFixedThreadPool(10);
 
@@ -104,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
         taskQueue = new LinkedList();
         waitingForkLiftQueue = new LinkedList();
+
+        taskQueueContext = getApplicationContext();
+        taskQueueListView = findViewById(R.id.listView_taskQueue);
+        taskQueueAdapter = new TaskQueueAdapter(taskQueueContext, taskQueue);
+        taskQueueListView.setAdapter(taskQueueAdapter);
 
         View button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             // 지게차가 받은 msg를 다시 태블릿으로 보낼 때 태블릿 UI가 업데이트 된다.
 
             // taskUI 바꿔주는 메소드 호출
+            taskQueueAdapter.notifyDataSetChanged();
         }
     }
 
