@@ -1,5 +1,7 @@
 package network;
 
+import android.view.View;
+
 import com.pentacore.tabletserver.MainActivity;
 
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import logistics.ForkLift;
 import msg.Msg;
 
 public class ServerReceiver implements Runnable {
@@ -58,18 +61,34 @@ public class ServerReceiver implements Runnable {
 
 			Msg msg = null;
 			try {
-
 				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
 				System.out.println(msg.getSrcID() + "로부터 msg 수신, 내용 : " + msg.getContent());
 
 				msg = (Msg) ois.readObject();
-				if(msg.getSrcID().contains("tcpipServer")) {
-					// TCP/IP Server에서 Task 도착한 경우, 큐에 TASK 추가
 
-				} else if (msg.getSrcID().contains("forkLift")) {
-					// 1. HTTP로 WebAppSer에 보내서 로그 쌓게 할 수 있게 하기
-					// 2. forkLift Status의 경우에는 runOnUiThread()로 화면에 상태변화 표시하기
-				}
+				// forklift 상태 정보 업데이트
+                ForkLift forkLift = (ForkLift)MainActivity.forkLiftMap.get(msg.getSrcID());
+				// forkLift.setBattery(msg.getBattery());
+				// forkLift.setCurrentTask(msg.getTask());
+				// forkLift.setCurrentX(msg.getX());
+				// forkLift.setCurrentY(msg.getY());
+				// forkLift.setStatus(msg.getStatus());
+
+				// 화면 우측 forklift UI 업데이트 + fokLift View 업데이트
+				MainActivity.updateForkLiftUI(msg.getSrcID());
+
+                //if(forkLift.getStatus() != msg.getStatus()) {
+                    // 상태가 변했다는 말
+                    // HTTP로 msg객체의 내용 전달하기
+				Runnable sendInHttp = new SendInHttp("{'jsonInputString' : 'content'}");
+				MainActivity.executorService.submit(sendInHttp);
+
+				//if(msg.getStatus()==WAITING) {
+				// MainActivity.waitingForkLiftQueue.offer(forkLift);
+				MainActivity.assignTask();
+				// 두개 queue 비교해서 task할당하는 함수
+				//}
+                //}
 
 			} catch (ClassNotFoundException | IOException e) {
 				//ActiveConnection.executorService.shutdown();
@@ -95,7 +114,6 @@ public class ServerReceiver implements Runnable {
 			if (socket != null) {
 				socket.close();
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

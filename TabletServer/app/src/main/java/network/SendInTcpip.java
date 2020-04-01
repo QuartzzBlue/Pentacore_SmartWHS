@@ -9,15 +9,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
 
-public class Sender implements Runnable {
+public class SendInTcpip implements Runnable {
 
 	Msg msg;
 
-	public Sender () {
+	public SendInTcpip() {
 
 	}
 
-	public Sender(Msg msg) {
+	public SendInTcpip(Msg msg) {
 		this.msg = msg;
 	}
 
@@ -30,7 +30,7 @@ public class Sender implements Runnable {
 
 		//int value = Integer.parseInt("예외");
 
-		System.out.println("Sender [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
+		System.out.println("SendInTcpip [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
 				+", dstnid : "+msg.getDstnID()+", content : "+msg.getContent());

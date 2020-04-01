@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import msg.Msg;
+
 public class ClientReceiver implements Runnable {
 
     InputStream is;
@@ -41,5 +43,33 @@ public class ClientReceiver implements Runnable {
         String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
         System.out.println("ServerReceiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 
+        while(ois!=null) {
+
+            Msg msg = null;
+            try {
+                msg = (Msg) ois.readObject();
+                // msg에 들어있는 task를 queue에 추가
+                // MainActivity.taskQueue.offer(msg.getTask());
+
+                // taskUI 바꿔주는 메소드 호출;
+
+                // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
+                MainActivity.assignTask("task");
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        try {
+            if (ois != null) {
+                ois.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
