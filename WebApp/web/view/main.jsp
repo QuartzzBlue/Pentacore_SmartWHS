@@ -79,19 +79,19 @@
 						<div class ="header-menu">
 							<span>
 								<!-- 상품 입출고 --> 
-								<a href="pdpage.hc" aria-expanded="false" class = "header-menu-list"> 
+								<a href="itpage.pc" aria-expanded="false" class = "header-menu-list"> 
 									<i class="icon-note menu-icon"></i>
 									<span class="nav-text">Stock Management</span>
 								</a>
 								 
 								<!-- 지게차 관리 --> 
-								<a href="flpage.hc" aria-expanded="false" class = "header-menu-list"> 
+								<a href="flpage.pc" aria-expanded="false" class = "header-menu-list"> 
 									<i class="icon-speedometer menu-icon"></i>
 										<span class="nav-text">Forklift Management</span>
 								</a>
 						
 								<!-- 솔루션 --> 
-								<a href="solpage.hc" aria-expanded="false" class = "header-menu-list"> 
+								<a href="solpage.pc" aria-expanded="false" class = "header-menu-list"> 
 									<i class="icon-globe-alt menu-icon"></i>
 									<span class="nav-text">Solution</span>
 								</a>
@@ -160,7 +160,7 @@
         <c:choose>
 		
 					<c:when test="${center == null }">
-						<jsp:include page="pdpage.jsp" />
+						<jsp:include page="itpage.jsp" />
 					</c:when>
 					<c:otherwise>
 						<jsp:include page="${center }.jsp" />

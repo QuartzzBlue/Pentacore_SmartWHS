@@ -20,23 +20,23 @@ public class MainController {
 	@Resource(name = "flservice")
 	Service<ForkliftVO> flservice;
 	
-	@RequestMapping("/main.hc")
+	@RequestMapping("/main.pc")
 	public ModelAndView main() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("main");
 		return mv;
 	}
 	
-	@RequestMapping("/pdpage.hc")
+	@RequestMapping("/itpage.pc")
 	public ModelAndView pdpage(ModelAndView mv) {
 
-		mv.addObject("center", "pdpage");
+		mv.addObject("center", "itpage");
 		mv.setViewName("main");
 
 		return mv;
 	}
 	
-	@RequestMapping("/flpage.hc")
+	@RequestMapping("/flpage.pc")
 	public ModelAndView flpage(ModelAndView mv) {
 
 		/* Forklift list ¶ç¿ì±â */
@@ -56,7 +56,7 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping("/solpage.hc")
+	@RequestMapping("/solpage.pc")
 	public ModelAndView sltpage(ModelAndView mv) {
 
 		mv.addObject("center", "solpage");

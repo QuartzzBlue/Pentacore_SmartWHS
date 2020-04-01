@@ -34,45 +34,47 @@
 								<h4>Product Register</h4>
 							</div>
 							<div class="table-responsive">
+							<form name = "itemRegister" method="post" action="itemregister.pc">
 								<table class="table">
 									<thead>
 										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
+											<th>Item ID</th>
+											<th>Item Name</th>
 											<th>Category</th>
 											<th>Price</th>
 											<th>Weight</th>
-											<th>Quantity</th>
+											<th>Qty</th>
 											<th>Warehouse ID</th>
 											<th>Warehouse Name</th>
 										</tr>
 									</thead>
 									<tbody>
+									
 										<tr>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품 ID"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품명" style="width: 115px;"></td>
-											<td><select class="form-control" id="val-skill"
-												name="val-skill" style="width: 115px;">
+											<td><input type="text" class="form-control" id="itemid"
+												name="itemid" placeholder="상품 ID"></td>
+											<td><input type="text" class="form-control" id="itemname"
+												name="itemname" placeholder="상품명" style="width: 115px;"></td>
+											<td><select class="form-control" id="itemcate"
+												name="itemcate" style="width: 115px;">
 													<option value="">카테고리</option>
-													<option value="html">HTML</option>
-													<option value="css">CSS</option>
+													<option value="전자제품">전자제품</option>
+													<option value="차량부품">차량부품</option>
 
 											</select></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="단가"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="무게"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="개수"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="창고ID"></td>
-											<td><select class="form-control" id="val-skill"
-												name="val-skill" style="width: 150px;">
-													<option value="">창고명</option>
-													<option value="html">HTML</option>
-													<option value="css">CSS</option>
+											<td><input type="number" class="form-control" id="itemprice"
+												name="itemprice" placeholder="단가"></td>
+											<td><input type="number" class="form-control" id="itemweightpb"
+												name="itemweightpb" placeholder="무게"></td>
+											<td><input type="number" class="form-control" id="itemqtypb"
+												name="itemqtypb" placeholder="개수"></td>
+											<td><input type="text" class="form-control" id="wareid"
+												name="wareid" placeholder="창고ID" readonly></td>
+											<td><select class="form-control" id="warename"
+												name="warename" style="width: 150px;" onchange="setWareID(this)">
+													<option>창고명</option>
+													<option value="ware00">이천 제1물류창고</option>
+													<!--  <option value="ware01">CSS</option>-->
 
 											</select></td>
 										</tr>
@@ -89,6 +91,7 @@
 										</tr>
 									</tbody>
 								</table>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -675,5 +678,15 @@
     <script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
 
     <script src="./js/plugins-init/form-pickers-init.js"></script>
+    
+    <script>
+    	var wareIdList = ["wh1111", "#"];
+    	var target = document.getElementById("wareid");
+   	 	function setWareID(w) {
+   	 		if(w.value == "ware00") target.value = wareIdList[0];
+   	 		else target.value= "";
+   	 	}
+    
+    </script>
     </body>
 </html>

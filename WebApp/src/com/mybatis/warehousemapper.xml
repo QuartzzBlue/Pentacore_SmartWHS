@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		UPDATE warehouse SET warename=#{warename},warecate=#{warecate},warescale=#{warescale},waretype=#{waretype} WHERE wareid=#{wareid}
 	</update>
 	
-	<delete id="delete" parameterType="warehouset">
+	<delete id="delete" parameterType="warehouse">
 		DELETE FROM warehouse WHERE wareid=#{wareid}
 	</delete>
 	
