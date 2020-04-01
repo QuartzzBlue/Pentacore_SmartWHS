@@ -34,7 +34,7 @@ public class dbtest {
 //		}
 		
 		
-		//selectAll
+//		selectAll
 //		try {
 //			ArrayList<ForkliftVO> list = null;
 //			list = biz.selectAll(fl2);

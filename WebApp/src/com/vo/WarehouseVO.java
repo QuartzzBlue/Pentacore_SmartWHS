@@ -6,6 +6,20 @@ public class WarehouseVO {
 	String warecate;
 	double warescale;
 	String waretype;
+	
+	
+	
+	public WarehouseVO() {
+		super();
+	}
+	public WarehouseVO(String wareid, String warename, String warecate, double warescale, String waretype) {
+		super();
+		this.wareid = wareid;
+		this.warename = warename;
+		this.warecate = warecate;
+		this.warescale = warescale;
+		this.waretype = waretype;
+	}
 	public String getWareid() {
 		return wareid;
 	}

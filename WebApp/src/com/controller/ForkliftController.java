@@ -16,7 +16,7 @@ public class ForkliftController {
 	@Resource(name = "flservice")
 	Service<ForkliftVO> flservice;
 	
-	@RequestMapping("/fllist.hc")
+	@RequestMapping("/fllist.pc")
 	public ModelAndView fllist(ModelAndView mv, HttpServletRequest request, HttpServletResponse response) {
 		
 		
