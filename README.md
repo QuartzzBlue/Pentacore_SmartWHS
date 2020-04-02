@@ -5,10 +5,8 @@
 ### (feat. SpringFramework, Android, Hadoop, R)
 
 <br>
-
-### [Github에서 진행중인 프로젝트 소스보기](https://github.com/QuartzzBlue/Pentacore_SmartWHS)
-
-<br><br>
+<br>
+<br>
 
 ### 목차
 
@@ -127,9 +125,9 @@ II. 프로젝트 제안서(기획서)
 - 6주 (3.23~4.30)
 - 5인
 
-    i) A : 프로젝트 관리, Tablet Server, 지게차(ECU)
+    i) A : 프로젝트 관리, Tablet Server
 
-    ii) B : TCP/IP Server 구축, 지게차(Informatics)
+    ii) B : TCP/IP Server 구축, 지게차(Informatics, ECU)
 
     iii) C : Web App Server 구축 , DBMS
 
