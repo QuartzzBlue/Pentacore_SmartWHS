@@ -105,17 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <ListView
+                    android:id="@+id/listView_consoleQueue"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/consoleContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="consoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\nconsoleContent\n"
-                        android:textSize="20sp" />
-                </LinearLayout>
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
@@ -458,10 +455,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <ListView
+                    android:id="@+id/listView_taskQueue"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:layout_height="match_parent"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none" />
             </ScrollView>
         </LinearLayout>
     </LinearLayout>

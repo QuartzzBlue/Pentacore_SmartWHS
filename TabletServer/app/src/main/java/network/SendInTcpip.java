@@ -33,7 +33,7 @@ public class SendInTcpip implements Runnable {
 		System.out.println("SendInTcpip [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
-				+", dstnid : "+msg.getDstnID()+", content : "+msg.getContent());
+				+", dstnid : "+msg.getDstnID());
 
 		if(ActiveConnection.idToIp.containsKey(msg.getDstnID())) {
 			String getip = ActiveConnection.idToIp.get(msg.getDstnID());
