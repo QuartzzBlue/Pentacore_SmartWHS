@@ -18,6 +18,7 @@ import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import logistics.ConsoleQueueAdapter;
 import logistics.ForkLift;
 import logistics.ForkLiftViewSet;
 import logistics.TaskQueueAdapter;
@@ -43,10 +44,15 @@ public class MainActivity extends AppCompatActivity {
     static ConstraintLayout layoutWarehouseMap;
     public static Queue taskQueue;
     public static Queue waitingForkLiftQueue;
+    public static Queue consoleQueue;
 
     private Context taskQueueContext;
     private ListView taskQueueListView;
     private static TaskQueueAdapter taskQueueAdapter;
+
+    private Context consoleQueueContext;
+    private ListView consoleQueueListView;
+    private static ConsoleQueueAdapter consoleQueueAdapter;
 
 
 
@@ -119,6 +125,11 @@ public class MainActivity extends AppCompatActivity {
         taskQueueAdapter = new TaskQueueAdapter(taskQueueContext, taskQueue);
         taskQueueListView.setAdapter(taskQueueAdapter);
 
+        consoleQueueContext = getApplicationContext();
+        consoleQueueListView = findViewById(R.id.listView_consoleQueue);
+        consoleQueueAdapter = new ConsoleQueueAdapter(consoleQueueContext, consoleQueue);
+        consoleQueueListView.setAdapter(consoleQueueAdapter);
+
         View button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,20 +178,16 @@ public class MainActivity extends AppCompatActivity {
         locateForkLift((ImageView)forkLiftViewset.forkLiftView, forkLift.getCurrentX(), forkLift.getCurrentY());
     }
 
-    public void printConsole(String log) {
-        TextView textView = findViewById(R.id.consoleContent);
-        String consoleContent = textView.getText().toString();
-        consoleContent += (log+"\n");
-        textView.setText(consoleContent);
-    }
-
     public static void assignTask() {
         if (!waitingForkLiftQueue.isEmpty() && !taskQueue.isEmpty()) {
-            waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
+            ForkLift forkLift = (ForkLift)waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
+
+            MainActivity.printConsole("지게차"+forkLift.getName()+"에 Task를 할당했습니다.");
             Msg msg = new Msg(); // srcID, srcIP, blahblah
             // msg.setTask(taskQueue.poll());
             Runnable sendInTcpip = new SendInTcpip(msg); //전송
             MainActivity.executorService.submit(sendInTcpip);
+
             //Console.log(n번 지게차에 task 내용 뭐뭐 를 할당하였습니다.);
             // 그러면 msg가 지게차 Infomatics로 가서 지게차는 얘를 할당받고
             // 지게차가 받은 msg를 다시 태블릿으로 보낼 때 태블릿 UI가 업데이트 된다.
@@ -189,6 +196,13 @@ public class MainActivity extends AppCompatActivity {
             taskQueueAdapter.notifyDataSetChanged();
         }
     }
+
+    public static void printConsole(String logMessage) {
+        consoleQueue.offer(logMessage);
+        if(consoleQueue.size()>50) consoleQueue.poll();
+        taskQueueAdapter.notifyDataSetChanged();
+    }
+
 
 //    public void translateAnim(float xStart, float xEnd, float yStart, float yEnd, int duration, View view) {
 //        TranslateAnimation translateAnimation = new TranslateAnimation(

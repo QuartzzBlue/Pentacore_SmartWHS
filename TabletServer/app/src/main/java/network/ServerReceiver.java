@@ -80,11 +80,13 @@ public class ServerReceiver implements Runnable {
                 //if(forkLift.getStatus() != msg.getStatus()) {
                     // 상태가 변했다는 말
                     // HTTP로 msg객체의 내용 전달하기
+				MainActivity.printConsole("지게차"+forkLift.getName()+"의 상태가 "+forkLift.getStatus()+"로 변경되었습니다.");
 				Runnable sendInHttp = new SendInHttp("{'jsonInputString' : 'content'}");
 				MainActivity.executorService.submit(sendInHttp);
 
 				//if(msg.getStatus()==WAITING) {
 				// MainActivity.waitingForkLiftQueue.offer(forkLift);
+				MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
 				MainActivity.assignTask();
 				// 두개 queue 비교해서 task할당하는 함수
 				//}

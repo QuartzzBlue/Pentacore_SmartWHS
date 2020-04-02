@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
+import msg.Task;
 
 public class ClientReceiver implements Runnable {
 
@@ -55,6 +56,8 @@ public class ClientReceiver implements Runnable {
 
                 // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
                 MainActivity.assignTask();
+                Task task = msg.getTask();
+                MainActivity.printConsole("TCP/IP서버로부터 TASK("+task.getIo()+", 위치("+task.getLocX()+","+task.getLocY()+"), 수량 "+task.getQty()+"를 받았습니다.");
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
             }
