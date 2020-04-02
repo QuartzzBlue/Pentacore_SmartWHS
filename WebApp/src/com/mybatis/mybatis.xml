@@ -7,12 +7,14 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.vo.ForkliftVO" alias="forklift"/>
 		<typeAlias type="com.vo.WarehouseVO" alias="warehouse"/>
 		<typeAlias type="com.vo.ItemVO" alias="item"/>
+		<typeAlias type="com.vo.InvoiceVO" alias="invoice"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="com/mybatis/forkliftmapper.xml"/>
 		<mapper resource="com/mybatis/warehousemapper.xml"/>
 		<mapper resource="com/mybatis/itemmapper.xml"/>
+		<mapper resource="com/mybatis/invoicemapper.xml"/>
 	</mappers>
 </configuration>
 

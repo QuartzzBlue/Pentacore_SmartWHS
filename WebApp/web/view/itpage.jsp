@@ -23,9 +23,11 @@
     <link href="css/style.css" rel="stylesheet">
     </head>
 <body>
+
 	<div class="content-body">
 		<div class="container-fluid mt-3">
 
+			<!-- ************* (1) *************** -->
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
@@ -86,7 +88,7 @@
 											<td></td>
 											<td></td>
 											<td></td>
-											<td><button type="button"
+											<td><button type="submit"
 													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Register</button></td>
 										</tr>
 									</tbody>
@@ -98,7 +100,7 @@
 				</div>
 			</div>
 
-
+			<!-- ************* (2) *************** -->
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
@@ -139,6 +141,7 @@
 												name="#" placeholder="개수"></td>
 											<td><input type="text" class="form-control" id="#"
 												name="#" placeholder="창고ID"></td>
+												<!-- (추가)Selectbox 선택 안하거나 null값 선택시 안 넘어가도록 만들기 -->
 											<td><select class="form-control" id="val-skill"
 												name="val-skill" style="width: 150px;">
 													<option value="">창고명</option>
@@ -240,17 +243,21 @@
 				</div>
 			</div>
 			
+			<!-- ************* (3) *************** -->
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">Data Table</h4>
 							<div class="table-responsive">
+							<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
+							<form name = "itemRegister" method="post" action="invoiceregister.pc">
 							<table class="table">
 									<thead>
 										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
+											<!-- (추가)item id/name, warehouse id는 (2)에서 리스트 선택 시 자동으로 업데이트 되도록 할 예정  -->
+											<th>Item ID</th>	
+											<th>Item Name</th>
 											<th>Warehouse ID</th>
 											<th>Qty</th>
 											<th>In/Ex-Warehouse</th>
@@ -258,19 +265,20 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품 ID"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품명"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="창고ID"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="개수"></td>
-											<td><select class="form-control" id="val-skill"
-												name="val-skill">
+											<td><input type="text" class="form-control" id="itemid"
+												name="itemid" placeholder="상품 ID"></td>
+											<td><input type="text" class="form-control" id="itemname"
+												name="itemname" placeholder="상품명"></td>
+											<td><input type="text" class="form-control" id="wareid"
+												name="wareid" placeholder="창고ID"></td>
+											<td><input type="text" class="form-control" id="invoiceqty"
+												name="invoiceqty" placeholder="개수"></td>
+												<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
+											<td><select class="form-control" id="invoicestat"
+												name="invoicestat">
 													<option value="">입/출고</option>
-													<option value="In-W">In-Warehouse</option>
-													<option value="Ex-W">Ex-Warehouse</option>
+													<option value="Receiving">Receiving</option>
+													<option value="Shipping">Shipping</option>
 											</select></td>
 										</tr>
 										<tr>
@@ -279,24 +287,25 @@
 											<td></td>
 											<td></td>
 											
-											<td><button type="button"
-													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Order</button></td>
+											<td><button type="submit"
+													class="btn mb-1 btn-primary btn-lg" style="width: 200px;">Order</button></td>
 										</tr>
 									</tbody>
 								</table>
-								
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 							
-
+			<!-- ************* (4) *************** -->
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">Data Table</h4>
+							
 							<div class="table-responsive">
 								
 								<table class="table">
@@ -324,8 +333,8 @@
 											<td><select class="form-control" id="val-skill"
 												name="val-skill">
 													<option value="">입/출고</option>
-													<option value="In-W">In-Warehouse</option>
-													<option value="Ex-W">Ex-Warehouse</option>
+													<option value="In-W">Receiving</option>
+													<option value="Ex-W">Shipping</option>
 											</select></td>
 											<td><div class="input-group"><input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span></div></td>
 											<td><div class="input-group"><input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span></div></td>
