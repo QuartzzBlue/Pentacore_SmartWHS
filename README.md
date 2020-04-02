@@ -1,7 +1,4 @@
-# SmartWarehouse
-
-## 빅데이터·IoT시스템 스마트창고
-
+# SmartWarehouse_빅데이터·IoT시스템 스마트창고
 ### (feat. SpringFramework, Android, Hadoop, R)
 
 <br>
