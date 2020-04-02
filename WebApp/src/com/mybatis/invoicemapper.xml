@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.InvoiceMapper">
+	
+	<insert id="insert" parameterType="invoice">
+		INSERT INTO invoice (itemid, itemname, wareid, warename, invoicestat, invoiceqty, empno, empname) 
+		VALUES (#{itemid},#{itemname},#{wareid},#{warename},#{invoicestat}, #{invoiceqty}, #{empno}, #{empname})	
+	</insert>
+	
+	<update id="update" parameterType="invoice">
+		UPDATE invoice SET itemid=#{itemid},itemname=#{itemname},wareid=#{wareid},warename=#{warename},invoicestat=#{invoicestat},invoiceqty=#{invoiceqty},empno=#{empno},empname=#{empname} WHERE invoiceid=#{invoiceid}
+	</update>
+	
+	<delete id="delete" parameterType="invoice">
+		DELETE FROM invoice WHERE invoiceid=#{invoiceid}
+	</delete>
+	
+	<select id="select" parameterType="invoice" 
+	resultType="invoice">
+		SELECT * FROM invoice WHERE invoiceid=#{invoiceid}
+	</select>
+	
+	<select id="selectAll" parameterType="invoice" resultType="invoice">
+		SELECT * FROM invoice 
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
