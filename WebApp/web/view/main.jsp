@@ -19,7 +19,7 @@
 <link rel="stylesheet"
 	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css" rel="stylesheet">
+<link href="css/style.css?143" rel="stylesheet">
 
 
 </head>
@@ -70,32 +70,37 @@
             Header start
         ***********************************-->
 		<div class="header">
-			<div class="header-content clearfix">
-
-				<div class="nav-control">
-					<div class="hamburger">
-						<span class="toggle-icon"><i class="icon-menu"></i></span>
-					</div>
-				</div>
+			
+				 
+				 <!--**********************************
+		           Menu start
+		        ***********************************-->
 				
-				<!-- 
-				<div class="header-left">
-					<div class="input-group icons">
-						<div class="input-group-prepend">
-							<span
-								class="input-group-text bg-transparent border-0 pr-2 pr-sm-3"
-								id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-						</div>
-						<input type="search" class="form-control"
-							placeholder="Search Dashboard" aria-label="Search Dashboard">
-						<div class="drop-down animated flipInX d-md-none">
-							<form action="#">
-								<input type="text" class="form-control" placeholder="Search">
-							</form>
-						</div>
+						<div class ="header-menu">
+							<span>
+								<!-- 상품 입출고 --> 
+								<a href="itpage.pc" aria-expanded="false" class = "header-menu-list"> 
+									<i class="icon-note menu-icon"></i>
+									<span class="nav-text">Stock Management</span>
+								</a>
+								 
+								<!-- 지게차 관리 --> 
+								<a href="flpage.pc" aria-expanded="false" class = "header-menu-list"> 
+									<i class="icon-speedometer menu-icon"></i>
+										<span class="nav-text">Forklift Management</span>
+								</a>
+						
+								<!-- 솔루션 --> 
+								<a href="solpage.pc" aria-expanded="false" class = "header-menu-list"> 
+									<i class="icon-globe-alt menu-icon"></i>
+									<span class="nav-text">Solution</span>
+								</a>
+						</span>
 					</div>
-				</div>
-				 -->
+							
+				<!--**********************************
+		            Menu end
+		        ***********************************-->
 				 
 				 
 				<div class="header-right">
@@ -147,64 +152,23 @@
             Header end ti-comment-alt
         ***********************************-->
 		
-		<!--**********************************
-            Sidebar start <메뉴!!!>
-        ***********************************-->
-		<div class="nk-sidebar">
 		
-			<div class="nk-nav-scroll">
-				<ul class="metismenu" id="menu">
-					<!-- <li class="nav-label">Dashboard</li> -->
-					<li>
-						<!-- 상품 입출고 --> 
-						<a href="pdpage.hc"
-						aria-expanded="false"> <i class="icon-note menu-icon"></i><span
-							class="nav-text">Product Management</span>
-					</a>
-						 <!-- <ul aria-expanded="false">
-                            <li><a href="./index.html">Home 1</a></li>
-                             <li><a href="./index-2.html">Home 2</a></li> 
-                        </ul> -->
-					</li>
-					<li>
-						<!-- 지게차 관리 --> 
-						<a href="flpage.hc"
-						aria-expanded="false"> <i class="icon-speedometer menu-icon"></i><span
-							class="nav-text">Forklift Management</span>
-					</a>
-					</li>
-					<li>
-						<!-- 솔루션 --> 
-						<a href="solpage.hc"
-						aria-expanded="false"> <i class="icon-globe-alt menu-icon"></i><span
-							class="nav-text">Solution</span>
-					</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<!--**********************************
-            Sidebar end
-        ***********************************-->
 
 		<!--**********************************
             Content body start <Center>
         ***********************************-->
-		<div class="content-body">
-			<div class="container-fluid mt-3">
-				<c:choose>
+        <c:choose>
+		
 					<c:when test="${center == null }">
-						<jsp:include page="pdpage.jsp" />
+						<jsp:include page="itpage.jsp" />
 					</c:when>
 					<c:otherwise>
 						<jsp:include page="${center }.jsp" />
 					</c:otherwise>
 
-				</c:choose>
-			</div>
-			<!-- / container-fluid mt-3 -->
-			<!-- #/ container -->
-		</div>
+				
+			
+		</c:choose>
 		<!--**********************************
             Content body end
         ***********************************-->

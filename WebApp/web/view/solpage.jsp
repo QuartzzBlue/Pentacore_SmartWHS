@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 </head>
 <body>
+<div class="content-body">
+		<div class="container-fluid mt-3">
 	<h1>slt</h1>
+	</div>
+	</div>
 </body>
 </html>

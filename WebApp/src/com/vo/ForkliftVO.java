@@ -8,6 +8,7 @@ public class ForkliftVO {
 	Date forkpurdate;
 	String forkmodel;
 	Date forklastcheckdate;
+	int forkdist;
 	
 	public ForkliftVO() {}
 	public ForkliftVO(String forkid, String wareid, Date forkpurdate, String forkmodel, Date forklastcheckdate) {
@@ -49,11 +50,18 @@ public class ForkliftVO {
 	public void setForklastcheckdate(Date forklastcheckdate) {
 		this.forklastcheckdate = forklastcheckdate;
 	}
+	public int getForkdist() {
+		return forkdist;
+	}
+	public void setForkdist(int forkdist) {
+		this.forkdist = forkdist;
+	}
 	@Override
 	public String toString() {
 		return "ForkliftVO [forkid=" + forkid + ", wareid=" + wareid + ", forkpurdate=" + forkpurdate + ", forkmodel="
-				+ forkmodel + ", forklastcheckdate=" + forklastcheckdate + "]";
+				+ forkmodel + ", forklastcheckdate=" + forklastcheckdate + ", forkdist=" + forkdist + "]";
 	}
+	
 	
 	
 	

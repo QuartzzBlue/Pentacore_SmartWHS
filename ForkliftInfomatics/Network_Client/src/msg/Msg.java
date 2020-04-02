@@ -84,7 +84,7 @@ public class Msg implements Serializable {
 
 	public void setForkLift(int locX, int locY,int battery,int status) {
 		if(this.forkLift==null) {
-			forkLift = new ForkLift(locX, locY,status, battery);
+			forkLift = new ForkLift(locX, locY,battery, status);
 		}else {
 			forkLift.setStatus(status);
 			forkLift.setBattery(battery);
@@ -92,112 +92,4 @@ public class Msg implements Serializable {
 			forkLift.setLocY(locY);
 		}
 	}
-}
-
-class Task {
-	int io;
-	int qty;
-	int locX;
-	int locY;
-	
-	public Task() {}
-
-	public Task(int io, int qty, int locX, int locY) {
-		this.io = io;
-		this.qty = qty;
-		this.locX = locX;
-		this.locY = locY;
-	}
-
-	public int getIo() {
-		return io;
-	}
-
-	public void setIo(int io) {
-		this.io = io;
-	}
-
-	public int getQty() {
-		return qty;
-	}
-
-	public void setQty(int qty) {
-		this.qty = qty;
-	}
-
-	public int getLocX() {
-		return locX;
-	}
-
-	public void setLocX(int locX) {
-		this.locX = locX;
-	}
-
-	public int getLocY() {
-		return locY;
-	}
-
-	public void setLocY(int locY) {
-		this.locY = locY;
-	}	
-
-} 
-
-class ForkLift{
-
-	int locX;
-	int locY;
-	int battery;
-	int status;
-	
-	public ForkLift() {}
-
-
-	public ForkLift(int locX, int locY,int battery,int status) {
-		this.status = status;
-		this.battery = battery;
-		this.locX = locX;
-		this.locY = locY;
-	}
-
-
-	public int getStatus() {
-		return status;
-	}
-
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
-
-
-	public int getBattery() {
-		return battery;
-	}
-
-
-	public void setBattery(int battery) {
-		this.battery = battery;
-	}
-
-
-	public int getLocX() {
-		return locX;
-	}
-
-
-	public void setLocX(int locX) {
-		this.locX = locX;
-	}
-
-
-	public int getLocY() {
-		return locY;
-	}
-
-
-	public void setLocY(int locY) {
-		this.locY = locY;
-	}
-
 }

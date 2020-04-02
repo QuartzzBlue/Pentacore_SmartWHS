@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ItemMapper">
+	
+	<insert id="insert" parameterType="item">
+		INSERT INTO item VALUES (#{itemid},#{wareid},#{itemname},#{warename},#{itemcate}, #{itemprice}, #{itemstock}, #{itemweightpb}, #{itemqtypb}, #{itemloc})	
+	</insert>
+	
+	<update id="update" parameterType="item">
+		UPDATE item SET wareid=#{wareid},itemname=#{itemname},warename=#{warename},itemcate=#{itemcate},itemprice=#{itemprice},itemstock=#{itemstock},itemweightpb=#{itemweightpb},itemqtypb=#{itemqtypb},itemloc=#{itemloc} WHERE itemid=#{itemid}
+	</update>
+	
+	<delete id="delete" parameterType="item">
+		DELETE FROM item WHERE itemid=#{itemid}
+	</delete>
+	
+	<select id="select" parameterType="item" 
+	resultType="item">
+		SELECT * FROM item WHERE itemid=#{itemid}
+	</select>
+	
+	<select id="selectAll" parameterType="item" resultType="item">
+		SELECT * FROM item 
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

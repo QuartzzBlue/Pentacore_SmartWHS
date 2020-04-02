@@ -20,9 +20,7 @@ public class Receiver implements Runnable {
 
 	Socket socket;
 	
-	public Receiver() {
-		
-	}
+	public Receiver() {}
 	
 	public Receiver(Socket socket) {
 		
@@ -47,31 +45,29 @@ public class Receiver implements Runnable {
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
 		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+		
+		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos); //while 문 말고 여기서 put, 03/30 by yeojin
        
         
 		while(ois!=null) {
 			
 			Msg msg = null;
 			try {
-				
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
-				ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("Connected : "+msg.getSrcID() + ", 접속 수 : " + ActiveConnection.ipToOos.size());	
-					
+				System.out.println("source ID : "+msg.getSrcID());				
 					
 				//Web 이 접속했을 경우에만 Pad 로 Send
-				if(!msg.getSrcID().contains("tab")) {
-					Runnable r= new Sender(msg);
-					//Thread senderThread = new Thread(r);
-					//senderThread.start();
-					Main.executorService.submit(r);
-				}
+//				if(!msg.getSrcID().contains("tab")) {
+//					Runnable r= new Sender(msg);
+//					Main.executorService.submit(r);
+//				}
 				
 				
 				
-			} catch (ClassNotFoundException | IOException e) {
+			} catch (Exception e) {
+				e.printStackTrace();
 				//ActiveConnection.executorService.shutdown();
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
 					
