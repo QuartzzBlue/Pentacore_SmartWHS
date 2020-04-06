@@ -1,12 +1,16 @@
 package infomatics;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Client{
 
 	static Socket socket;
+	static OutputStream os;
+	static ObjectOutputStream oos;
 	
 	public Client() {
 	}
@@ -29,6 +33,8 @@ public class Client{
 		}
 
 		System.out.println("Connected Tablet Server : " + address);
+		os = socket.getOutputStream();
+		oos = new ObjectOutputStream(os);
 		
 		//Runnable r = new Receiver(socket);
 		//Main.executorService.submit(r);

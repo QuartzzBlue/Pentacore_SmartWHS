@@ -31,7 +31,8 @@ public class Receiver implements Runnable {
 			Msg msg = null;
 			try {
 				msg = (Msg) ois.readObject();
-				
+				System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
+				+", dstnid : "+msg.getDstnID()+", content : " + msg.getForkLift().getBattery());
 				//Task 가 할당이 되어있으면
 				if (msg.getTask()==null) {
 					

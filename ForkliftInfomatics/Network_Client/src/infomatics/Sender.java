@@ -28,11 +28,6 @@ public class Sender implements Runnable{
 		this.msg = msg;
 	}
 	
-	public Sender(Socket socket,Msg msg) throws IOException {
-		this.msg = msg;
-		os = socket.getOutputStream();
-		oos = new ObjectOutputStream(os);
-	}
 
 	@Override
 	public void run() {
@@ -44,12 +39,12 @@ public class Sender implements Runnable{
      
 		System.out.println("Sender [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
          
-		if(oos!=null) {
+		if(Client.oos!=null) {
 			
 			try {
-				oos.writeObject(msg);
+				Client.oos.writeObject(msg);
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		

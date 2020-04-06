@@ -34,8 +34,9 @@ public class Receiver implements Runnable {
 			oos = new ObjectOutputStream(os);
 		
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
+		
 		
 	}
 	
@@ -59,10 +60,10 @@ public class Receiver implements Runnable {
 				System.out.println("source ID : "+msg.getSrcID());				
 					
 				//Web 이 접속했을 경우에만 Pad 로 Send
-//				if(!msg.getSrcID().contains("tab")) {
-//					Runnable r= new Sender(msg);
-//					Main.executorService.submit(r);
-//				}
+				if(!msg.getSrcID().contains("tab")) {
+					Runnable r= new Sender(msg);
+					Main.executorService.submit(r);
+				}
 				
 				
 				

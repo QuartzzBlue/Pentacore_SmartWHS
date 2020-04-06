@@ -36,7 +36,7 @@ public class Sender implements Runnable {
 		while (oos != null) {
 			try {
 				 
-				Msg msg = new Msg ("ecu01","info");
+				Msg msg = new Msg ("ecu01","ecu01");
 				Thread.sleep(1000);
 				if(num<300) {
 					msg.setForkLift(0, 0, num,1 ); //charging
@@ -50,7 +50,14 @@ public class Sender implements Runnable {
 				oos.writeObject(msg);
 			} catch (Exception e) {
 
-				e.printStackTrace();
+				if (Client.socket != null) {
+					try {
+						Client.socket.close();
+						break;
+					} catch (IOException e1) {
+						
+					}
+				}
 			}
 
 		}
