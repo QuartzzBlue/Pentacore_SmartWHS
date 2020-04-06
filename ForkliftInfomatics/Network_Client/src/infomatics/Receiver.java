@@ -56,7 +56,7 @@ class Receiver implements Runnable {
 				
 				//ecu 가 접속했을 때만 Pad 로 전송
 				if(!msg.getSrcID().contains("tab")) {
-					Runnable r = new Sender(Client.socket,msg);
+					Runnable r = new Sender(msg);
 					Main.executorService.submit(r);
 				}
 				

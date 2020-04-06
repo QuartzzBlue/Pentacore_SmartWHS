@@ -34,7 +34,7 @@ public class Sender implements Runnable {
           
 		
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
-		+", dstnid : "+msg.getDstnID()+", content : " + msg.getForkLift());
+		+", dstnid : "+msg.getDstnID()+", content : " + msg.getForkLift().getBattery());
 		
 		if(ActiveConnection.idToIp.containsKey(msg.getDstnID())) {
 			String ip = ActiveConnection.idToIp.get(msg.getDstnID());	

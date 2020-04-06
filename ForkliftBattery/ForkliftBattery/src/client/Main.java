@@ -15,8 +15,8 @@ public class Main {
 		Client client = null;
 
 		try {
-			String address = "192.168.10.1";
-			client = new Client(address, 7777);
+			String address = "70.12.113.200";
+			client = new Client(address, 8888);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

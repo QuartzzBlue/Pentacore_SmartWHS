@@ -1,6 +1,11 @@
 package msg;
 
-class Task {
+import java.io.Serializable;
+
+class Task implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	int io;
 	int qty;
 	int locX;

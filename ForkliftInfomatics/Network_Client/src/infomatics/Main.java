@@ -14,7 +14,7 @@ public class Main {
 		//ECU 의 TCP/IP Server
 		//시리얼통신으로 받아오면 필요없음
 		
-		String address = "192.168.10.1";
+		String address = "70.12.113.200";
 		Client client = new Client(address,8888);
 		//Tablet Server 의 Client
 

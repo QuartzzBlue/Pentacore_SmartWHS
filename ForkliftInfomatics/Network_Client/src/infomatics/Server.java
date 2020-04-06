@@ -48,8 +48,8 @@ public class Server implements Runnable {
 				Runnable r = new Receiver(socket);
 				Main.executorService.submit(r);
 				
-//				Runnable r2 = new Sender(Client.socket);
-//				Main.executorService.submit(r2);
+				//Runnable r2 = new Sender(Client.socket);
+				//Main.executorService.submit(r2);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

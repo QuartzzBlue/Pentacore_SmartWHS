@@ -43,9 +43,10 @@ public class Server implements Runnable {
 	            
 	            System.out.println("Server [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				
-				
 				Runnable r = new Receiver(socket);
-				Main.executorService.submit(r);
+				Main.executorService.execute(r);
+				
+				
 			} catch (IOException e) {
 				//e.printStackTrace();
 			}
