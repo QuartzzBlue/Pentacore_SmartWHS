@@ -6,6 +6,7 @@ public class Msg implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    String flname;
     String srcIP;
     String srcID;
     String dstnIP;
@@ -68,7 +69,7 @@ public class Msg implements Serializable {
     }
 
     public void setTask(int io, int qty, int locX, int locY) {
-        if(this.task==null) {
+        if(task==null) {
             task = new Task(io,qty,locX,locY);
         }else {
             task.setIo(io);
@@ -83,7 +84,7 @@ public class Msg implements Serializable {
     }
 
     public void setForkLift(int locX, int locY,int battery,int status) {
-        if(this.forkLift==null) {
+        if(forkLift==null) {
             forkLift = new ForkLift(locX, locY,battery, status);
         }else {
             forkLift.setStatus(status);
@@ -91,5 +92,13 @@ public class Msg implements Serializable {
             forkLift.setLocX(locX);
             forkLift.setLocY(locY);
         }
+    }
+
+    public String getFlname() {
+        return flname;
+    }
+
+    public void setFlname(String flname) {
+        this.flname = flname;
     }
 }

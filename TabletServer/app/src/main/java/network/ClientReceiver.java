@@ -50,9 +50,10 @@ public class ClientReceiver implements Runnable {
             try {
                 msg = (Msg) ois.readObject();
                 // msg에 들어있는 task를 queue에 추가
-                // MainActivity.taskQueue.offer(msg.getTask());
+                 MainActivity.taskQueue.offer(msg.getTask());
 
                 // taskUI 바꿔주는 메소드 호출;
+                
 
                 // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
                 MainActivity.assignTask();

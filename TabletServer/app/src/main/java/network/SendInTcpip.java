@@ -21,6 +21,8 @@ public class SendInTcpip implements Runnable {
 		this.msg = msg;
 	}
 
+	String srcID;
+	String srcIP;
 	@Override
 	public void run() {
 
@@ -34,14 +36,27 @@ public class SendInTcpip implements Runnable {
 
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
 				+", dstnid : "+msg.getDstnID());
+		srcID = msg.getDstnID();
+		srcIP = ActiveConnection.idToIp.get(srcID);
+		ObjectOutputStream oos = ActiveConnection.ipToOos.get(srcIP);
 
-		if(ActiveConnection.idToIp.containsKey(msg.getDstnID())) {
-			String getip = ActiveConnection.idToIp.get(msg.getDstnID());
+		if(oos != null) {
 			try {
-				ActiveConnection.ipToOos.get(getip).writeObject(msg);
+				oos.writeObject(msg);
 			} catch (IOException e) {
+				ActiveConnection.ipToOos.remove(srcIP);
+				ActiveConnection.idToIp.remove(srcID);
 				e.printStackTrace();
 			}
+		} else {
+			try {
+				if(oos!=null) oos.close();
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+			// oos==null
+			ActiveConnection.ipToOos.remove(srcIP);
+			ActiveConnection.idToIp.remove(srcID);
 		}
 
 
