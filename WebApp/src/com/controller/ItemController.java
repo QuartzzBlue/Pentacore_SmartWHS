@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.ArrayList;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,17 +23,19 @@ public class ItemController {
 	Service<InvoiceVO> invservice;
 	
 	@RequestMapping("/itemregister.pc")
-	public ModelAndView itemregister(ModelAndView mv, HttpServletRequest request, HttpServletResponse response){
-		ItemVO newItem = new ItemVO();
-		newItem.setItemid(request.getParameter("itemid"));
-		newItem.setItemname(request.getParameter("itemname"));
-		newItem.setItemcate(request.getParameter("itemcate"));
-		newItem.setItemprice(Integer.parseInt(request.getParameter("itemprice")));
-		newItem.setItemweightpb(Double.parseDouble(request.getParameter("itemweightpb")));
-		newItem.setItemqtypb(Integer.parseInt(request.getParameter("itemqtypb")));
-		newItem.setWareid(request.getParameter("wareid"));
-		newItem.setWarename(request.getParameter("warename"));
+	public ModelAndView itemregister(ModelAndView mv, HttpServletRequest request, HttpServletResponse response, ItemVO newItem){
 		
+//		ItemVO newItem = new ItemVO();
+//		newItem.setItemid(request.getParameter("val-itemid"));
+//		newItem.setItemname(request.getParameter("val-itemname"));
+//		newItem.setItemcate(request.getParameter("val-itemcate"));
+//		newItem.setItemprice(Integer.parseInt(request.getParameter("val-itemprice")));
+//		newItem.setItemweightpb(Double.parseDouble(request.getParameter("val-itemweightpb")));
+//		newItem.setItemqtypb(Integer.parseInt(request.getParameter("val-itemqtypb")));
+//		newItem.setWareid(request.getParameter("val-wareid"));
+//		newItem.setWarename(request.getParameter("val-warename"));
+		
+		System.out.println("**"+newItem.toString());
 		try {
 			itservice.insert(newItem);
 		} catch (Exception e) {
@@ -45,8 +49,19 @@ public class ItemController {
 	}
 	
 	@RequestMapping("/itemsearch.pc")
-	public ModelAndView itemsearch(ModelAndView mv) {
+	public ModelAndView itemsearch(ModelAndView mv, ItemVO iv) {
+//		ItemVO iv = new ItemVO();
 		
+		ArrayList<ItemVO> itemList = null;
+		try {
+			itemList =  itservice.selectAll(iv);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		mv.addObject("itemList", itemList);
+		mv.addObject("center", "itpage");
+		mv.setViewName("main");
 		
 		return mv;
 		
@@ -56,11 +71,11 @@ public class ItemController {
 	@RequestMapping("/invoiceregister.pc")
 	public ModelAndView invoiceregister(ModelAndView mv, HttpServletRequest request, HttpServletResponse response){
 		InvoiceVO newInvoice = new InvoiceVO();
-		newInvoice.setItemid(request.getParameter("itemid"));
-		newInvoice.setItemname(request.getParameter("itemname"));
-		newInvoice.setWareid(request.getParameter("wareid"));
-		newInvoice.setInvoiceqty(Integer.parseInt(request.getParameter("invoiceqty")));
-		newInvoice.setInvoicestat(request.getParameter("invoicestat"));
+		newInvoice.setItemid(request.getParameter("val-itemid"));
+		newInvoice.setItemname(request.getParameter("val-itemname"));
+		newInvoice.setWareid(request.getParameter("val-wareid"));
+		newInvoice.setInvoiceqty(Integer.parseInt(request.getParameter("val-invoiceqty")));
+		newInvoice.setInvoicestat(request.getParameter("val-invoicestat"));
 		
 		try {
 			invservice.insert(newInvoice);
@@ -72,5 +87,14 @@ public class ItemController {
 		mv.setViewName("main");
 		
 		return mv;
+	}
+	
+	@RequestMapping("/invoicesearch.pc")
+	public ModelAndView invoicesearch(ModelAndView mv) {
+		
+		
+		return mv;
+		
+		
 	}
 }

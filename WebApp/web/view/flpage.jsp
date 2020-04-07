@@ -47,7 +47,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="fl" items="${fllist }" varStatus="status">
+								<c:forEach var="fl" items="${fllist }">
 									<tr>
 										<td>${fl.forkid }</td>
 										<td>${fl.wareid}</td>
