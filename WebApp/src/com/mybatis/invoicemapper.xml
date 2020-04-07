@@ -23,7 +23,13 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectAll" parameterType="invoice" resultType="invoice">
-		SELECT * FROM invoice 
+		SELECT * FROM invoice
+		<where>
+			<if test = "itemid != null and itemid !=''">itemid=#{itemid}</if>
+			<if test = "itemname != null and itemname !=''">and itemname=#{itemname}</if>
+			<if test = "wareid != null and wareid !=''">and wareid=#{wareid}</if>
+			<if test = "invoicestat != null and invoicestat !=''">and invoicestat=#{invoicestat}</if>
+		</where>
 	</select>
 	
 </mapper>
