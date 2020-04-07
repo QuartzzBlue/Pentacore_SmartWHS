@@ -6,27 +6,26 @@ public class ForkLift implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-
+	int status;
 	int locX;
 	int locY;
 	int battery;
-	int status;
-	
+	int temperature;
+
 	public ForkLift() {}
-
-
-	public ForkLift(int locX, int locY,int battery,int status) {
+	
+	public ForkLift(int status, int locX, int locY, int battery, int temperature) {
+		super();
 		this.status = status;
-		this.battery = battery;
 		this.locX = locX;
 		this.locY = locY;
+		this.battery = battery;
+		this.temperature = temperature;
 	}
-
 
 	public int getStatus() {
 		return status;
 	}
-
 
 	public void setStatus(int status) {
 		this.status = status;
@@ -61,5 +60,15 @@ public class ForkLift implements Serializable{
 	public void setLocY(int locY) {
 		this.locY = locY;
 	}
+
+	public int getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
+	}
+	
+	
 
 }

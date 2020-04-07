@@ -47,7 +47,7 @@ public class Receiver implements Runnable {
 		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
 		
-		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos); //while 문 말고 여기서 put, 03/30 by yeojin
+		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
        
         
 		while(ois!=null) {
@@ -58,17 +58,16 @@ public class Receiver implements Runnable {
 				msg = (Msg) ois.readObject();
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
 				System.out.println("source ID : "+msg.getSrcID());				
-					
-				//Web 이 접속했을 경우에만 Pad 로 Send
-				if(!msg.getSrcID().contains("tab")) {
-					Runnable r= new Sender(msg);
-					Main.executorService.submit(r);
-				}
+				
+				System.out.println("Receive Task (IO,x,y,qty): " + msg.getTask().getIo() + ","+msg.getTask().getLocX()+","+msg.getTask().getLocY()+","+msg.getTask().getQty());
+				
+				Runnable r= new Sender(msg);
+				Main.executorService.submit(r);
 				
 				
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				//ActiveConnection.executorService.shutdown();
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
 					
