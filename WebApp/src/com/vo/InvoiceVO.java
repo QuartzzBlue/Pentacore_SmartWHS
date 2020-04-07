@@ -1,5 +1,7 @@
 package com.vo;
 
+import java.sql.Date;
+
 public class InvoiceVO {
 	int invoiceid;
 	String itemid;
@@ -10,6 +12,7 @@ public class InvoiceVO {
 	int invoiceqty;
 	String empno;
 	String empname;
+	Date invoicedate;
 	
 	
 	public InvoiceVO() {
@@ -29,8 +32,9 @@ public class InvoiceVO {
 		this.empname = empname;
 	}
 	// Database¿¡¼­ ²¨³¾ ¶§
+
 	public InvoiceVO(int invoiceid, String itemid, String itemname, String wareid, String warename, String invoicestat,
-			int invoiceqty, String empno, String empname) {
+			int invoiceqty, String empno, String empname, Date invoicedate) {
 		super();
 		this.invoiceid = invoiceid;
 		this.itemid = itemid;
@@ -41,7 +45,9 @@ public class InvoiceVO {
 		this.invoiceqty = invoiceqty;
 		this.empno = empno;
 		this.empname = empname;
+		this.invoicedate = invoicedate;
 	}
+	
 	public int getInvoiceid() {
 		return invoiceid;
 	}
@@ -96,12 +102,19 @@ public class InvoiceVO {
 	public void setEmpname(String empname) {
 		this.empname = empname;
 	}
+	public Date getInvoicedate() {
+		return invoicedate;
+	}
+	public void setInvoicedate(Date invoicedate) {
+		this.invoicedate = invoicedate;
+	}
 	@Override
 	public String toString() {
 		return "InvoiceVO [invoiceid=" + invoiceid + ", itemid=" + itemid + ", itemname=" + itemname + ", wareid="
 				+ wareid + ", warename=" + warename + ", invoicestat=" + invoicestat + ", invoiceqty=" + invoiceqty
-				+ ", empno=" + empno + ", empname=" + empname + "]";
+				+ ", empno=" + empno + ", empname=" + empname + ", invoicedate=" + invoicedate + "]";
 	}
+	
 	
 	
 }

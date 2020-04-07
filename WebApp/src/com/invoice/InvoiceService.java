@@ -42,7 +42,7 @@ public class InvoiceService implements com.frame.Service<InvoiceVO> {
 		itdao.update(updItem);
 		
 		//invoice DB 입출고 내역 insert
-		invdao.select(v);
+		invdao.insert(v);
 	
 	}
 

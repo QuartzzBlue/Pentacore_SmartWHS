@@ -6,7 +6,9 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.frame.Service;
+import com.invoice.InvoiceService;
 import com.vo.ForkliftVO;
+import com.vo.InvoiceVO;
 import com.vo.ItemVO;
 
 public class dbtest {
@@ -14,15 +16,40 @@ public class dbtest {
 		AbstractApplicationContext factory = new GenericXmlApplicationContext("mySpring.xml");
 		Service<ForkliftVO> flbiz = (Service)factory.getBean("flservice");
 		Service<ItemVO> itbiz = (Service)factory.getBean("itservice");
+		Service<InvoiceVO> ivbiz = (Service)factory.getBean("invservice");
+		
 		ForkliftVO fl1 = new ForkliftVO("id1112", "wh1112", null, "sgld-298-sgl", null);
 		ForkliftVO fl2 = new ForkliftVO(null, null, null, null, null);
 		ItemVO it1 = new ItemVO();
-		it1.setItemid("item1111");
-		it1.setItemloc("6,6");
+		InvoiceVO iv1 = new InvoiceVO();
+		
+		
+//		it1.setItemid("item1112");
+		it1.setWareid("wh1111");
+//		it1.setItemloc("6,6");
 		
 			
 		
 		System.out.println("--- App start ---");
+		
+		ArrayList<InvoiceVO> list = null;
+		
+		try {
+			list = ivbiz.selectAll(iv1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(list.toString());
+		
+		
+//		ArrayList<ItemVO> list = null;
+//		try {
+//			list = itbiz.selectAll(it1);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(list.toString());
+		
 		
 //		try {
 //			itbiz.update(it1);

@@ -36,14 +36,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" parameterType="item" resultType="item">
 		SELECT * FROM item
 		<where>
-			<if test = "wareid != null">wareid=#{wareid},</if>
-			<if test = "itemname != null">itemname=#{itemname},</if>
-			<if test = "warename != null">warename=#{warename},</if>
-			<if test = "itemcate != null">itemcate=#{itemcate},</if>
-			<if test = "itemprice != null and itemprice != 0">itemprice=#{itemprice},</if>	
-			<if test = "itemweightpb != null and itemweightpb != 0">itemweightpb=#{itemweightpb},</if>
-			<if test = "itemqtypb != null and itemqtypb != 0">itemqtypb=#{itemqtypb},</if>
-		</where> 
+			<if test = "itemid != null and itemid !=''">itemid=#{itemid}</if>
+			<if test = "wareid != null and wareid !=''">and wareid=#{wareid}</if>
+			<if test = "itemname != null and itemname !=''">and itemname=#{itemname}</if>
+			<if test = "itemcate != null and itemcate !=''">and itemcate=#{itemcate}</if>
+		</where>
 	</select>
 	
 </mapper>

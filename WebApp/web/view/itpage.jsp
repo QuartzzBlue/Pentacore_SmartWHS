@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -44,8 +44,7 @@
 							</div>
 							<div class="table-responsive">
 								<div class="form-validation">
-									<form name="itemRegister" method="post" class="form-valide"
-										action="itemregister.pc">
+									<form name="itemRegister" method="post" action="itemregister.pc">
 										<table class="table">
 											<thead>
 												<tr>
@@ -128,9 +127,6 @@
 												<th>Item ID</th>
 												<th>Item Name</th>
 												<th>Category</th>
-												<th>Price</th>
-												<th>Weight</th>
-												<th>Quantity</th>
 												<th>Warehouse ID</th>
 												<th>Warehouse Name</th>
 											</tr>
@@ -142,18 +138,12 @@
 												<td><input type="text" class="form-control"
 													id="itemname" name="itemname" placeholder="상품명"></td>
 												<td><select class="form-control" id="itemcate"
-													name="itemcate" style="width: 115px;">
+													name="itemcate">
 														<option value="">카테고리</option>
 														<option value="전자제품">전자제품</option>
 														<option value="차량부품">차량부품</option>
 
 												</select></td>
-												<td><input type="text" class="form-control"
-													id="itemprice" name="itemprice" placeholder="단가"></td>
-												<td><input type="text" class="form-control"
-													id="itemweightpb" name="itemweightpb" placeholder="무게"></td>
-												<td><input type="text" class="form-control"
-													id="itemqtypb" name="itemqtypb" placeholder="개수"></td>
 												<td><input type="text" class="form-control"
 													id="wareid_S" name="wareid" placeholder="창고ID" readonly></td>
 												<!-- (추가)Selectbox 선택 안하거나 null값 선택시 안 넘어가도록 만들기 -->
@@ -167,9 +157,7 @@
 												</select></td>
 											</tr>
 											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
+												
 												<td></td>
 												<td></td>
 												<td></td>
@@ -183,28 +171,20 @@
 							</div>
 							<div class="table-responsive">
 								<table class="table">
-									<thead>
-										<tr>
-											<th>Item ID</th>
-											<th>Item Name</th>
-											<th>Category</th>
-											<th>Price (KRW/box)</th>
-											<th>Weight (KG/box)</th>
-											<th>Qty (per box)</th>
-											<th>Warehouse Name</th>
-											<th>Location</th>
-											<th>Stock</th>
-										</tr>
-									</thead>
+									<c:if test="${not empty itTableHeader }">
+										${itTableHeader }
+									</c:if>
+									
 									<tbody>
 										<c:forEach var="it" items="${itemList }">
-											<tr>
+											<tr class="selectedItList">
 												<td>${it.itemid}</td>
 												<td>${it.itemname}</td>
 												<td>${it.itemcate}</td>
 												<td>${it.itemprice}</td>
 												<td>${it.itemweightpb}</td>
 												<td>${it.itemqtypb}</td>
+												<td>${it.wareid}</td>
 												<td>${it.warename}</td>
 												<td>${it.itemloc}</td>
 												<td>${it.itemstock}</td>
@@ -234,23 +214,26 @@
 													<th>Item ID<span class="text-danger">*</span></th>
 													<th>Item Name<span class="text-danger">*</span></th>
 													<th>Warehouse ID<span class="text-danger">*</span></th>
+													<th>Warehouse Name<span class="text-danger">*</span></th>
 													<th>Qty<span class="text-danger">*</span></th>
 													<th>In/Ex-Warehouse<span class="text-danger">*</span></th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
+												<tr id="setItInfo">
+													<td><input type="text" class="form-control" 
+														id="itemid" name="itemid" placeholder="상품 ID"></td>
 													<td><input type="text" class="form-control"
-														id="itemid" name="val-itemid" placeholder="상품 ID"></td>
+														id="itemname" name="itemname" placeholder="상품명"></td>
 													<td><input type="text" class="form-control"
-														id="itemname" name="val-itemname" placeholder="상품명"></td>
+														id="wareid" name="wareid" placeholder="창고ID"></td>
 													<td><input type="text" class="form-control"
-														id="wareid" name="val-wareid" placeholder="창고ID"></td>
+														id="warename" name="warename" placeholder="창고명"></td>
 													<td><input type="text" class="form-control"
-														id="invoiceqty" name="val-invoiceqty" placeholder="개수"></td>
+														id="invoiceqty" name="invoiceqty" placeholder="개수" style="width: 80px;"></td>
 													<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
 													<td><select class="form-control" id="invoicestat"
-														name="val-invoicestat">
+														name="invoicestat">
 															<option value="">입/출고</option>
 															<option value="Receiving">Receiving</option>
 															<option value="Shipping">Shipping</option>
@@ -261,7 +244,7 @@
 													<td></td>
 													<td></td>
 													<td></td>
-
+													<td></td>
 													<td><button type="submit" value="invoiceRegister"
 															class="btn mb-1 btn-primary btn-lg" style="width: 200px;">Order</button></td>
 												</tr>
@@ -282,44 +265,41 @@
 							<h4 class="card-title">Data Table</h4>
 
 							<div class="table-responsive">
-
+							<form name="itemRegister" method="post" action="invoicesearch.pc">
 								<table class="table">
 									<thead>
 										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
+											<th>Item ID</th>
+											<th>Item Name</th>
 											<th>Warehouse ID</th>
-											<th>Qty</th>
-											<th>In/Ex-Warehouse</th>
+											<th>Status</th>
 											<th>Start Date</th>
 											<th>End Date</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품 ID"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="상품명"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="창고ID"></td>
-											<td><input type="text" class="form-control" id="#"
-												name="#" placeholder="개수"></td>
-											<td><select class="form-control" id="val-skill"
-												name="val-skill">
+											<td><input type="text" class="form-control" id="itemid"
+												name="itemid" placeholder="상품 ID"></td>
+											<td><input type="text" class="form-control" id="itemname"
+												name="itemname" placeholder="상품명"></td>
+											<td><input type="text" class="form-control" id="wareid"
+												name="wareid" placeholder="창고ID"></td>
+											<td><select class="form-control" id="invoicestat"
+												name="invoicestat">
 													<option value="">입/출고</option>
-													<option value="In-W">Receiving</option>
-													<option value="Ex-W">Shipping</option>
+													<option value="Receiving">Receiving</option>
+													<option value="Shipping">Shipping</option>
 											</select></td>
 											<td><div class="input-group">
-													<input type="text" class="form-control mydatepicker"
-														placeholder="mm/dd/yyyy"> <span
+													<input type="text" id="startdate" name="startdate" class="form-control mydatepicker"
+														placeholder="mm/dd/yyyy" > <span
 														class="input-group-append"><span
 														class="input-group-text"><i
 															class="mdi mdi-calendar-check"></i></span></span>
 												</div></td>
 											<td><div class="input-group">
-													<input type="text" class="form-control mydatepicker"
+													<input type="text" id="enddate" name="enddate" class="form-control mydatepicker"
 														placeholder="mm/dd/yyyy"> <span
 														class="input-group-append"><span
 														class="input-group-text"><i
@@ -333,41 +313,33 @@
 											<td></td>
 											<td></td>
 											<td></td>
-											<td></td>
 
-											<td><button type="button"
+											<td><button type="submit"
 													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
 										</tr>
 									</tbody>
 								</table>
-
+								</form>
 
 							</div>
 
 							<div class="table-responsive">
 								<table class="table">
-									<thead>
-										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
-											<th>Warehouse Name</th>
-											<th>Qty</th>
-											<th>In/Ex Warehouse</th>
-											<th>Date</th>
-
-
-										</tr>
-									</thead>
+									<c:if test="${not empty ivTableHeader }">
+										${ivTableHeader }
+									</c:if>
+									
 									<tbody>
+										<c:forEach var="iv" items="${invoiceList }">
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td>${iv.itemid}</td>
+											<td>${iv.itemname}</td>
+											<td>${iv.warename}</td>
+											<td>${iv.invoicestat }</td>
+											<td>${iv.invoiceqty }</td>
+											<td>${iv.invoicedate }</td>
 										</tr>
-
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -673,7 +645,7 @@
 		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
 	<!-- Date Picker Plugin JavaScript -->
 	<script
-		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js?2"></script>
 	<!-- Date range Plugin JavaScript -->
 	<script src="./plugins/timepicker/bootstrap-timepicker.min.js"></script>
 	<script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
@@ -683,6 +655,9 @@
 	<!-- <script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js?1"></script> -->
 
+	<!-- JQeury -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	
 	<script>
 		var wareIdList = [ "wh1111", "#" ];
 
@@ -695,6 +670,19 @@
 				target.value = "";
 		}
 		
+		$(function(){
+			$(document.body).delegate(".selectedItList", "click", function(){
+				var itemid = $(this).find("td").eq(0).text();
+				var itemname = $(this).find("td").eq(1).text();
+				var wareid = $(this).find("td").eq(6).text();
+				var warename = $(this).find("td").eq(7).text();
+				//alert($("#setItInfo").find("input[name=itemid]").val());
+				$("#setItInfo").find("input[name=itemid]").val(itemid);
+				$("#setItInfo").find("input[name=itemname]").val(itemname);
+				$("#setItInfo").find("input[name=wareid]").val(wareid);
+				$("#setItInfo").find("input[name=warename]").val(warename);
+			});
+		});
 		
 	</script>
 </body>
