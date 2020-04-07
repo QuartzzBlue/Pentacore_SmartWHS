@@ -11,9 +11,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		int port=8888; //port 필요
+		int port=9999; //port 필요
 		
-		Runnable r = new Server(port);
+		Runnable r = new Server(9999);
 		executorService.submit(r);
 	}
 
