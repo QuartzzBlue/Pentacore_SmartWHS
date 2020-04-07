@@ -84,6 +84,7 @@ invoicestat varchar(20),
 invoiceqty int(10), 
 empno varchar(10), 
 empname varchar(20),
+invoicedate datetime default current_timestamp,
 primary key(invoiceid),
 constraint invoice_item_fk foreign key (itemid) references item(itemid),
 constraint invoice_ware_fk foreign key (wareid) references warehouse(wareid)
