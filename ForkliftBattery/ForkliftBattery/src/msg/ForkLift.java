@@ -27,7 +27,6 @@ public class ForkLift implements Serializable{
 		return status;
 	}
 
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
