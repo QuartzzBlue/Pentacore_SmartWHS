@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class Server implements Runnable {
 
 	ServerSocket serverSocket;
+	public int port;
 	boolean SERVER_RUNNING = true;
 	
 	public Server() {
@@ -17,21 +18,24 @@ public class Server implements Runnable {
 	}
 	
 	public Server(int port) {
+		this.port = port;
 
+
+		
+	}
+
+	@Override
+	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Server Start (Server 객체 생성)");
-		
-	}
 
-	@Override
-	public void run() {
 		while (SERVER_RUNNING) {
             
-			Socket socket = null;
+			Socket socket;
 			try {
 				socket = serverSocket.accept();
 				System.out.println("new Client Accepted : "+socket.getInetAddress());

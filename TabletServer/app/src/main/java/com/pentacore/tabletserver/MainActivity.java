@@ -1,15 +1,16 @@
 package com.pentacore.tabletserver;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-
 import android.content.Context;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,8 +26,9 @@ import logistics.TaskQueueAdapter;
 import logistics.Warehouse;
 import msg.Msg;
 import network.Client;
-import network.SendInTcpip;
 import network.Server;
+import network.SendInTcpip;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,14 +66,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //added by yeojin
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+
         // Run TabletServer
         int port=8888;
         Runnable server = new Server(port);
         executorService.execute(server);
 
         // Connect to TCP/IP Server
-        String dstnIP = "192.168.0.225";
-        int dstnPort = 8888;
+        String dstnIP = "70.12.113.200";
+        int dstnPort = 9999;
         Runnable client = new Client(dstnIP, dstnPort);
         executorService.execute(client);
 
@@ -119,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         taskQueue = new LinkedList();
         waitingForkLiftQueue = new LinkedList();
+        consoleQueue = new LinkedList();
 
         taskQueueContext = getApplicationContext();
         taskQueueListView = findViewById(R.id.listView_taskQueue);
@@ -169,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void updateForkLiftUI(String forkLiftID) {
+        System.out.println("updateForkLiftUI : "+forkLiftID);
         ForkLiftViewSet forkLiftViewset = (ForkLiftViewSet)forkLiftViewSetMap.get(forkLiftID);
         ForkLift forkLift = (ForkLift)forkLiftMap.get(forkLiftID);
 
