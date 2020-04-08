@@ -37,11 +37,6 @@ class Receiver implements Runnable {
 		int poolSize = threadPoolExecutor.getPoolSize();// 스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
 
-		System.out.println("Connected : "+socket.getInetAddress() + ", 접속 수 : " + ActiveConnection.ipToOos.size());		
-		
-		
-	
-
 		while (ois != null) {
 			Msg msg = null;
 			try {

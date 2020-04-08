@@ -28,6 +28,10 @@ public class Sender implements Runnable{
 		this.msg = msg;
 	}
 	
+	public void setMsg (Msg msg) {
+		this.msg = msg;
+	}
+	
 
 	@Override
 	public void run() {
@@ -42,9 +46,10 @@ public class Sender implements Runnable{
 		if(Client.oos!=null) {
 			
 			try {
+				System.out.println(msg.getForkLift().getBattery());
 				Client.oos.writeObject(msg);
 			} catch (IOException e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		
