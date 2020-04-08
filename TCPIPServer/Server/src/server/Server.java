@@ -16,8 +16,6 @@ public class Server implements Runnable {
 	
 	public Server(int port) {
 		
-		
-		
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {

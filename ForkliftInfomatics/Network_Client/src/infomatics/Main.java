@@ -9,14 +9,17 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-		Runnable r = new Server (7777);
-		executorService.submit(r);
-		//ECU 의 TCP/IP Server
-		//시리얼통신으로 받아오면 필요없음
+		SerialServer sc = new SerialServer("COM12");
 		
-		String address = "70.12.113.200";
-		Client client = new Client(address,8888);
-		//Tablet Server 의 Client
+//		Runnable r = new Server (7777);
+//		executorService.submit(r);
+//		//ECU 의 TCP/IP Server
+//		//시리얼통신으로 받아오면 필요없음
+//	
+//		String address = "70.12.226.134";
+//		Client client = new Client(address,8888);
+//		//Tablet Server 의 Client
+		
 
 	}
 }

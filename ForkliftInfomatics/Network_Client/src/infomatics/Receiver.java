@@ -37,7 +37,6 @@ class Receiver implements Runnable {
 		int poolSize = threadPoolExecutor.getPoolSize();// 스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
 
-		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
 		System.out.println("Connected : "+socket.getInetAddress() + ", 접속 수 : " + ActiveConnection.ipToOos.size());		
 		
 		
@@ -48,18 +47,19 @@ class Receiver implements Runnable {
 			try {
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
-				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
 				System.out.println("source ID : "+msg.getSrcID());		
 				int  battery = msg.getForkLift().getBattery();
 				
 				System.out.println("battery : "+battery);
+				msg.setSrcID("Forklift01");
+				Runnable r = new Sender(msg);
+				Main.executorService.submit(r);
 				
-				//ecu 가 접속했을 때만 Pad 로 전송
-				if(!msg.getSrcID().contains("tab")) {
-					Runnable r = new Sender(msg);
-					Main.executorService.submit(r);
-				}
-				
+//				if(msg.getTask()!=null) {
+//					int data = 1;
+//					Runnable r = new SerialWrite(data);
+//					Main.executorService.submit(r);
+//				}
 
 			} catch (Exception e) {
 				System.out.println("Server Die");

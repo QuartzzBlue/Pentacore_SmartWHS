@@ -1,6 +1,8 @@
 package client;
 
 import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -12,14 +14,16 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		Client client = null;
-
-		try {
-			String address = "70.12.113.200";
-			client = new Client(address, 8888);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		Client client = null;
+//
+//		try {
+//			String address = "70.12.113.200";
+//			client = new Client(address, 7777);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+		SerialClient serialClient = new SerialClient("COM12");
 
 	}
 
