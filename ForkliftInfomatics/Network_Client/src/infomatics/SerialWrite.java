@@ -3,8 +3,8 @@ package infomatics;
 import java.io.IOException;
 
 public class SerialWrite implements Runnable {
-	
-	String data;
+
+	static String data;
 
 	public SerialWrite() {
 		this.data = ":G11A9\r";
@@ -32,12 +32,14 @@ public class SerialWrite implements Runnable {
 
 	@Override
 	public void run() {
+
 		byte[] outData = data.getBytes();
 		try {
 			SerialServer.out.write(outData);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}// run method
 
 }
