@@ -57,12 +57,14 @@ public class Receiver implements Runnable {
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
 				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("source ID : "+msg.getSrcID());				
+				System.out.println("접속 : "+msg.getSrcID());				
 				
-				System.out.println("Receive Task (IO,x,y,qty): " + msg.getTask().getIo() + ","+msg.getTask().getLocX()+","+msg.getTask().getLocY()+","+msg.getTask().getQty());
-				
-				Runnable r= new Sender(msg);
-				Main.executorService.submit(r);
+				//tabletServer 접속할때는 Sender 할 필요 없다
+				if(msg.getTask()!=null) {
+					System.out.println("Receive Task (IO,x,y,qty): " + msg.getTask().getIo() + ","+msg.getTask().getLocX()+","+msg.getTask().getLocY()+","+msg.getTask().getQty());
+					Runnable r= new Sender(msg);
+					Main.executorService.submit(r);
+				}
 				
 				
 				

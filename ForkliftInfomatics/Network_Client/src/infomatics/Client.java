@@ -21,7 +21,7 @@ public class Client{
 			socket = new Socket(address, port);
 		} catch (Exception e) {
 			while (true) {
-				System.out.println("Retry..");
+				System.out.println("Retry to Connect Tablet Server");
 				try {
 					Thread.sleep(1000);
 					socket = new Socket(address, port);
@@ -35,9 +35,6 @@ public class Client{
 		System.out.println("Connected Tablet Server : " + address);
 		os = socket.getOutputStream();
 		oos = new ObjectOutputStream(os);
-		
-		//Runnable r = new Receiver(socket);
-		//Main.executorService.submit(r);
 	
 	}
 }
