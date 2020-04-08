@@ -23,7 +23,7 @@ public class Main {
 //			e.printStackTrace();
 //		}
 //		
-		SerialClient serialClient = new SerialClient("COM12");
+		SerialClient serialClient = new SerialClient("COM9");
 
 	}
 

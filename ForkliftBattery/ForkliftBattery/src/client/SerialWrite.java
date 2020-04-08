@@ -48,7 +48,7 @@ public class SerialWrite implements Runnable {
 		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
 		
 
-		while (SerialClient.out != null) {
+		while (SerialClient.out != null ) {
 			
 			System.out.println("SerialWrite [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
 			
