@@ -18,6 +18,7 @@ public class SerialClient implements SerialPortEventListener{
 	CommPort commPort;
 	InputStream in;
 	BufferedInputStream bin;
+	static String receiveStr;
 	static String id = "10000001";
 	static String data = "3000000000000000";
 	static String msg = id + data;
@@ -83,7 +84,7 @@ public class SerialClient implements SerialPortEventListener{
 				while (bin.available() > 0) {
 					int numBytes = bin.read(readBuffer);
 				}
-				String receiveStr = new String(readBuffer);
+				receiveStr = new String(readBuffer);
 				System.out.println("Receive Data:" + receiveStr);
 //				if (!ss.substring(0, 6).equals(":G01A8") && !ss.substring(0, 6).equals(":W2810")) { // ':G01A8' -> 처음
 //																									// 연결될 때 받는 메시지 (데이터
