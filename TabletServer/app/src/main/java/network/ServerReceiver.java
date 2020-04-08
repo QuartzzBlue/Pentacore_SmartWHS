@@ -40,14 +40,11 @@ public class ServerReceiver implements Runnable {
 		this.socket = socket;
 
 		try {
-
-			is = socket.getInputStream();
-			ois = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			oos = new ObjectOutputStream(os);
-
+			is = socket.getInputStream();
+			ois = new ObjectInputStream(is);
 			ActiveConnection.ipToOos.put(socket.getInetAddress().toString(), oos);
-			System.out.println("Connected : " + socket.getInetAddress().toString() + ", 접속 수 : " + ActiveConnection.ipToOos.size());
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -57,71 +54,32 @@ public class ServerReceiver implements Runnable {
 
 	@Override
 	public void run() {
+		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) MainActivity.executorService;
+		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
+		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
+		System.out.println("ServerReceiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
 
-
-
+		Msg msg = null;
 		while(ois!=null) {
-
-			Msg msg = null;
 			try {
 
-				ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) MainActivity.executorService;
-				int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
-				String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
-
-				System.out.println("ServerReceiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				msg = (Msg) ois.readObject();
-
-				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
-				System.out.println(msg.getSrcID() + "로부터 msg 수신");
-
-				// forklift 상태 정보 업데이트
-				logistics.ForkLift forkLift = (logistics.ForkLift)MainActivity.forkLiftMap.get(msg.getSrcID());
-				msg.ForkLift forkLiftFromMsg = (msg.ForkLift)msg.getForkLift();
-				System.out.println("Receive : " + forkLiftFromMsg.getLocX()+","+forkLiftFromMsg.getLocY()+","+forkLiftFromMsg.getBattery()+","+forkLiftFromMsg.getStatus());
-
-				// 화면 우측 forklift UI 업데이트 + fokLift View 업데이트
-				MainActivity.updateForkLiftUI(msg.getSrcID());
-
-				// 상태가 변했다는 말
-				// HTTP로 msg객체의 내용 전달하기
-                if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
-					System.out.println("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
-					MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
-
-					JSONObject jsonObject = new JSONObject();
-					try {
-						jsonObject.accumulate("forkliftid", msg.getSrcID());
-						jsonObject.accumulate("battery", forkLiftFromMsg.getBattery());
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-
-					Runnable sendInHttp = new SendInHttp(jsonObject);
-					MainActivity.executorService.submit(sendInHttp);
-				}
-
-				if(forkLiftFromMsg.getStatus()==WAITING) {
-				MainActivity.waitingForkLiftQueue.offer(forkLift);
-				MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
-				MainActivity.assignTask();
-				}
-
-				forkLift.setBattery(forkLiftFromMsg.getBattery());
-//				forkLift.setCurrentTask(forkLiftFromMsg.);
-				forkLift.setCurrentX(forkLiftFromMsg.getLocX());
-				forkLift.setCurrentY(forkLiftFromMsg.getLocY());
-				forkLift.setStatus(forkLiftFromMsg.getStatus());
-
+//				System.out.println(msg.getSrcID() + ", " + msg.getSrcIP() + ", " + msg.getDstnID() + ", " + msg.getDstnIP());
+				System.out.println(msg.getForkLift().getBattery());
+//				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
+				System.out.println("ServerReceiver : " + msg.getSrcID() + "로부터 msg 수신");
+				System.out.println(ois);
 			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
 				//ActiveConnection.executorService.shutdown();
 				System.out.println("error in ServerReceiver");
-				e.printStackTrace();
+				System.out.println(ois);
+
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
 
 				//value 값으로 key 값 찾기
-				for(String id : ActiveConnection.idToIp.keySet()) {
-					if(socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
+				for (String id : ActiveConnection.idToIp.keySet()) {
+					if (socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
 						ActiveConnection.idToIp.remove(id);
 					}
 				}
@@ -130,8 +88,50 @@ public class ServerReceiver implements Runnable {
 				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
 
 				break;
-			}//catch
-		}//while
+			}
+		}
+
+			System.out.println("ServerReceiver : end of ois=null loop");
+
+			// forklift 상태 정보 업데이트
+			logistics.ForkLift forkLift = (logistics.ForkLift)MainActivity.forkLiftMap.get(msg.getSrcID());
+			msg.ForkLift forkLiftFromMsg = (msg.ForkLift)msg.getForkLift();
+			System.out.println("Receive : " + forkLiftFromMsg.getLocX()+","+forkLiftFromMsg.getLocY()+","+forkLiftFromMsg.getBattery()+","+forkLiftFromMsg.getStatus());
+
+			// 화면 우측 forklift UI 업데이트 + fokLift View 업데이트
+//			MainActivity.taskQueueAdapter.notifyDataSetChanged();
+//			MainActivity.updateForkLiftUI(msg.getSrcID());
+
+			// 상태가 변했다는 말
+			// HTTP로 msg객체의 내용 전달하기
+			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
+				System.out.println("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+
+				JSONObject jsonObject = new JSONObject();
+				try {
+					jsonObject.accumulate("forkliftid", msg.getSrcID());
+					jsonObject.accumulate("battery", forkLiftFromMsg.getBattery());
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				Runnable sendInHttp = new SendInHttp(jsonObject);
+				MainActivity.executorService.submit(sendInHttp);
+			}
+
+			if(forkLiftFromMsg.getStatus()==WAITING) {
+				MainActivity.waitingForkLiftQueue.offer(forkLift);
+				MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
+				MainActivity.assignTask();
+			}
+
+			forkLift.setBattery(forkLiftFromMsg.getBattery());
+//				forkLift.setCurrentTask(forkLiftFromMsg.);
+			forkLift.setCurrentX(forkLiftFromMsg.getLocX());
+			forkLift.setCurrentY(forkLiftFromMsg.getLocY());
+			forkLift.setStatus(forkLiftFromMsg.getStatus());
+
 
 		try {
 			if (ois != null) {

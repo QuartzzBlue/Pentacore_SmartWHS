@@ -83,7 +83,7 @@ public class Client implements Runnable {
         os = newSocket.getOutputStream();
         oos = new ObjectOutputStream(os);
         System.out.println("Client.java : os,oos : "+os+", "+oos);
-//        oos.writeObject(new Msg(null, srcID, null, dstnID));
+        oos.writeObject(new Msg(null, srcID, null, dstnID));
         return newSocket;
     }
 }

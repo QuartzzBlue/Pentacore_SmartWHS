@@ -2,7 +2,6 @@ package com.pentacore.tabletserver;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,7 +30,7 @@ import network.SendInTcpip;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    private static MainActivity mainActivity;
     static Warehouse warehouse;
     ForkLift forkLift1, forkLift2, forkLift3, forkLift4;
     static ForkLiftViewSet forkLiftViewSet1, forkLiftViewSet2, forkLiftViewSet3, forkLiftViewSet4;
@@ -49,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
     public static Queue consoleQueue;
 
     private Context taskQueueContext;
-    private ListView taskQueueListView;
-    private static TaskQueueAdapter taskQueueAdapter;
+    private static ListView taskQueueListView;
+    public static TaskQueueAdapter taskQueueAdapter;
 
     private Context consoleQueueContext;
     private ListView consoleQueueListView;
@@ -65,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity = this;
 
         //added by yeojin
 //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         executorService.execute(server);
 
         // Connect to TCP/IP Server
-        String dstnIP = "70.12.113.200";
+        String dstnIP = "70.12.113.192";
         int dstnPort = 9999;
         Runnable client = new Client(dstnIP, dstnPort);
         executorService.execute(client);
@@ -203,6 +203,24 @@ public class MainActivity extends AppCompatActivity {
             // taskUI 바꿔주는 메소드 호출
             taskQueueAdapter.notifyDataSetChanged();
         }
+    }
+
+    public static void updateTaskQueueUI() {
+        System.out.println("updateTaskQueueUI");
+        try {
+            mainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TaskQueueAdapter)taskQueueListView.getAdapter()).notifyDataSetChanged();
+//                    taskQueueAdapter.setTaskQueue(taskQueue);
+//                    taskQueueAdapter.notifyDataSetChanged();
+//                    taskQueueListView.setAdapter(taskQueueAdapter);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void printConsole(String logMessage) {
