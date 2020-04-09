@@ -22,8 +22,8 @@ public class SerialServer implements SerialPortEventListener {
 	static OutputStream out;
 	static String receiveStr;
 	
-	String id;
-	String data;
+	static String receiveid;
+	static String receivedata;
 	Msg msg;
 	int battery=0;
 	int locX=0;
@@ -46,7 +46,7 @@ public class SerialServer implements SerialPortEventListener {
 		
 		Runnable r = new SerialWrite();
 		Main.executorService.submit(r);
-		System.out.println("SerialWrite Thread Run : "+SerialWrite.data);
+		System.out.println("SerialWrite 생성자");
 		
 		System.out.println("Start CAN Network!!!");
 	}
@@ -101,53 +101,30 @@ public class SerialServer implements SerialPortEventListener {
 				//ECU 로부터 can 송신하면
 				if(receiveStr.substring(1,4).equals("U28")) {
 					//id 가 Battery 면
-					id = receiveStr.substring(4,12);
-					data = receiveStr.substring(24,28);
+					receiveid = receiveStr.substring(4,12);
+					receivedata = receiveStr.substring(24,28);
 					
-					System.out.println("From (id) : " + id);
-					System.out.println("Data : " + data);
+					System.out.println("From (id) : " + receiveid);
+					System.out.println("Data : " + receivedata);
 					
-					if(id.equals("10000001")) { //battery
-						battery = Integer.parseInt(data);
+					if(receiveid.equals("10000001")) { //battery
+						battery = Integer.parseInt(receivedata);
+						System.out.println("battery : " + battery);
 						
-					}else if (id.equals("10000002")){ //location
-						locX = Integer.parseInt(data.substring(0, 2));
-						locY = Integer.parseInt(data.substring(2, 4));
-					}else if (id.equals("10000003")){ //temperature
-						temperature = Integer.parseInt(data);
+					}else if (receiveid.equals("10000002")){ //location
+						locX = Integer.parseInt(receivedata.substring(0, 2));
+						locY = Integer.parseInt(receivedata.substring(2, 4));
+						System.out.println("Location (x,y) : " +locX + ","+locY);
+					}else if (receiveid.equals("10000003")){ //temperature
+						temperature = Integer.parseInt(receivedata);
+						System.out.println("temperature : " +temperature);
 					}
 					msg =new Msg ("forklift01","tabletServer");
 					msg.setForkLift(0, locX, locY,battery, temperature);
 					r.setMsg(msg);
 					Main.executorService.submit(r);
 					
-					
 				}
-				
-				
-				
-				
-				
-				
-////				if (flag) {
-//				try {
-//					System.out.println(ss.substring(28, 30));
-//					if (!ss.substring(0, 6).equals(":G01A8") && !ss.substring(0, 6).equals(":W2810")
-//							&& !ss.substring(0, 5).equals("W2810")) {
-//						String data = ss.substring(26, 28);
-//						if (!data.equals("00")) {
-//							System.out.println("data : " + data);
-//							//cid = setCID(ss.substring(4, 12));
-//							//Msg msg = new Msg(cid, data, null);
-//							//sender.setMsg(msg);
-//							//Thread.sleep(1000);
-//							//new Thread(sender).start();
-//							//System.out.println("txt " + msg.getTxt());
-//						}
-//					}
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
