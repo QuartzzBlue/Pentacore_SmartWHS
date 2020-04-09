@@ -29,7 +29,7 @@
 	<!--*******************
         Preloader start
     ********************-->
-	<div id="preloader">  
+	<div id="preloader">
 		<div class="loader">
 			<svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none"
@@ -50,7 +50,7 @@
 		<!--**********************************
             Nav header start
         ***********************************-->
-        
+
 		<div class="nav-header">
 			<div class="brand-logo">
 				<a href="index.html"> <b class="logo-abbr"><img
@@ -61,7 +61,7 @@
 				</a>
 			</div>
 		</div>
-		
+
 		<!--**********************************
             Nav header end
         ***********************************-->
@@ -70,122 +70,115 @@
             Header start
         ***********************************-->
 		<div class="header">
-			
-				 
-				 <!--**********************************
+
+
+			<!--**********************************
 		           Menu start
 		        ***********************************-->
-				
-						<div class ="header-menu">
-							<span>
-								<!-- 상품 입출고 --> 
-								<a href="itpage.pc" aria-expanded="false" class = "header-menu-list"> 
-									<i class="icon-note menu-icon"></i>
-									<span class="nav-text">Stock Management</span>
-								</a>
-								 
-								<!-- 지게차 관리 --> 
-								<a href="flpage.pc" aria-expanded="false" class = "header-menu-list"> 
-									<i class="icon-speedometer menu-icon"></i>
-										<span class="nav-text">Forklift Management</span>
-								</a>
-						
-								<!-- 솔루션 --> 
-								<a href="solpage.pc" aria-expanded="false" class = "header-menu-list"> 
-									<i class="icon-globe-alt menu-icon"></i>
-									<span class="nav-text">Solution</span>
-								</a>
-						</span>
-					</div>
-							
-				<!--**********************************
+
+			<div class="header-menu">
+				<span> <!-- 상품 입출고 --> <a href="itpage.pc"
+					aria-expanded="false" class="header-menu-list"> <i
+						class="icon-note menu-icon"></i> <span class="nav-text">Stock
+							Management</span>
+				</a> <!-- 지게차 관리 --> <a href="flpage.pc" aria-expanded="false"
+					class="header-menu-list"> <i class="icon-speedometer menu-icon"></i>
+						<span class="nav-text">Forklift Management</span>
+				</a> <!-- 솔루션 --> <a href="solpage.pc" aria-expanded="false"
+					class="header-menu-list"> <i class="icon-globe-alt menu-icon"></i>
+						<span class="nav-text">Solution</span>
+				</a>
+				</span>
+			</div>
+
+			<!--**********************************
 		            Menu end
 		        ***********************************-->
-				 
-				 
-				<div class="header-right">
-					<ul class="clearfix">
-						<!-- 메일박스 -->
-						<li class="icons dropdown"><a href="javascript:void(0)"
-							data-toggle="dropdown"> <i class="mdi mdi-email-outline"></i>
-								<!-- <span class="badge badge-pill gradient-1">3</span> -->
-							</a>
-						</li>
-						<!-- 알림 -->
-						<li class="icons dropdown"><a href="javascript:void(0)"
-							data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i>
-								<!-- <span class="badge badge-pill gradient-2">3</span> -->
-							</a>
-						</li>
-						<!-- 개인 아이콘 -->
-						<li class="icons dropdown">
-							<div class="user-img c-pointer position-relative"
-								data-toggle="dropdown">
-								<span class="activity active"></span> <img
-									src="images/user/1.png" height="40" width="40" alt="">
-							</div>
-							<div
-								class="drop-down dropdown-profile animated fadeIn dropdown-menu">
-								<div class="dropdown-content-body">
-									<ul>
-										<li><a href="app-profile.html"><i class="icon-user"></i>
-												<span>Profile</span></a></li>
-										<li><a href="javascript:void()"> <i
-												class="icon-envelope-open"></i> <span>Inbox</span>
-												<div class="badge gradient-3 badge-pill gradient-1">3</div>
-										</a></li>
 
-										<hr class="my-2">
-										<li><a href="page-lock.html"><i class="icon-lock"></i>
-												<span>Lock Screen</span></a></li>
-										<li><a href="page-login.html"><i class="icon-key"></i>
-												<span>Logout</span></a></li>
-									</ul>
-								</div>
+
+			<div class="header-right">
+				<ul class="clearfix">
+					<!-- 메일박스 -->
+					<li class="icons dropdown"><a href="javascript:void(0)"
+						data-toggle="dropdown"> <i class="mdi mdi-email-outline"></i>
+							<!-- <span class="badge badge-pill gradient-1">3</span> -->
+					</a></li>
+					<!-- 알림 -->
+					<li class="icons dropdown"><a href="javascript:void(0)"
+						data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i> <!-- <span class="badge badge-pill gradient-2">3</span> -->
+					</a></li>
+					<!-- 개인 아이콘 -->
+					<li class="icons dropdown">
+						<div class="user-img c-pointer position-relative"
+							data-toggle="dropdown">
+							<span class="activity active"></span> <img
+								src="images/user/1.png" height="40" width="40" alt="">
+						</div>
+						<div
+							class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+							<div class="dropdown-content-body">
+								<ul>
+									<li><a href="app-profile.html"><i class="icon-user"></i>
+											<span>Profile</span></a></li>
+									<li><a href="javascript:void()"> <i
+											class="icon-envelope-open"></i> <span>Inbox</span>
+											<div class="badge gradient-3 badge-pill gradient-1">3</div>
+									</a></li>
+
+									<hr class="my-2">
+									<li><a href="page-lock.html"><i class="icon-lock"></i>
+											<span>Lock Screen</span></a></li>
+									<li><a href="page-login.html"><i class="icon-key"></i>
+											<span>Logout</span></a></li>
+								</ul>
 							</div>
-						</li>
-					</ul>
-				</div>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
-		<!--**********************************
+	</div>
+	<!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-		
-		
 
-		<!--**********************************
+
+
+	<!--**********************************
             Content body start <Center>
         ***********************************-->
-        <c:choose>
-		
-					<c:when test="${center == null }">
-						<jsp:include page="itpage.jsp" />
-					</c:when>
-					<c:otherwise>
-						<jsp:include page="${center }.jsp" />
-					</c:otherwise>
+	<c:choose>
 
-				
-			
-		</c:choose>
-		<!--**********************************
+		<c:when test="${center == null }">
+			<script>
+				console.log('hello!!!!');
+			</script>
+			<jsp:include page="itpage.jsp" />
+		</c:when>
+		<c:otherwise>
+			<jsp:include page="${center }.jsp" />
+		</c:otherwise>
+
+
+
+	</c:choose>
+	<!--**********************************
             Content body end
         ***********************************-->
 
 
-		<!--**********************************
+	<!--**********************************
             Footer start
         ***********************************-->
-		<div class="footer">
-			<div class="copyright">
-				<p>
-					Copyright &copy; Designed & Developed by <a
-						href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
-				</p>
-			</div>
+	<div class="footer">
+		<div class="copyright">
+			<p>
+				Copyright &copy; Designed & Developed by <a
+					href="https://themeforest.net/user/quixlab">Quixlab</a> 2018
+			</p>
 		</div>
-		<!--**********************************
+	</div>
+	<!--**********************************
             Footer end
         ***********************************-->
 	</div>
@@ -222,7 +215,8 @@
 		src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 	<!-- JQeury -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="./js/dashboard/dashboard-1.js"></script>
 
 </body>
