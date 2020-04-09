@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,6 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,16 +29,7 @@ public class ItemController {
 	
 	@RequestMapping("/itemregister.pc")
 	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem){
-		
-//		ItemVO newItem = new ItemVO();
-//		newItem.setItemid(request.getParameter("val-itemid"));
-//		newItem.setItemname(request.getParameter("val-itemname"));
-//		newItem.setItemcate(request.getParameter("val-itemcate"));
-//		newItem.setItemprice(Integer.parseInt(request.getParameter("val-itemprice")));
-//		newItem.setItemweightpb(Double.parseDouble(request.getParameter("val-itemweightpb")));
-//		newItem.setItemqtypb(Integer.parseInt(request.getParameter("val-itemqtypb")));
-//		newItem.setWareid(request.getParameter("val-wareid"));
-//		newItem.setWarename(request.getParameter("val-warename"));
+
 		
 		System.out.println("**"+newItem.toString());
 		try {
@@ -50,7 +45,7 @@ public class ItemController {
 	}
 	
 	@RequestMapping("/itemsearch.pc")
-	public ModelAndView itemsearch(ModelAndView mv, ItemVO iv) {
+	public void itemsearch(HttpServletResponse rs, ItemVO iv) {
 
 
 		ArrayList<ItemVO> itemList = null;
@@ -62,39 +57,36 @@ public class ItemController {
 		
 		System.out.println("--"+itemList.toString());
 		
-		String itTableHeader = "<thead>\n <tr>\n" + 
-				"											<th>Item ID</th>\n" + 
-				"											<th>Item Name</th>\n" + 
-				"											<th>Category</th>\n" + 
-				"											<th>Price (KRW/box)</th>\n" + 
-				"											<th>Weight (KG/box)</th>\n" + 
-				"											<th>Qty (per box)</th>\n" + 
-				"											<th>Warehouse ID</th>\n" + 
-				"											<th>Warehouse Name</th>\n" + 
-				"											<th>Location</th>\n" + 
-				"											<th>Stock</th>\n" + 
-				"										</tr>\n </thead>";
-		mv.addObject("itTableHeader", itTableHeader);
-		mv.addObject("itemList", itemList);
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-		
-		return mv;
-		
-		
+		JSONArray ja = new JSONArray(); 
+		for(ItemVO i:itemList) {
+			JSONObject json = new JSONObject();
+			json.put("itemid", i.getItemid());
+			json.put("itemname", i.getItemname());
+			json.put("itemcate", i.getItemcate());
+			json.put("itemprice", i.getItemprice());
+			json.put("itemweigthpb", i.getItemweightpb());
+			json.put("itemqtypb", i.getItemqtypb());
+			json.put("wareid", i.getWareid());
+			json.put("warename", i.getWarename());
+			json.put("itemloc", i.getItemloc());
+			json.put("itemstock", i.getItemstock());
+			ja.add(json);
+		}
+		rs.setContentType("text/html; charset=utf-8");
+		PrintWriter out;
+		try {
+			out = rs.getWriter();
+			out.print(ja.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	@RequestMapping("/invoiceregister.pc")
 	public ModelAndView invoiceregister(ModelAndView mv, InvoiceVO newInvoice){
 		
 		System.out.println("&&&&&&&&&&&&&" + newInvoice.toString());
-		
-//		InvoiceVO newInvoice = new InvoiceVO();
-//		newInvoice.setItemid(request.getParameter("val-itemid"));
-//		newInvoice.setItemname(request.getParameter("val-itemname"));
-//		newInvoice.setWareid(request.getParameter("val-wareid"));
-//		newInvoice.setInvoiceqty(Integer.parseInt(request.getParameter("val-invoiceqty")));
-//		newInvoice.setInvoicestat(request.getParameter("val-invoicestat"));
 		
 		try {
 			invservice.insert(newInvoice);

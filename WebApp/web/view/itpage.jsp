@@ -3,6 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+	
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,12 +28,20 @@
 <link href="./plugins/bootstrap-daterangepicker/daterangepicker.css"
 	rel="stylesheet">
 
+<link
+	href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+
 <link href="css/style.css" rel="stylesheet">
 </head>
+
+
 <body>
 
 	<div class="content-body">
 		<div class="container-fluid mt-3">
+
+
 
 			<!-- ************* (1) *************** -->
 			<div class="row">
@@ -44,7 +53,8 @@
 							</div>
 							<div class="table-responsive">
 								<div class="form-validation">
-									<form name="itemRegister" method="post" action="itemregister.pc">
+									<form name="itemRegister" method="post"
+										action="itemregister.pc">
 										<table class="table">
 											<thead>
 												<tr>
@@ -62,12 +72,12 @@
 
 												<tr>
 													<td><input type="text" class="form-control"
-														id="itemid" name="val-itemid" placeholder="상품 ID"></td>
+														id="itemid" name="itemid" placeholder="상품 ID"></td>
 													<td><input type="text" class="form-control"
-														id="itemname" name="val-itemname" placeholder="상품명"
+														id="itemname" name="itemname" placeholder="상품명"
 														style="width: 115px;"></td>
 													<td><select class="form-control" id="itemcate"
-														name="val-itemcate" style="width: 115px;">
+														name="itemcate" style="width: 115px;">
 															<option value="">카테고리</option>
 															<option value="전자제품">전자제품</option>
 															<option value="차량부품">차량부품</option>
@@ -80,8 +90,7 @@
 													<td><input type="number" class="form-control"
 														id="itemqtypb" name="itemqtypb" placeholder="개수"></td>
 													<td><input type="text" class="form-control"
-														id="wareid_R" name="wareid" placeholder="창고ID"
-														readonly></td>
+														id="wareid_R" name="wareid" placeholder="창고ID" readonly></td>
 													<td><select class="form-control" id="warename"
 														name="warename" style="width: 150px;"
 														onchange="setWareID(this)">
@@ -119,64 +128,28 @@
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">Data Table</h4>
-							<div class="table-responsive">
-								<form name="itemSearch" method="post" action="itemsearch.pc">
-									<table class="table">
-										<thead>
-											<tr>
-												<th>Item ID</th>
-												<th>Item Name</th>
-												<th>Category</th>
-												<th>Warehouse ID</th>
-												<th>Warehouse Name</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td><input type="text" class="form-control" id="itemid"
-													name="itemid" placeholder="상품 ID"></td>
-												<td><input type="text" class="form-control"
-													id="itemname" name="itemname" placeholder="상품명"></td>
-												<td><select class="form-control" id="itemcate"
-													name="itemcate">
-														<option value="">카테고리</option>
-														<option value="전자제품">전자제품</option>
-														<option value="차량부품">차량부품</option>
 
-												</select></td>
-												<td><input type="text" class="form-control"
-													id="wareid_S" name="wareid" placeholder="창고ID" readonly></td>
-												<!-- (추가)Selectbox 선택 안하거나 null값 선택시 안 넘어가도록 만들기 -->
-												<td><select class="form-control" id="warename"
-													name="warename" style="width: 150px;"
-													onchange="setWareID(this)">
-														<option value="">창고명</option>
-														<option value="ware00_S">이천 제1물류창고</option>
-														<!-- <option value="css">CSS</option> -->
-
-												</select></td>
-											</tr>
-											<tr>
-												
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td><button type="submit"
-														class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
-											</tr>
-										</tbody>
-									</table>
-								</form>
-							</div>
 							<div class="table-responsive">
-								<table class="table">
-									<c:if test="${not empty itTableHeader }">
-										${itTableHeader }
-									</c:if>
+								<table
+									class="table table-striped table-bordered zero-configuration dataTable">
 									
-									<tbody>
-										<c:forEach var="it" items="${itemList }">
+									<thead>
+										<tr>
+											<th>Item ID</th>
+											<th>Item Name</th>
+											<th>Category</th>
+											<th>Price (KRW/box)</th>
+											<th>Weight (KG/box)</th>
+											<th>Qty (per box)</th>
+											<th>Warehouse ID</th>
+											<th>Warehouse Name</th>
+											<th>Location</th>
+											<th>Stock</th>
+										</tr>
+									</thead>
+
+									<tbody id="itListBody">
+										<!--<c:forEach var="it" items="${itemList }">
 											<tr class="selectedItList">
 												<td>${it.itemid}</td>
 												<td>${it.itemname}</td>
@@ -189,7 +162,7 @@
 												<td>${it.itemloc}</td>
 												<td>${it.itemstock}</td>
 											</tr>
-										</c:forEach>
+										</c:forEach>-->
 									</tbody>
 								</table>
 							</div>
@@ -205,52 +178,54 @@
 						<div class="card-body">
 							<h4 class="card-title">Data Table</h4>
 							<div class="table-responsive">
-									<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
-									<form name="itemRegister" method="post" action="invoiceregister.pc">
-										<table class="table">
-											<thead>
-												<tr>
-													<!-- (추가)item id/name, warehouse id는 (2)에서 리스트 선택 시 자동으로 업데이트 되도록 할 예정  -->
-													<th>Item ID<span class="text-danger">*</span></th>
-													<th>Item Name<span class="text-danger">*</span></th>
-													<th>Warehouse ID<span class="text-danger">*</span></th>
-													<th>Warehouse Name<span class="text-danger">*</span></th>
-													<th>Qty<span class="text-danger">*</span></th>
-													<th>In/Ex-Warehouse<span class="text-danger">*</span></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr id="setItInfo">
-													<td><input type="text" class="form-control" 
-														id="itemid" name="itemid" placeholder="상품 ID"></td>
-													<td><input type="text" class="form-control"
-														id="itemname" name="itemname" placeholder="상품명"></td>
-													<td><input type="text" class="form-control"
-														id="wareid" name="wareid" placeholder="창고ID"></td>
-													<td><input type="text" class="form-control"
-														id="warename" name="warename" placeholder="창고명"></td>
-													<td><input type="text" class="form-control"
-														id="invoiceqty" name="invoiceqty" placeholder="개수" style="width: 80px;"></td>
-													<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
-													<td><select class="form-control" id="invoicestat"
-														name="invoicestat">
-															<option value="">입/출고</option>
-															<option value="Receiving">Receiving</option>
-															<option value="Shipping">Shipping</option>
-													</select></td>
-												</tr>
-												<tr>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td></td>
-													<td><button type="submit" value="invoiceRegister"
-															class="btn mb-1 btn-primary btn-lg" style="width: 200px;">Order</button></td>
-												</tr>
-											</tbody>
-										</table>
-									</form>
+								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
+								<form name="itemRegister" method="post"
+									action="invoiceregister.pc">
+									<table class="table">
+										<thead>
+											<tr>
+												<!-- (추가)item id/name, warehouse id는 (2)에서 리스트 선택 시 자동으로 업데이트 되도록 할 예정  -->
+												<th>Item ID<span class="text-danger">*</span></th>
+												<th>Item Name<span class="text-danger">*</span></th>
+												<th>Warehouse ID<span class="text-danger">*</span></th>
+												<th>Warehouse Name<span class="text-danger">*</span></th>
+												<th>Qty<span class="text-danger">*</span></th>
+												<th>In/Ex-Warehouse<span class="text-danger">*</span></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr id="setItInfo">
+												<td><input type="text" class="form-control" id="itemid"
+													name="itemid" placeholder="상품 ID"></td>
+												<td><input type="text" class="form-control"
+													id="itemname" name="itemname" placeholder="상품명"></td>
+												<td><input type="text" class="form-control" id="wareid"
+													name="wareid" placeholder="창고ID"></td>
+												<td><input type="text" class="form-control"
+													id="warename" name="warename" placeholder="창고명"></td>
+												<td><input type="text" class="form-control"
+													id="invoiceqty" name="invoiceqty" placeholder="개수"
+													style="width: 80px;"></td>
+												<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
+												<td><select class="form-control" id="invoicestat"
+													name="invoicestat">
+														<option value="">입/출고</option>
+														<option value="Receiving">Receiving</option>
+														<option value="Shipping">Shipping</option>
+												</select></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td><button type="submit" value="invoiceRegister"
+														class="btn mb-1 btn-primary btn-lg" style="width: 200px;">Order</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -265,80 +240,84 @@
 							<h4 class="card-title">Data Table</h4>
 
 							<div class="table-responsive">
-							<form name="itemRegister" method="post" action="invoicesearch.pc">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Item ID</th>
-											<th>Item Name</th>
-											<th>Warehouse ID</th>
-											<th>Status</th>
-											<th>Start Date</th>
-											<th>End Date</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td><input type="text" class="form-control" id="itemid"
-												name="itemid" placeholder="상품 ID"></td>
-											<td><input type="text" class="form-control" id="itemname"
-												name="itemname" placeholder="상품명"></td>
-											<td><input type="text" class="form-control" id="wareid"
-												name="wareid" placeholder="창고ID"></td>
-											<td><select class="form-control" id="invoicestat"
-												name="invoicestat">
-													<option value="">입/출고</option>
-													<option value="Receiving">Receiving</option>
-													<option value="Shipping">Shipping</option>
-											</select></td>
-											<td><div class="input-group">
-													<input type="text" id="startdate" name="startdate" class="form-control mydatepicker"
-														placeholder="mm/dd/yyyy" > <span
-														class="input-group-append"><span
-														class="input-group-text"><i
-															class="mdi mdi-calendar-check"></i></span></span>
-												</div></td>
-											<td><div class="input-group">
-													<input type="text" id="enddate" name="enddate" class="form-control mydatepicker"
-														placeholder="mm/dd/yyyy"> <span
-														class="input-group-append"><span
-														class="input-group-text"><i
-															class="mdi mdi-calendar-check"></i></span></span>
-												</div></td>
+								<form name="itemRegister" method="post"
+									action="invoicesearch.pc">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Item ID</th>
+												<th>Item Name</th>
+												<th>Warehouse ID</th>
+												<th>Status</th>
+												<th>Start Date</th>
+												<th>End Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><input type="text" class="form-control" id="itemid"
+													name="itemid" placeholder="상품 ID"></td>
+												<td><input type="text" class="form-control"
+													id="itemname" name="itemname" placeholder="상품명"></td>
+												<td><input type="text" class="form-control" id="wareid"
+													name="wareid" placeholder="창고ID"></td>
+												<td><select class="form-control" id="invoicestat"
+													name="invoicestat">
+														<option value="">입/출고</option>
+														<option value="Receiving">Receiving</option>
+														<option value="Shipping">Shipping</option>
+												</select></td>
+												<td><div class="input-group">
+														<input type="text" id="startdate" name="startdate"
+															class="form-control mydatepicker"
+															placeholder="mm/dd/yyyy"> <span
+															class="input-group-append"><span
+															class="input-group-text"><i
+																class="mdi mdi-calendar-check"></i></span></span>
+													</div></td>
+												<td><div class="input-group">
+														<input type="text" id="enddate" name="enddate"
+															class="form-control mydatepicker"
+															placeholder="mm/dd/yyyy"> <span
+															class="input-group-append"><span
+															class="input-group-text"><i
+																class="mdi mdi-calendar-check"></i></span></span>
+													</div></td>
 
-										</tr>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
 
-											<td><button type="submit"
-													class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
-										</tr>
-									</tbody>
-								</table>
+												<td><button type="submit"
+														class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
+											</tr>
+										</tbody>
+									</table>
 								</form>
 
 							</div>
 
 							<div class="table-responsive">
-								<table class="table">
+								<table
+									class="table table-striped table-bordered zero-configuration dataTable">
 									<c:if test="${not empty ivTableHeader }">
 										${ivTableHeader }
 									</c:if>
-									
+
 									<tbody>
 										<c:forEach var="iv" items="${invoiceList }">
-										<tr>
-											<td>${iv.itemid}</td>
-											<td>${iv.itemname}</td>
-											<td>${iv.warename}</td>
-											<td>${iv.invoicestat }</td>
-											<td>${iv.invoiceqty }</td>
-											<td>${iv.invoicedate }</td>
-										</tr>
+											<tr>
+												<td>${iv.itemid}</td>
+												<td>${iv.itemname}</td>
+												<td>${iv.warename}</td>
+												<td>${iv.invoicestat }</td>
+												<td>${iv.invoiceqty }</td>
+												<td>${iv.invoicedate }</td>
+											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
@@ -655,9 +634,17 @@
 	<!-- <script src="./plugins/validation/jquery.validate.min.js"></script>
 	<script src="./plugins/validation/jquery.validate-init.js?1"></script> -->
 
-	<!-- JQeury -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Table -->
+	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+	<script src="./js/plugins-init/datatables.init-ex.js"></script>
 	
+	<!-- JQeury -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		
 	<script>
 		var wareIdList = [ "wh1111", "#" ];
 
@@ -669,6 +656,7 @@
 			else
 				target.value = "";
 		}
+
 		
 		$(function(){
 			$(document.body).delegate(".selectedItList", "click", function(){
@@ -684,6 +672,42 @@
 			});
 		});
 		
+		$(document).ready(function(){
+			
+			// 아이템 리스트 가져오기
+			$.ajax({
+				type:"post"		// 포스트방식
+				,url:"itemsearch.pc"		// url 주소
+				,data:{}
+				,dataType:"json"
+				,contentType:"application/json; charset=UTF-8"
+				,success:function(data){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+					var html = "";
+					
+					$.each(data,function(index, item){
+						html += "<tr class=\"selectedItList\">";
+						html += "<td>" +item.itemid+ "</td>";
+						html += "<td>" +item.itemname+ "</td>";
+						html += "<td>" +item.itemcate+ "</td>";
+						html += "<td>" +item.itemprice+ "</td>";
+						html += "<td>" +item.itemweightpb+ "</td>";
+						html += "<td>" +item.itemqtypb+ "</td>";
+						html += "<td>" +item.wareid+ "</td>";
+						html += "<td>" +item.warename+ "</td>";
+						html += "<td>" +item.itemloc+ "</td>";
+						html += "<td>" +item.itemstock+ "</td>";
+						html += "</tr>";
+					});
+					
+					$("#itListBody").html(html);
+				  
+				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	alert(e.responseText);
+			    }
+			});
+		});
 	</script>
+
+
 </body>
 </html>
