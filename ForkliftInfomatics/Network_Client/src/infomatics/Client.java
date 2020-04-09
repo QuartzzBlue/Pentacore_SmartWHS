@@ -35,7 +35,7 @@ public class Client{
 		System.out.println("Connected Tablet Server : " + address);
 		os = socket.getOutputStream();
 		oos = new ObjectOutputStream(os);
-		
+	
 		Runnable r = new Receiver(socket);
 		Main.executorService.submit(r);
 	
