@@ -100,12 +100,8 @@ public class ItemController {
 	}
 	
 	@RequestMapping("/invoicesearch.pc")
-	public ModelAndView invoicesearch(ModelAndView mv, InvoiceVO ivv, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView invoicesearch(ModelAndView mv, InvoiceVO ivv) {
 		
-		String start = request.getParameter("startdate");
-		String end = request.getParameter("enddate");
-		
-		System.out.println("##" + start + "##" + end);
 		System.out.println("!!!!"+ivv.toString());
 		ArrayList<InvoiceVO> invoiceList = null;
 		try {

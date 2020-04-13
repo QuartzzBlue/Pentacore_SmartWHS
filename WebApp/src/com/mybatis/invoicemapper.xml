@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.mapper.InvoiceMapper">
 	
 	<insert id="insert" parameterType="invoice">
-		INSERT INTO invoice (itemid, itemname, wareid, warename, invoicestat, invoiceqty, empno, empname) 
-		VALUES (#{itemid},#{itemname},#{wareid},#{warename},#{invoicestat}, #{invoiceqty}, #{empno}, #{empname})	
+		INSERT INTO invoice
+		VALUES (invoiceseq.nextval, #{itemid},#{itemname},#{wareid},#{warename},#{invoicestat}, #{invoiceqty}, #{empno,jdbcType=VARCHAR}, #{empname,jdbcType=VARCHAR}, sysdate)	
 	</insert>
 	
 	<update id="update" parameterType="invoice">
@@ -29,6 +29,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 			<if test = "itemname != null and itemname !=''">and itemname=#{itemname}</if>
 			<if test = "wareid != null and wareid !=''">and wareid=#{wareid}</if>
 			<if test = "invoicestat != null and invoicestat !=''">and invoicestat=#{invoicestat}</if>
+			<if test = "startdate != null and startdate != '' and enddate != null and enddate != ''">
+				and invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
+			</if>
 		</where>
 	</select>
 	
