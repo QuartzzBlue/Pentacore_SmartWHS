@@ -184,13 +184,13 @@
 									<table class="table">
 										<thead>
 											<tr>
-												<!-- (추가)item id/name, warehouse id는 (2)에서 리스트 선택 시 자동으로 업데이트 되도록 할 예정  -->
 												<th>Item ID<span class="text-danger">*</span></th>
 												<th>Item Name<span class="text-danger">*</span></th>
 												<th>Warehouse ID<span class="text-danger">*</span></th>
 												<th>Warehouse Name<span class="text-danger">*</span></th>
 												<th>Qty<span class="text-danger">*</span></th>
-												<th>In/Ex-Warehouse<span class="text-danger">*</span></th>
+												<th>Status<span class="text-danger">*</span></th>
+												<th>
 											</tr>
 										</thead>
 										<tbody>
@@ -213,18 +213,33 @@
 														<option value="Receiving">Receiving</option>
 														<option value="Shipping">Shipping</option>
 												</select></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
 												<td><button type="submit" value="invoiceRegister"
-														class="btn mb-1 btn-primary btn-lg" style="width: 200px;">Order</button></td>
+														class="btn mb-1 btn-primary btn-lg">Order</button><td>
 											</tr>
 										</tbody>
 									</table>
+								</form>
+							</div>
+							
+							<div class="table-responsive">
+								<form name="itemRegister" method="post" action="invoiceregister.pc">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Item ID</th>
+												<th>Item Name</th>
+												<th>Warehouse ID</th>
+												<th>Warehouse Name</th>
+												<th>Qty</th>
+												<th>Status</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+									
 								</form>
 							</div>
 						</div>
@@ -270,7 +285,7 @@
 												<td><div class="input-group">
 														<input type="text" id="startdate" name="startdate"
 															class="form-control mydatepicker"
-															placeholder="mm/dd/yyyy"> <span
+															placeholder="yyyy-mm-dd"> <span
 															class="input-group-append"><span
 															class="input-group-text"><i
 																class="mdi mdi-calendar-check"></i></span></span>
@@ -278,7 +293,7 @@
 												<td><div class="input-group">
 														<input type="text" id="enddate" name="enddate"
 															class="form-control mydatepicker"
-															placeholder="mm/dd/yyyy"> <span
+															placeholder="yyyy-mm-dd"> <span
 															class="input-group-append"><span
 															class="input-group-text"><i
 																class="mdi mdi-calendar-check"></i></span></span>
@@ -624,15 +639,9 @@
 		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
 	<!-- Date Picker Plugin JavaScript -->
 	<script
-		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js?2"></script>
-	<!-- Date range Plugin JavaScript -->
-	<script src="./plugins/timepicker/bootstrap-timepicker.min.js"></script>
-	<script src="./plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	
 	<script src="./js/plugins-init/form-pickers-init.js"></script>
-	<!-- Form Validate -->
-	<!-- <script src="./plugins/validation/jquery.validate.min.js"></script>
-	<script src="./plugins/validation/jquery.validate-init.js?1"></script> -->
 
 	<!-- Table -->
 	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>

@@ -63,6 +63,7 @@ public class InvoiceService implements com.frame.Service<InvoiceVO> {
 
 	@Override
 	public ArrayList<InvoiceVO> selectAll(InvoiceVO v) throws Exception {
+		
 		return invdao.selectAll(v);
 	}
 

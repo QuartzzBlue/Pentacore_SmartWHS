@@ -13,6 +13,8 @@ public class InvoiceVO {
 	String empno;
 	String empname;
 	Date invoicedate;
+	String startdate;
+	String enddate;
 	
 	
 	public InvoiceVO() {
@@ -46,6 +48,25 @@ public class InvoiceVO {
 		this.empno = empno;
 		this.empname = empname;
 		this.invoicedate = invoicedate;
+	}
+	
+	
+	
+	public InvoiceVO(int invoiceid, String itemid, String itemname, String wareid, String warename, String invoicestat,
+			int invoiceqty, String empno, String empname, Date invoicedate, String startdate, String enddate) {
+		super();
+		this.invoiceid = invoiceid;
+		this.itemid = itemid;
+		this.itemname = itemname;
+		this.wareid = wareid;
+		this.warename = warename;
+		this.invoicestat = invoicestat;
+		this.invoiceqty = invoiceqty;
+		this.empno = empno;
+		this.empname = empname;
+		this.invoicedate = invoicedate;
+		this.startdate = startdate;
+		this.enddate = enddate;
 	}
 	
 	public int getInvoiceid() {
@@ -108,13 +129,24 @@ public class InvoiceVO {
 	public void setInvoicedate(Date invoicedate) {
 		this.invoicedate = invoicedate;
 	}
+	public String getStartdate() {
+		return startdate;
+	}
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+	public String getEnddate() {
+		return enddate;
+	}
+	public void setEnddate(String enddate) {
+		this.enddate = enddate;
+	}
 	@Override
 	public String toString() {
 		return "InvoiceVO [invoiceid=" + invoiceid + ", itemid=" + itemid + ", itemname=" + itemname + ", wareid="
 				+ wareid + ", warename=" + warename + ", invoicestat=" + invoicestat + ", invoiceqty=" + invoiceqty
-				+ ", empno=" + empno + ", empname=" + empname + ", invoicedate=" + invoicedate + "]";
+				+ ", empno=" + empno + ", empname=" + empname + ", invoicedate=" + invoicedate + ", startdate="
+				+ startdate + ", enddate=" + enddate + "]";
 	}
-	
-	
-	
+
 }

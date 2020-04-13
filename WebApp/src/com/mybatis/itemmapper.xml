@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.mapper.ItemMapper">
 	
 	<insert id="insert" parameterType="item">
-		INSERT INTO item VALUES (#{itemid},#{wareid},#{itemname},#{warename},#{itemcate}, #{itemprice}, #{itemstock}, #{itemweightpb}, #{itemqtypb}, #{itemloc})	
+		INSERT INTO item VALUES (#{itemid},#{wareid},#{itemname},#{warename},#{itemcate}, #{itemprice}, #{itemstock}, #{itemweightpb}, #{itemqtypb}, #{itemloc,jdbcType=VARCHAR})	
 	</insert>
 	
 	<update id="update" parameterType="item">
