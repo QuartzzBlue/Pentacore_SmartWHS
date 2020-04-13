@@ -180,7 +180,7 @@
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
 								<form name="itemRegister" method="post"
-									action="invoiceregister.pc">
+									action="invoicedtllist.pc">	<!--세션설정-->
 									<table class="table">
 										<thead>
 											<tr>
@@ -213,7 +213,7 @@
 														<option value="Receiving">Receiving</option>
 														<option value="Shipping">Shipping</option>
 												</select></td>
-												<td><button type="submit" value="invoiceRegister"
+												<td><button type="submit" value="invoicedtllist"
 														class="btn mb-1 btn-primary btn-lg">Order</button><td>
 											</tr>
 										</tbody>

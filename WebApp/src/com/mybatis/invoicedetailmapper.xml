@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.InvoicedetailMapper">
+	
+	<insert id="insert" parameterType="invoicedetail">
+		INSERT INTO invoice
+		VALUES (invoicedtlseq.nextval,#{itemid},#{itemname},#{wareid},#{warename},#{invoicestat},#{invoicedtlqty},#{empno,jdbcType=VARCHAR},#{empname,jdbcType=VARCHAR},#{invoiceid},sysdate)	
+	</insert>
+	
+	<update id="update" parameterType="invoicedetail">
+		UPDATE invoice SET invoiceid=#{invoiceid} WHERE invoicedtlid=#{invoicedtlid}
+	</update>
+	
+	<delete id="delete" parameterType="invoicedetail">
+		DELETE FROM invoice WHERE invoicedtlid=#{invoicedtlid}
+	</delete>
+	
+	<select id="select" parameterType="invoicedetail" 
+	resultType="invoicedetail">
+		SELECT * FROM invoice WHERE invoicedtlid=#{invoicedtlid}
+	</select>
+	
+	<select id="selectAll" parameterType="invoicedetail" resultType="invoicedetail">
+		SELECT * FROM invoice
+		<where>
+			<if test = "startdate != null and startdate != '' and enddate != null and enddate != ''">
+				and invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
+			</if>
+		</where>
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

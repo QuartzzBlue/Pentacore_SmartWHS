@@ -8,18 +8,24 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.frame.Service;
 import com.vo.InvoiceVO;
+import com.vo.InvoicedetailVO;
 import com.vo.ItemVO;
 
 @Controller
+@SessionAttributes("dtllist")	//model.addAttribute()를 사용해 객체를 저장할 경우 세션에 저장됨 (SessionStatus객체의 setComplete() 사용해서 지울 때까지)
 public class ItemController {
 	@Resource(name = "itservice")
 	Service<ItemVO> itservice;
@@ -83,6 +89,16 @@ public class ItemController {
 
 	}
 	
+	@RequestMapping(value = "/invoicedtllist.pc")
+	public ModelAndView invoicedtllist(ModelAndView mv, Model m, @ModelAttribute("dtllist") ArrayList<InvoicedetailVO> dtllist){
+		
+	 	
+	 	
+//	 	JSONObject dtllist = (JSONObject) session.getAttribute("dtllist");
+		
+		return mv;
+	}
+	
 	@RequestMapping("/invoiceregister.pc")
 	public ModelAndView invoiceregister(ModelAndView mv, InvoiceVO newInvoice){
 		
@@ -98,6 +114,7 @@ public class ItemController {
 		
 		return mv;
 	}
+	
 	
 	@RequestMapping("/invoicesearch.pc")
 	public ModelAndView invoicesearch(ModelAndView mv, InvoiceVO ivv) {
@@ -129,4 +146,6 @@ public class ItemController {
 		
 		
 	}
+	
+	
 }
