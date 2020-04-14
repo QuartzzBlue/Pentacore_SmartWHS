@@ -46,7 +46,7 @@ public class MainController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(fllist.toString());
 		mv.addObject("fllist", fllist);
 		
 		/* center 부분에 flpage 띄우기 */

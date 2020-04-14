@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.vo.WarehouseVO" alias="warehouse"/>
 		<typeAlias type="com.vo.ItemVO" alias="item"/>
 		<typeAlias type="com.vo.InvoiceVO" alias="invoice"/>
+		<typeAlias type="com.vo.InvoicedetailVO" alias="invoicedetail"/>
 	</typeAliases>
 	
 	<mappers>
@@ -15,6 +16,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="com/mybatis/warehousemapper.xml"/>
 		<mapper resource="com/mybatis/itemmapper.xml"/>
 		<mapper resource="com/mybatis/invoicemapper.xml"/>
+		<mapper resource="com/mybatis/invoicedetailmapper.xml"/>
 	</mappers>
 </configuration>
 

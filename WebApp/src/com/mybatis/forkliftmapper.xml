@@ -16,13 +16,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		DELETE FROM forklift WHERE forkid=#{forkid}
 	</delete>
 	
-	<select id="select" parameterType="forklift" 
-	resultType="forklift">
+	<select id="select" parameterType="forklift" resultType="forklift">
 		SELECT * FROM forklift WHERE forkid=#{forkid}
 	</select>
 	
 	<select id="selectAll" parameterType="forklift" resultType="forklift">
-		SELECT * FROM forklift 
+		SELECT * FROM forklift
 	</select>
 	
 </mapper>

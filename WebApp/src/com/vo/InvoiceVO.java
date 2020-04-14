@@ -1,72 +1,53 @@
 package com.vo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class InvoiceVO {
 	int invoiceid;
-	String itemid;
-	String itemname;
-	String wareid;
-	String warename;
-	String invoicestat;
-	int invoiceqty;
 	String empno;
 	String empname;
 	Date invoicedate;
 	String startdate;
 	String enddate;
+	ArrayList<InvoicedetailVO> dtllist;
 	
 	
 	public InvoiceVO() {
 		super();
 	}
 	// Database 넣을 때
-	public InvoiceVO(String itemid, String itemname, String wareid, String warename, String invoicestat, int invoiceqty,
-			String empno, String empname) {
-		super();
-		this.itemid = itemid;
-		this.itemname = itemname;
-		this.wareid = wareid;
-		this.warename = warename;
-		this.invoicestat = invoicestat;
-		this.invoiceqty = invoiceqty;
-		this.empno = empno;
-		this.empname = empname;
-	}
-	// Database에서 꺼낼 때
-
-	public InvoiceVO(int invoiceid, String itemid, String itemname, String wareid, String warename, String invoicestat,
-			int invoiceqty, String empno, String empname, Date invoicedate) {
-		super();
-		this.invoiceid = invoiceid;
-		this.itemid = itemid;
-		this.itemname = itemname;
-		this.wareid = wareid;
-		this.warename = warename;
-		this.invoicestat = invoicestat;
-		this.invoiceqty = invoiceqty;
-		this.empno = empno;
-		this.empname = empname;
-		this.invoicedate = invoicedate;
-	}
 	
-	
-	
-	public InvoiceVO(int invoiceid, String itemid, String itemname, String wareid, String warename, String invoicestat,
-			int invoiceqty, String empno, String empname, Date invoicedate, String startdate, String enddate) {
+	public InvoiceVO(String empno, String empname, Date invoicedate, String startdate, String enddate,
+			ArrayList<InvoicedetailVO> dtllist) {
 		super();
-		this.invoiceid = invoiceid;
-		this.itemid = itemid;
-		this.itemname = itemname;
-		this.wareid = wareid;
-		this.warename = warename;
-		this.invoicestat = invoicestat;
-		this.invoiceqty = invoiceqty;
 		this.empno = empno;
 		this.empname = empname;
 		this.invoicedate = invoicedate;
 		this.startdate = startdate;
 		this.enddate = enddate;
+		this.dtllist = dtllist;
+	}
+	
+	// Database에서 꺼낼 때
+
+	public InvoiceVO(int invoiceid, String empno, String empname, Date invoicedate) {
+		this.invoiceid = invoiceid;
+		this.empno = empno;
+		this.empname = empname;
+		this.invoicedate = invoicedate;
+	}
+
+
+	public InvoiceVO(int invoiceid, String empno, String empname, Date invoicedate, String startdate, String enddate,
+			ArrayList<InvoicedetailVO> dtllist) {
+		this.invoiceid = invoiceid;
+		this.empno = empno;
+		this.empname = empname;
+		this.invoicedate = invoicedate;
+		this.startdate = startdate;
+		this.enddate = enddate;
+		this.dtllist = dtllist;
 	}
 	
 	public int getInvoiceid() {
@@ -74,42 +55,6 @@ public class InvoiceVO {
 	}
 	public void setInvoiceid(int invoiceid) {
 		this.invoiceid = invoiceid;
-	}
-	public String getItemid() {
-		return itemid;
-	}
-	public void setItemid(String itemid) {
-		this.itemid = itemid;
-	}
-	public String getItemname() {
-		return itemname;
-	}
-	public void setItemname(String itemname) {
-		this.itemname = itemname;
-	}
-	public String getWareid() {
-		return wareid;
-	}
-	public void setWareid(String wareid) {
-		this.wareid = wareid;
-	}
-	public String getWarename() {
-		return warename;
-	}
-	public void setWarename(String warename) {
-		this.warename = warename;
-	}
-	public String getInvoicestat() {
-		return invoicestat;
-	}
-	public void setInvoicestat(String invoicestat) {
-		this.invoicestat = invoicestat;
-	}
-	public int getInvoiceqty() {
-		return invoiceqty;
-	}
-	public void setInvoiceqty(int invoiceqty) {
-		this.invoiceqty = invoiceqty;
 	}
 	public String getEmpno() {
 		return empno;
@@ -141,12 +86,22 @@ public class InvoiceVO {
 	public void setEnddate(String enddate) {
 		this.enddate = enddate;
 	}
+	
+	public ArrayList<InvoicedetailVO> getDtllist() {
+		return dtllist;
+	}
+
+	public void setDtllist(ArrayList<InvoicedetailVO> dtllist) {
+		this.dtllist = dtllist;
+	}
+
 	@Override
 	public String toString() {
-		return "InvoiceVO [invoiceid=" + invoiceid + ", itemid=" + itemid + ", itemname=" + itemname + ", wareid="
-				+ wareid + ", warename=" + warename + ", invoicestat=" + invoicestat + ", invoiceqty=" + invoiceqty
-				+ ", empno=" + empno + ", empname=" + empname + ", invoicedate=" + invoicedate + ", startdate="
-				+ startdate + ", enddate=" + enddate + "]";
+		return "InvoiceVO [invoiceid=" + invoiceid + ", empno=" + empno + ", empname=" + empname + ", invoicedate="
+				+ invoicedate + ", startdate=" + startdate + ", enddate=" + enddate + ", dtllist=" + dtllist.toString() + "]";
 	}
+
+	
+	
 
 }
