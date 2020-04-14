@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.mapper.ForkliftMapper">
 	
 	<insert id="insert" parameterType="forklift">
-		INSERT INTO forklift VALUES (#{forkid},#{wareid},#{forkpurdate},#{forkmodel},#{forklastcheckdate})	
+		INSERT INTO forklift VALUES (#{forkid},#{wareid},sysdate,#{forkmodel},sysdate,#{forkdist})	
 	</insert>
 	
 	<update id="update" parameterType="forklift">

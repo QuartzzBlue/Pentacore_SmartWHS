@@ -11,13 +11,6 @@ public class ForkliftVO {
 	int forkdist;
 	
 	public ForkliftVO() {}
-	public ForkliftVO(String forkid, String wareid, Date forkpurdate, String forkmodel, Date forklastcheckdate) {
-		this.forkid = forkid;
-		this.wareid = wareid;
-		this.forkpurdate = forkpurdate;
-		this.forkmodel = forkmodel;
-		this.forklastcheckdate = forklastcheckdate;
-	}
 	
 	public ForkliftVO(String forkid, String wareid, Date forkpurdate, String forkmodel, Date forklastcheckdate,
 			int forkdist) {
