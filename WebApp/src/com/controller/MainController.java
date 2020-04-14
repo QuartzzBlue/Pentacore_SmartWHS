@@ -38,7 +38,16 @@ public class MainController {
 	
 	@RequestMapping("/flpage.pc")
 	public ModelAndView flpage(ModelAndView mv) {
-
+		
+		try {
+			ForkliftVO fl = flservice.select(new ForkliftVO("Forklift01", null, null, null, null, 0));
+			System.out.println("**" + fl);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		
 		/* Forklift list ¶ç¿ì±â */
 		ArrayList<ForkliftVO> fllist = null;
 		try {

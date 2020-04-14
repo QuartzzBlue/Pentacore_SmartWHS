@@ -20,8 +20,8 @@ public class dbtest {
 		Service<InvoiceVO> ivbiz = (Service)factory.getBean("invservice");
 		Service<WarehouseVO> whbiz = (Service)factory.getBean("whservice");
 		
-		ForkliftVO fl1 = new ForkliftVO("id1112", "wh1112", null, "sgld-298-sgl", null);
-		ForkliftVO fl2 = new ForkliftVO(null, null, null, null, null);
+		ForkliftVO fl1 = new ForkliftVO("Forklift02", "wh1112", null, "sgld-298-sgl", null, 0);
+		ForkliftVO fl2 = new ForkliftVO(null, null, null, null, null, 0);
 		ItemVO it1 = new ItemVO();
 		InvoiceVO iv1 = new InvoiceVO();
 		WarehouseVO wh1 = new WarehouseVO();
@@ -74,7 +74,7 @@ public class dbtest {
 //		}
 		//insert
 //		try {
-//			biz.insert(fl1);
+//			flbiz.insert(fl1);
 //		} catch (Exception e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
