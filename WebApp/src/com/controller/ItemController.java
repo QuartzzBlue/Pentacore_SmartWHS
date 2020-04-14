@@ -89,15 +89,15 @@ public class ItemController {
 
 	}
 	
-	@RequestMapping(value = "/invoicedtllist.pc")
-	public ModelAndView invoicedtllist(ModelAndView mv, Model m, @ModelAttribute("dtllist") ArrayList<InvoicedetailVO> dtllist){
-		
-	 	
-	 	
-//	 	JSONObject dtllist = (JSONObject) session.getAttribute("dtllist");
-		
-		return mv;
-	}
+//	@RequestMapping(value = "/invoicedtllist.pc")
+//	public ModelAndView invoicedtllist(ModelAndView mv, Model m, @ModelAttribute("dtllist") ArrayList<InvoicedetailVO> dtllist){
+//		
+//	 	
+//	 	
+////	 	JSONObject dtllist = (JSONObject) session.getAttribute("dtllist");
+//		
+//		return mv;
+//	}
 	
 	@RequestMapping("/invoiceregister.pc")
 	public ModelAndView invoiceregister(ModelAndView mv, InvoiceVO newInvoice){

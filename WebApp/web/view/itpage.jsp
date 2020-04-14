@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-	
+
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,6 +33,10 @@
 	rel="stylesheet">
 
 <link href="css/style.css" rel="stylesheet">
+
+<style>
+	.badge-danger{cursor : pointer; }
+</style>
 </head>
 
 
@@ -132,7 +136,7 @@
 							<div class="table-responsive">
 								<table
 									class="table table-striped table-bordered zero-configuration dataTable">
-									
+
 									<thead>
 										<tr>
 											<th>Item ID</th>
@@ -179,8 +183,7 @@
 							<h4 class="card-title">Data Table</h4>
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
-								<form name="itemRegister" method="post"
-									action="invoicedtllist.pc">	<!--세션설정-->
+									<!--세션설정-->
 									<table class="table">
 										<thead>
 											<tr>
@@ -213,19 +216,21 @@
 														<option value="Receiving">Receiving</option>
 														<option value="Shipping">Shipping</option>
 												</select></td>
-												<td><button type="submit" value="invoicedtllist"
-														class="btn mb-1 btn-primary btn-lg">Order</button><td>
+												<td><button type="button" id="addItemToInvoice"
+														class="btn mb-1 btn-primary btn-lg">Add</button>
+												<td>
 											</tr>
 										</tbody>
 									</table>
-								</form>
 							</div>
-							
+
 							<div class="table-responsive">
-								<form name="itemRegister" method="post" action="invoiceregister.pc">
-									<table class="table">
+								<!-- <form name="itemRegister" method="post"
+									action="invoiceregister.pc"> -->
+									<table class="table"> 
 										<thead>
 											<tr>
+												<th></th>
 												<th>Item ID</th>
 												<th>Item Name</th>
 												<th>Warehouse ID</th>
@@ -235,12 +240,12 @@
 												<th></th>
 											</tr>
 										</thead>
-										<tbody>
-											
+										<tbody id="invoiceDetail">
+
 										</tbody>
 									</table>
-									
-								</form>
+
+								<!-- </form>  -->
 							</div>
 						</div>
 					</div>
@@ -640,7 +645,7 @@
 	<!-- Date Picker Plugin JavaScript -->
 	<script
 		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-	
+
 	<script src="./js/plugins-init/form-pickers-init.js"></script>
 
 	<!-- Table -->
@@ -649,14 +654,19 @@
 		src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
 	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 	<script src="./js/plugins-init/datatables.init-ex.js"></script>
-	
+
 	<!-- JQeury -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		
+
 	<script>
+	
+		// warehouse id list
 		var wareIdList = [ "wh1111", "#" ];
 
+		// invoice detail item list
+		var jsonInvoice = Array();
+		
 		function setWareID(w) {
 			var target = document.getElementById("wareid_"
 					+ w.value.substring(7, 8));
@@ -680,6 +690,98 @@
 				$("#setItInfo").find("input[name=warename]").val(warename);
 			});
 		});
+		
+		$(function() {
+			$("#addItemToInvoice").on({
+				click: function(){
+					var jsonItem = new Object();
+					
+					//var itemid = $("#setItInfo").find("input[name=itemid]").val();
+					//var itemname = $("#setItInfo").find("input[name=itemname]").val();
+					//var wareid = $("#setItInfo").find("input[name=wareid]").val();
+					//var warename = $("#setItInfo").find("input[name=warename]").val();
+					//var invoiceqty = $("#setItInfo").find("input[name=invoiceqty]").val();
+					//var invoicestat = $("#setItInfo").find("input[name=invoicestat]").val();
+					
+					jsonItem.itemid = $("#setItInfo").find("input[name=itemid]").val();
+					jsonItem.itemname = $("#setItInfo").find("input[name=itemname]").val();
+					jsonItem.wareid = $("#setItInfo").find("input[name=wareid]").val();
+					jsonItem.warename = $("#setItInfo").find("input[name=warename]").val();
+					jsonItem.invoiceqty = $("#setItInfo").find("input[name=invoiceqty]").val();
+					jsonItem.invoicestat = $("#setItInfo").find("select[name=invoicestat]").val();
+					
+					
+					jsonInvoice.push(jsonItem);
+					
+					var html = "";
+					
+					$.each(jsonInvoice,function(index, jsonItemArr){
+						html += "<tr class=\"ivItemList\">";
+						html += "<td>" +index+ "</td>";
+						html += "<td>" +jsonItemArr.itemid+ "</td>";
+						html += "<td>" +jsonItemArr.itemname+ "</td>";
+						html += "<td>" +jsonItemArr.wareid+ "</td>";
+						html += "<td>" +jsonItemArr.warename+ "</td>";
+						html += "<td>" +jsonItemArr.invoiceqty+ "</td>";
+						html += "<td>" +jsonItemArr.invoicestat+ "</td>";
+						html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
+						html += "</tr>";
+					});
+					
+					html += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"submit\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
+					
+					$("#invoiceDetail").html(html);
+					
+				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+			    	console.log(e.responseText);
+			    }
+			});
+		});
+		
+		$(function(){
+			$(document.body).delegate(".deleteIvItem", "click", function(){
+				var idx = $(this).closest("tr").find("td").eq(0).text();
+				alert(idx);
+				jsonInvoice.splice(idx, 1);
+				alert(JSON.stringify(jsonInvoice));
+				
+				var html = "";
+				
+				$.each(jsonInvoice,function(index, jsonItemArr){
+					html += "<tr class=\"ivItemList\">";
+					html += "<td>" +index+ "</td>";
+					html += "<td>" +jsonItemArr.itemid+ "</td>";
+					html += "<td>" +jsonItemArr.itemname+ "</td>";
+					html += "<td>" +jsonItemArr.wareid+ "</td>";
+					html += "<td>" +jsonItemArr.warename+ "</td>";
+					html += "<td>" +jsonItemArr.invoiceqty+ "</td>";
+					html += "<td>" +jsonItemArr.invoicestat+ "</td>";
+					html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
+					html += "</tr>";
+				});
+				
+				html += "<td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"submit\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
+				
+				$("#invoiceDetail").html(html);
+				
+			});
+		});
+		
+		
+		$(function(){
+			$(document.body).delegate(".selectedItList", "click", function(){
+				var itemid = $(this).find("td").eq(0).text();
+				var itemname = $(this).find("td").eq(1).text();
+				var wareid = $(this).find("td").eq(6).text();
+				var warename = $(this).find("td").eq(7).text();
+				//alert($("#setItInfo").find("input[name=itemid]").val());
+				$("#setItInfo").find("input[name=itemid]").val(itemid);
+				$("#setItInfo").find("input[name=itemname]").val(itemname);
+				$("#setItInfo").find("input[name=wareid]").val(wareid);
+				$("#setItInfo").find("input[name=warename]").val(warename);
+			});
+		});
+		
 		
 		$(document).ready(function(){
 			
@@ -708,10 +810,12 @@
 						html += "</tr>";
 					});
 					
+					
+					
 					$("#itListBody").html(html);
 				  
 				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+			    	console.log(e.responseText);
 			    }
 			});
 		});
