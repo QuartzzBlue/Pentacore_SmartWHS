@@ -8,6 +8,7 @@ public class ForkLift {
     String currentTask;
     int status;
 
+    int temparature;
     int battery;
 
     public ForkLift() {
@@ -40,6 +41,14 @@ public class ForkLift {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getTemparature() {
+        return temparature;
+    }
+
+    public void setTemparature(int temparature) {
+        this.temparature = temparature;
     }
 
     public int getBattery() {

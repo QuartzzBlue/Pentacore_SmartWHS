@@ -101,19 +101,13 @@
                 android:text="titleConsole"
                 android:textSize="20sp" />
 
-            <ScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView_consoleQueue"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-                <ListView
-                    android:id="@+id/listView_consoleQueue"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
-                    android:overScrollMode="never"
-                    android:scrollbars="none" />
-            </ScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
 
@@ -188,10 +182,20 @@
                     android:id="@+id/forkLift1_batteryCurrent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="627"
+                    android:text="555"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/forkLift1_batteryMax" />
+
+                <TextView
+                    android:id="@+id/forkLift1_temparatureCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="77"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift1_batteryLabel" />
 
                 <TextView
                     android:id="@+id/forkLift1_batteryMax"
@@ -206,11 +210,22 @@
                     android:id="@+id/forkLift1_batteryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="BATTERY"
+                    android:layout_marginEnd="52dp"
+                    android:text="배터리"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/forkLift1_batteryCurrent" />
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift1_batteryMax" />
+
+                <TextView
+                    android:id="@+id/forkLift1_temperatureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="52dp"
+                    android:text="온도"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift1_batteryLabel" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -262,7 +277,7 @@
                     android:id="@+id/forkLift2_batteryCurrent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="627"
+                    android:text="444"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/forkLift2_batteryMax" />
@@ -280,11 +295,31 @@
                     android:id="@+id/forkLift2_batteryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="BATTERY"
+                    android:layout_marginEnd="52dp"
+                    android:text="배터리"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/forkLift2_batteryCurrent" />
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift2_batteryMax" />
+
+                <TextView
+                    android:id="@+id/forkLift2_temparatureCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="66"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift2_batteryLabel" />
+
+                <TextView
+                    android:id="@+id/forkLift2_temperatureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="52dp"
+                    android:text="온도"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift2_batteryLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -292,6 +327,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/forkLift3_temperatureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="52dp"
+                    android:text="온도"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift3_batteryLabel" />
 
                 <TextView
                     android:id="@+id/forkLift3_name"
@@ -336,7 +381,7 @@
                     android:id="@+id/forkLift3_batteryCurrent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="627"
+                    android:text="777"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/forkLift3_batteryMax" />
@@ -354,11 +399,22 @@
                     android:id="@+id/forkLift3_batteryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="BATTERY"
+                    android:layout_marginEnd="52dp"
+                    android:text="배터리"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/forkLift3_batteryCurrent" />
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift3_batteryMax" />
+
+                <TextView
+                    android:id="@+id/forkLift3_temparatureCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="88"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift3_batteryLabel" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -410,7 +466,7 @@
                     android:id="@+id/forkLift4_batteryCurrent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="627"
+                    android:text="888"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/forkLift4_batteryMax" />
@@ -428,11 +484,31 @@
                     android:id="@+id/forkLift4_batteryLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="BATTERY"
+                    android:layout_marginEnd="52dp"
+                    android:text="배터리"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/forkLift4_batteryCurrent" />
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift4_batteryMax" />
+
+                <TextView
+                    android:id="@+id/forkLift4_temparatureCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="99"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift4_batteryLabel" />
+
+                <TextView
+                    android:id="@+id/forkLift4_temperatureLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="52dp"
+                    android:text="온도"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/forkLift4_batteryLabel" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
@@ -451,19 +527,13 @@
                 android:text="titleTaskQueue"
                 android:textSize="20sp" />
 
-            <ScrollView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView_taskQueue"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
-                <ListView
-                    android:id="@+id/listView_taskQueue"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
-                    android:overScrollMode="never"
-                    android:scrollbars="none" />
-            </ScrollView>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

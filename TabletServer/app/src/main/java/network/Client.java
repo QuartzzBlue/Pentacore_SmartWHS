@@ -36,20 +36,24 @@ public class Client implements Runnable {
         try {
             socket = makeSocket(dstnIP,dstnPort);
             System.out.println("Connected to TCP/IP Server → "+dstnIP+":"+dstnPort);
+            MainActivity.printConsole("Connected to TCP/IP Server → "+dstnIP+":"+dstnPort);
 
 
         } catch (Exception outerE) {
-            System.out.println("outerE occured..");
-            outerE.printStackTrace();
+            System.out.println("Exception while making socket at Client.java");
+//            outerE.printStackTrace();
             while (true) {
-                System.out.println("Retry..");
+                System.out.println("Retry to make socket at Client.java");
+                MainActivity.printConsole("Retry to make socket at Client.java");
                 try {
                     Thread.sleep(1000);
                     socket = makeSocket(dstnIP,dstnPort);
                     System.out.println("Connected to TCP/IP Server → "+dstnIP+":"+dstnPort);
+                    MainActivity.printConsole("Connected to TCP/IP Server → "+dstnIP+":"+dstnPort);
                     break;
                 } catch (Exception innerE) {
-                    innerE.printStackTrace();
+                    System.out.println("Exception while making socket at Client.java");
+//                    innerE.printStackTrace();
                 }
             }
         }
@@ -63,9 +67,10 @@ public class Client implements Runnable {
             MainActivity.executorService.submit(clientReceiver);
         } catch (Exception outerE) {
             System.out.println("Exception occured while generating ClientReceiver");
-            outerE.printStackTrace();
+//            outerE.printStackTrace();
             while (true) {
-                System.out.println("Retry Generating ClientReceiver..");
+                System.out.println("Retry to Generate ClientReceiver..");
+                MainActivity.printConsole("Retry to Generate ClientReceiver..");
                 try {
                     Thread.sleep(1000);
                     Runnable clientReceiver = new ClientReceiver(socket);

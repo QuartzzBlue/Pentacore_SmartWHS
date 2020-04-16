@@ -1,7 +1,5 @@
 package network;
 
-import android.view.View;
-
 import com.pentacore.tabletserver.MainActivity;
 
 import org.json.JSONException;
@@ -15,6 +13,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import msg.ForkLift;
 import msg.Msg;
 
 public class ServerReceiver implements Runnable {
@@ -62,19 +61,33 @@ public class ServerReceiver implements Runnable {
 		Msg msg = null;
 		while(ois!=null) {
 			try {
-
 				msg = (Msg) ois.readObject();
-//				System.out.println(msg.getSrcID() + ", " + msg.getSrcIP() + ", " + msg.getDstnID() + ", " + msg.getDstnIP());
-				System.out.println(msg.getForkLift().getBattery());
-//				ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
-				System.out.println("ServerReceiver : " + msg.getSrcID() + "로부터 msg 수신");
-				System.out.println(ois);
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-				//ActiveConnection.executorService.shutdown();
-				System.out.println("error in ServerReceiver");
-				System.out.println(ois);
+				msg.ForkLift forkLiftFromMsg = msg.getForkLift();
+				msg.Task taskFromMsg = msg.getTask();
+				StringBuilder sb = new StringBuilder();
+				if(taskFromMsg.getIo()==0) sb.append("[출고] ");
+				else if(taskFromMsg.getIo()==1) sb.append("[입고] ");
+				sb.append(taskFromMsg.getName()).append(" ")
+					.append(taskFromMsg.getQty()).append("개 ")
+					.append("(").append(taskFromMsg.getLocX())
+					.append(", ").append(taskFromMsg.getLocY()).append(")");
 
+				MainActivity.printConsole(msg.getSrcID()+"로부터 수신, Status:"+forkLiftFromMsg.getStatus()+", Battery"+forkLiftFromMsg.getBattery()+", XY:"+forkLiftFromMsg.getLocX()+","+forkLiftFromMsg.getLocY());
+
+				// forklift 상태 정보 업데이트
+				logistics.ForkLift forkLift = (logistics.ForkLift) MainActivity.forkLiftMap.get(msg.getSrcID());
+				forkLift.setCurrentTask(sb.toString());
+				forkLift.setTemparature(forkLiftFromMsg.getTemperature());
+				forkLift.setBattery(forkLiftFromMsg.getBattery());
+				forkLift.setCurrentX(forkLiftFromMsg.getLocX());
+				forkLift.setCurrentY(forkLiftFromMsg.getLocY());
+				forkLift.setStatus(forkLiftFromMsg.getStatus());
+				MainActivity.updateForkLiftUI(msg.getSrcID());
+
+
+			} catch (Exception e) {
+//			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
 				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
 
 				//value 값으로 key 값 찾기
@@ -84,19 +97,13 @@ public class ServerReceiver implements Runnable {
 					}
 				}
 
-				System.out.println("Disconnected : " + socket.getInetAddress().toString());
-				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
-
+				MainActivity.printConsole("Disconnected : " + socket.getInetAddress().toString());
+				MainActivity.printConsole("접속 수 : " + ActiveConnection.ipToOos.size());
 				break;
 			}
 		}
 
-			System.out.println("ServerReceiver : end of ois=null loop");
 
-			// forklift 상태 정보 업데이트
-			logistics.ForkLift forkLift = (logistics.ForkLift)MainActivity.forkLiftMap.get(msg.getSrcID());
-			msg.ForkLift forkLiftFromMsg = (msg.ForkLift)msg.getForkLift();
-			System.out.println("Receive : " + forkLiftFromMsg.getLocX()+","+forkLiftFromMsg.getLocY()+","+forkLiftFromMsg.getBattery()+","+forkLiftFromMsg.getStatus());
 
 			// 화면 우측 forklift UI 업데이트 + fokLift View 업데이트
 //			MainActivity.taskQueueAdapter.notifyDataSetChanged();
@@ -104,33 +111,29 @@ public class ServerReceiver implements Runnable {
 
 			// 상태가 변했다는 말
 			// HTTP로 msg객체의 내용 전달하기
-			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
-				System.out.println("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
-				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+//			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
+//				System.out.println("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+//				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+//
+//				JSONObject jsonObject = new JSONObject();
+//				try {
+//					jsonObject.accumulate("forkliftid", msg.getSrcID());
+//					jsonObject.accumulate("battery", forkLiftFromMsg.getBattery());
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//
+//				Runnable sendInHttp = new SendInHttp(jsonObject);
+//				MainActivity.executorService.submit(sendInHttp);
+//			}
+//
+//			if(forkLiftFromMsg.getStatus()==WAITING) {
+//				MainActivity.waitingForkLiftQueue.offer(forkLift);
+//				MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
+//				MainActivity.assignTask();
+//			}
 
-				JSONObject jsonObject = new JSONObject();
-				try {
-					jsonObject.accumulate("forkliftid", msg.getSrcID());
-					jsonObject.accumulate("battery", forkLiftFromMsg.getBattery());
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
 
-				Runnable sendInHttp = new SendInHttp(jsonObject);
-				MainActivity.executorService.submit(sendInHttp);
-			}
-
-			if(forkLiftFromMsg.getStatus()==WAITING) {
-				MainActivity.waitingForkLiftQueue.offer(forkLift);
-				MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
-				MainActivity.assignTask();
-			}
-
-			forkLift.setBattery(forkLiftFromMsg.getBattery());
-//				forkLift.setCurrentTask(forkLiftFromMsg.);
-			forkLift.setCurrentX(forkLiftFromMsg.getLocX());
-			forkLift.setCurrentY(forkLiftFromMsg.getLocY());
-			forkLift.setStatus(forkLiftFromMsg.getStatus());
 
 
 		try {

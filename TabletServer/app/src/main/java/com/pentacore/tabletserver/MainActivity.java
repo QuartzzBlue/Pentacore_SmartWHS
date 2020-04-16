@@ -1,15 +1,16 @@
 package com.pentacore.tabletserver;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,7 +31,7 @@ import network.SendInTcpip;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static MainActivity mainActivity;
+    public static MainActivity mainActivity;
     static Warehouse warehouse;
     ForkLift forkLift1, forkLift2, forkLift3, forkLift4;
     static ForkLiftViewSet forkLiftViewSet1, forkLiftViewSet2, forkLiftViewSet3, forkLiftViewSet4;
@@ -47,12 +48,10 @@ public class MainActivity extends AppCompatActivity {
     public static Queue waitingForkLiftQueue;
     public static Queue consoleQueue;
 
-    private Context taskQueueContext;
-    private static ListView taskQueueListView;
+    private static RecyclerView taskQueueRecyclerView;
     public static TaskQueueAdapter taskQueueAdapter;
 
-    private Context consoleQueueContext;
-    private ListView consoleQueueListView;
+    private RecyclerView consoleQueueRecyclerView;
     private static ConsoleQueueAdapter consoleQueueAdapter;
 
 
@@ -96,46 +95,53 @@ public class MainActivity extends AppCompatActivity {
         forkLiftViewSet1 = new ForkLiftViewSet();
         forkLiftViewSet1.status = findViewById(R.id.forkLift1_status);
         forkLiftViewSet1.taskContent = findViewById(R.id.forkLift1_taskContent);
+        forkLiftViewSet1.temperatureCurrent = findViewById(R.id.forkLift1_temparatureCurrent);
         forkLiftViewSet1.batteryCurrent = findViewById(R.id.forkLift1_batteryCurrent);
         forkLiftViewSet1.forkLiftView = findViewById(R.id.forkLift1);
 
         forkLiftViewSet2 = new ForkLiftViewSet();
         forkLiftViewSet2.status = findViewById(R.id.forkLift2_status);
         forkLiftViewSet2.taskContent = findViewById(R.id.forkLift2_taskContent);
+        forkLiftViewSet2.temperatureCurrent = findViewById(R.id.forkLift2_temparatureCurrent);
         forkLiftViewSet2.batteryCurrent = findViewById(R.id.forkLift2_batteryCurrent);
         forkLiftViewSet2.forkLiftView = findViewById(R.id.forkLift2);
 
         forkLiftViewSet3 = new ForkLiftViewSet();
         forkLiftViewSet3.status = findViewById(R.id.forkLift3_status);
         forkLiftViewSet3.taskContent = findViewById(R.id.forkLift3_taskContent);
+        forkLiftViewSet3.temperatureCurrent = findViewById(R.id.forkLift3_temparatureCurrent);
         forkLiftViewSet3.batteryCurrent = findViewById(R.id.forkLift3_batteryCurrent);
         forkLiftViewSet3.forkLiftView = findViewById(R.id.forkLift3);
 
         forkLiftViewSet4 = new ForkLiftViewSet();
         forkLiftViewSet4.status = findViewById(R.id.forkLift4_status);
         forkLiftViewSet4.taskContent = findViewById(R.id.forkLift4_taskContent);
+        forkLiftViewSet4.temperatureCurrent = findViewById(R.id.forkLift4_temparatureCurrent);
         forkLiftViewSet4.batteryCurrent = findViewById(R.id.forkLift4_batteryCurrent);
         forkLiftViewSet4.forkLiftView = findViewById(R.id.forkLift4);
 
         forkLiftViewSetMap = new HashMap<String, ForkLiftViewSet>();
-        forkLiftMap.put("forkLift1", forkLiftViewSet1);
-        forkLiftMap.put("forkLift2", forkLiftViewSet2);
-        forkLiftMap.put("forkLift3", forkLiftViewSet3);
-        forkLiftMap.put("forkLift4", forkLiftViewSet4);
+        forkLiftViewSetMap.put("forkLift1", forkLiftViewSet1);
+        forkLiftViewSetMap.put("forkLift2", forkLiftViewSet2);
+        forkLiftViewSetMap.put("forkLift3", forkLiftViewSet3);
+        forkLiftViewSetMap.put("forkLift4", forkLiftViewSet4);
 
         taskQueue = new LinkedList();
         waitingForkLiftQueue = new LinkedList();
         consoleQueue = new LinkedList();
 
-        taskQueueContext = getApplicationContext();
-        taskQueueListView = findViewById(R.id.listView_taskQueue);
-        taskQueueAdapter = new TaskQueueAdapter(taskQueueContext, taskQueue);
-        taskQueueListView.setAdapter(taskQueueAdapter);
+        LinearLayoutManager taskQueueLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager consoleQueueLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        consoleQueueContext = getApplicationContext();
-        consoleQueueListView = findViewById(R.id.listView_consoleQueue);
-        consoleQueueAdapter = new ConsoleQueueAdapter(consoleQueueContext, consoleQueue);
-        consoleQueueListView.setAdapter(consoleQueueAdapter);
+        taskQueueRecyclerView = findViewById(R.id.RecyclerView_taskQueue);
+        taskQueueRecyclerView.setLayoutManager(taskQueueLayoutManager);
+        taskQueueAdapter = new TaskQueueAdapter(taskQueue);
+        taskQueueRecyclerView.setAdapter(taskQueueAdapter);
+
+        consoleQueueRecyclerView = findViewById(R.id.RecyclerView_consoleQueue);
+        consoleQueueRecyclerView.setLayoutManager(consoleQueueLayoutManager);
+        consoleQueueAdapter = new ConsoleQueueAdapter(consoleQueue);
+        consoleQueueRecyclerView.setAdapter(consoleQueueAdapter);
 
         View button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -176,14 +182,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void updateForkLiftUI(String forkLiftID) {
-        System.out.println("updateForkLiftUI : "+forkLiftID);
-        ForkLiftViewSet forkLiftViewset = (ForkLiftViewSet)forkLiftViewSetMap.get(forkLiftID);
-        ForkLift forkLift = (ForkLift)forkLiftMap.get(forkLiftID);
+//        printConsole("updateForkLiftUI : "+forkLiftID);
+        final ForkLiftViewSet forkLiftViewset = (ForkLiftViewSet)forkLiftViewSetMap.get(forkLiftID);
+        final ForkLift forkLift = (ForkLift)forkLiftMap.get(forkLiftID);
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-        ((TextView)forkLiftViewset.status).setText(forkLift.getStatus());
-        ((TextView)forkLiftViewset.taskContent).setText(forkLift.getCurrentTask());
-        ((TextView)forkLiftViewset.batteryCurrent).setText(forkLift.getBattery());
-        locateForkLift((ImageView)forkLiftViewset.forkLiftView, forkLift.getCurrentX(), forkLift.getCurrentY());
+                taskQueueAdapter.updateTaskQueue(taskQueue);
+                if(forkLift.getStatus()==0) {
+                    ((TextView)forkLiftViewset.status).setText("WORKING");
+                    ((TextView)forkLiftViewset.status).setTextColor(Color.GREEN);
+                } else if(forkLift.getStatus()==1) {
+                    ((TextView)forkLiftViewset.status).setText("WAITING");
+                    ((TextView)forkLiftViewset.status).setTextColor(Color.BLUE);
+                } if(forkLift.getStatus()==2) {
+                    ((TextView)forkLiftViewset.status).setText("CHARGING");
+                    ((TextView)forkLiftViewset.status).setTextColor(Color.RED);
+                }
+                ((TextView)forkLiftViewset.taskContent).setText(forkLift.getCurrentTask()+"");
+                ((TextView)forkLiftViewset.temperatureCurrent).setText(forkLift.getTemparature()+"");
+                ((TextView)forkLiftViewset.batteryCurrent).setText(forkLift.getBattery()+"");
+                locateForkLift((ImageView)forkLiftViewset.forkLiftView, forkLift.getCurrentX(), forkLift.getCurrentY());
+            }
+        });
+
+
     }
 
     public static void assignTask() {
@@ -206,27 +230,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void updateTaskQueueUI() {
-        System.out.println("updateTaskQueueUI");
-        try {
-            mainActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((TaskQueueAdapter)taskQueueListView.getAdapter()).notifyDataSetChanged();
-//                    taskQueueAdapter.setTaskQueue(taskQueue);
-//                    taskQueueAdapter.notifyDataSetChanged();
-//                    taskQueueListView.setAdapter(taskQueueAdapter);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                taskQueueAdapter.updateTaskQueue(taskQueue);
+            }
+        });
     }
 
     public static void printConsole(String logMessage) {
         consoleQueue.offer(logMessage);
         if(consoleQueue.size()>50) consoleQueue.poll();
-        taskQueueAdapter.notifyDataSetChanged();
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                consoleQueueAdapter.updateConsoleQueue(consoleQueue);
+            }
+        });
     }
 
 

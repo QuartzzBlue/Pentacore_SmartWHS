@@ -1,72 +1,58 @@
 package logistics;
-
-import android.content.Context;
+;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.ViewGroup;;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pentacore.tabletserver.R;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import msg.Task;
-
-public class ConsoleQueueAdapter extends BaseAdapter {
-    private Context context;
+public class ConsoleQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LinkedList consoleQueue;
-    private ViewHolder viewHolder;
-
-    public ConsoleQueueAdapter(Context context, Queue consoleQueue) {
-        this.context = context;
-        this.consoleQueue = (LinkedList) consoleQueue;
+    public ConsoleQueueAdapter(Queue consoleQueue){
+        this.consoleQueue = (LinkedList)consoleQueue;
+        this.consoleQueue.addAll(consoleQueue);
+    }
+    public void updateConsoleQueue(Queue consoleQueue) {
+        this.consoleQueue = (LinkedList)consoleQueue;
+        notifyDataSetChanged();
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView consoleQueue_logMessage;
 
+        public ViewHolder(View view) {
+            super(view);
+            consoleQueue_logMessage = view.findViewById(R.id.consoleQueue_logMessage);
+        }
+
+        public void setItem(String logMessage) {
+            consoleQueue_logMessage.setText(logMessage);
+        }
+    }
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View itemView = inflater.inflate(R.layout.console_queue_item, viewGroup, false);
+
+        return new ViewHolder(itemView);
+    }
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ConsoleQueueAdapter.ViewHolder viewHolder = (ConsoleQueueAdapter.ViewHolder) holder;
+        viewHolder.setItem((String)(consoleQueue.get(position)));
+    }
 
     @Override
-
-    public int getCount() {
+    public int getItemCount() {
         return consoleQueue.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return consoleQueue.get(position);
-    }
-
-
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        // ViewHoldr 패턴
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.console_queue_item, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        // View에 Data 세팅
-        viewHolder.consoleQueue_logMessage.setText((consoleQueue.get(position)).toString());
-        return convertView;
-    }
-
-
-
-    public class ViewHolder {
-        private TextView consoleQueue_logMessage;
-
-        public ViewHolder(View convertView) {
-            consoleQueue_logMessage = (TextView)convertView.findViewById(R.id.consoleQueue_logMessage);
-        }
-    }
 }

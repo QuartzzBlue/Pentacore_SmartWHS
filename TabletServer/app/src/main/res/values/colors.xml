@@ -8,4 +8,8 @@
     <color name="colorBeige">#F1D1B5</color>
     <color name="colorLightNavy">#568EA6</color>
     <color name="colorNavy">#305F72</color>
+
+    <color name="colorWorking">#00FF00</color>
+    <color name="colorWaiting">#4169E1</color>
+    <color name="colorCharging">#DC143C</color>
 </resources>

@@ -1,11 +1,12 @@
 package logistics;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pentacore.tabletserver.R;
 
@@ -14,67 +15,54 @@ import java.util.Queue;
 
 import msg.Task;
 
-public class TaskQueueAdapter extends BaseAdapter {
-    private Context context;
+public class TaskQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LinkedList taskQueue;
-    private ViewHolder viewHolder;
-
-    public TaskQueueAdapter(Context context, Queue taskQueue) {
-        this.context = context;
+    public TaskQueueAdapter(Queue taskQueue){
         this.taskQueue = (LinkedList)taskQueue;
+        this.taskQueue.addAll(taskQueue);
+    }
+    public void updateTaskQueue(Queue taskQueue) {
+        this.taskQueue = (LinkedList)taskQueue;
+        notifyDataSetChanged();
     }
 
-    public void setTaskQueue(Queue taskQueue) {
-        this.taskQueue = (LinkedList)taskQueue;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView taskQueue_item;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            taskQueue_item = view.findViewById(R.id.taskQueue_item);
+
+        }
+
+        public void setItem(Task task) {
+            StringBuilder sb = new StringBuilder();
+            if(task.getIo()==0) sb.append("[입고] ");
+            else if(task.getIo()==1) sb.append("[출고] ");
+            sb.append(task.getName()).append(",  수량: ").append(task.getQty())
+                .append("개,  위치: ").append(task.getLocX()).append(", ").append(task.getLocY()).append("");
+            taskQueue_item.setText(sb.toString());
+        }
+
+    }
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View itemView = inflater.inflate(R.layout.task_queue_item, viewGroup, false);
+
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.setItem( (Task)(taskQueue.get(position)));
+    }
+
+    @Override
+    public int getItemCount() {
         return taskQueue.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return taskQueue.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        // ViewHoldr 패턴
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.task_queue_item, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        // View에 Data 세팅
-        viewHolder.taskQueue_io.setText(((Task)taskQueue.get(position)).getIo()+"");
-        viewHolder.taskQueue_qty.setText(((Task)taskQueue.get(position)).getQty()+"");
-        viewHolder.taskQueue_locX.setText(((Task)taskQueue.get(position)).getLocX()+"");
-        viewHolder.taskQueue_locY.setText(((Task)taskQueue.get(position)).getLocY()+"");
-        return convertView;
-    }
-
-
-
-    public class ViewHolder {
-        public TextView taskQueue_io;
-        public TextView taskQueue_qty;
-        public TextView taskQueue_locX;
-        public TextView taskQueue_locY;
-
-        public ViewHolder(View convertView) {
-            System.out.println("New ViewHolder made");
-            taskQueue_io = (TextView)convertView.findViewById(R.id.taskQueue_io);
-            taskQueue_qty = (TextView)convertView.findViewById(R.id.taskQueue_qty);
-            taskQueue_locX = (TextView)convertView.findViewById(R.id.taskQueue_locX);
-            taskQueue_locY = (TextView)convertView.findViewById(R.id.taskQueue_locY);
-        }
     }
 }
