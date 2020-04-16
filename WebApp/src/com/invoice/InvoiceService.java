@@ -10,9 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frame.Dao;
 import com.vo.InvoiceVO;
 import com.vo.InvoicedetailVO;
+import com.vo.ItemVO;
 
 @Service("invservice")
 public class InvoiceService implements com.frame.Service<InvoiceVO> {
+	
+	@Resource(name="itdao")
+	Dao<ItemVO> itdao;
 	
 	@Resource(name="invdao")
 	Dao<InvoiceVO> invdao;
@@ -26,9 +30,27 @@ public class InvoiceService implements com.frame.Service<InvoiceVO> {
 		
 		/*invoice table 입출고 내역 insert*/
 		invdao.insert(v);
+		int invId = v.getInvoiceid();
 		
-		/*invoicedatail table 입출고 상세내역 insert*/
-	
+		for(InvoicedetailVO iv : v.getDtllist()) {
+			
+			/* 재고 관리 */
+			ItemVO item = itdao.select(new ItemVO(iv.getItemid()));
+			int tempstock = item.getItemstock();
+			if(iv.getInvoicestat().toUpperCase().trim().equals("RECEIVING")) {
+				tempstock += iv.getInvoicedtlqty();
+			}else if(iv.getInvoicestat().toUpperCase().trim().equals("SHIPPING")) {
+				tempstock -= iv.getInvoicedtlqty();
+			}
+			item.setItemstock(tempstock);
+			itdao.update(item);
+			
+			/*invoicedatail table 입출고 상세내역 insert*/
+			iv.setInvoiceid(invId);
+			invdtldao.insert(iv);
+		}
+		
+		
 	}
 
 	@Transactional

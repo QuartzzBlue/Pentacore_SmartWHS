@@ -14,9 +14,7 @@ public class InvoiceVO {
 	
 	
 	public InvoiceVO() {
-		super();
 	}
-	// Database 넣을 때
 	
 	public InvoiceVO(String empno, String empname, Date invoicedate, String startdate, String enddate,
 			ArrayList<InvoicedetailVO> dtllist) {
@@ -29,7 +27,6 @@ public class InvoiceVO {
 		this.dtllist = dtllist;
 	}
 	
-	// Database에서 꺼낼 때
 
 	public InvoiceVO(int invoiceid, String empno, String empname, Date invoicedate) {
 		this.invoiceid = invoiceid;

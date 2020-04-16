@@ -17,6 +17,9 @@ public class InvoicedetailVO {
 	String startdate;
 	String enddate;
 	
+	public InvoicedetailVO() {
+	}
+
 	public InvoicedetailVO(String itemid, String itemname, String wareid, String warename, String invoicestat,
 			int invoicedtlqty, String empno, String empname) {
 		this.itemid = itemid;

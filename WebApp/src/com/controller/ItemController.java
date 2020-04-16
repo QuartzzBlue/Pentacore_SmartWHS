@@ -3,19 +3,16 @@ package com.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +20,11 @@ import com.frame.Service;
 import com.vo.InvoiceVO;
 import com.vo.InvoicedetailVO;
 import com.vo.ItemVO;
+
+import msg.Msg;
+import server.Client;
+import server.Main;
+import server.Sender;
 
 @Controller
 @SessionAttributes("dtllist")	//model.addAttribute()를 사용해 객체를 저장할 경우 세션에 저장됨 (SessionStatus객체의 setComplete() 사용해서 지울 때까지)
@@ -32,6 +34,14 @@ public class ItemController {
 	
 	@Resource(name = "invservice")
 	Service<InvoiceVO> invservice;
+	
+	@Resource(name = "invdtlservice")
+	Service<InvoicedetailVO> invdtlservice;
+	
+	/* static 변수들*/
+	public static String wareNameList[] = {"이천 제1물류창고"};
+	static Client client = null;
+	static Msg msg = null;
 	
 	@RequestMapping("/itemregister.pc")
 	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem){
@@ -76,7 +86,7 @@ public class ItemController {
 			json.put("warename", i.getWarename());
 			json.put("itemloc", i.getItemloc());
 			json.put("itemstock", i.getItemstock());
-			ja.add(json);
+			ja.put(json);
 		}
 		rs.setContentType("text/html; charset=utf-8");
 		PrintWriter out;
@@ -89,44 +99,61 @@ public class ItemController {
 
 	}
 	
-//	@RequestMapping(value = "/invoicedtllist.pc")
-//	public ModelAndView invoicedtllist(ModelAndView mv, Model m, @ModelAttribute("dtllist") ArrayList<InvoicedetailVO> dtllist){
-//		
-//	 	
-//	 	
-////	 	JSONObject dtllist = (JSONObject) session.getAttribute("dtllist");
-//		
-//		return mv;
-//	}
 	
 	@RequestMapping("/invoiceregister.pc")
-	public ModelAndView invoiceregister(ModelAndView mv, InvoiceVO newInvoice){
+	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson){
 		
-		System.out.println("&&&&&&&&&&&&&" + newInvoice.toString());
+		System.out.println(ivJson);
+		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
+		String response = null;
+        try {
+        	JSONArray ivArr = new JSONArray(ivJson);
+        	for(int i = 0; i < ivArr.length(); i++) {
+        		JSONObject temp = (JSONObject)(ivArr.get(i));
+        		InvoicedetailVO ivd = new InvoicedetailVO();
+        		ivd.setItemid((String)temp.get("itemid"));
+        		ivd.setItemname((String)temp.get("itemname"));
+        		ivd.setWareid((String)temp.get("wareid"));
+        		ivd.setWarename((String)temp.get("warename"));
+        		ivd.setInvoicedtlqty(Integer.parseInt((String)temp.get("invoicedtlqty")));
+        		ivd.setInvoicestat((String)temp.get("invoicestat"));
+        		ivdList.add(ivd);
+        		
+        		InvoiceVO newInvoice = new InvoiceVO();
+            	newInvoice.setDtllist(ivdList);
+            	
+            	invservice.insert(newInvoice);
+            
+            	
+            	/* TCP/IP 서버에 Task 전송 */
+            	sendTask(ivd.getInvoicestat(), ivd.getItemname(), ivd.getInvoicedtlqty());
+            	
+            	response = "SUCCESS";
+        	}
+        } catch(Exception e) {
+        	e.printStackTrace();
+        	response = "ERROR";
+        }
+        
+		return response;
 		
-		try {
-			invservice.insert(newInvoice);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-		
-		return mv;
 	}
 	
 	
 	@RequestMapping("/invoicesearch.pc")
-	public ModelAndView invoicesearch(ModelAndView mv, InvoiceVO ivv) {
+	public ModelAndView invoicesearch(ModelAndView mv, InvoicedetailVO ivd) {
 		
-		System.out.println("!!!!"+ivv.toString());
-		ArrayList<InvoiceVO> invoiceList = null;
+		System.out.println("!!!!"+ivd.toString());
+		ArrayList<InvoicedetailVO> dtList = null;
 		try {
-			invoiceList = invservice.selectAll(ivv);
+			dtList = invdtlservice.selectAll(ivd);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("@@@" + invoiceList.toString());
+//		if(!dtList.isEmpty()) {
+//			System.out.println("@@@" + dtList.toString());
+//		}
+		
 		
 		String ivTableHeader = "<thead>\r\n" + 
 				"										<tr>\r\n" + 
@@ -139,12 +166,35 @@ public class ItemController {
 				"										</tr>\r\n" + 
 				"									</thead>";
 		mv.addObject("ivTableHeader", ivTableHeader);
-		mv.addObject("invoiceList", invoiceList);
+		mv.addObject("invoiceList", dtList);
 		mv.addObject("center", "itpage");
 		mv.setViewName("main");
 		return mv;
 		
 		
+	}
+	
+	public void sendTask(String ivStat, String itName, int ivQty){
+		
+		int io = -1;
+    	if(ivStat.toUpperCase().equals("RECEIVING")) {
+    		io = 1;
+    	}else {
+    		io = 0;
+    	}
+    	msg = new Msg("Web", "ForkliftInfomatics");
+    	msg.setTask(io, itName, ivQty, 3, 6);
+    	
+		String address = "70.12.113.200";
+    	if(client == null) {
+    		try {
+				client = new Client(address,9999);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
+    	Runnable r = new Sender(msg);
+    	Main.executorService.execute(r);
 	}
 	
 	

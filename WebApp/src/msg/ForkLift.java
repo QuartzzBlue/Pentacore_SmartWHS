@@ -2,59 +2,74 @@ package msg;
 
 import java.io.Serializable;
 
-public class ForkLift implements Serializable {
-
-	/**
-	 * 
-	 */
+public class ForkLift implements Serializable{ 
+	
 	private static final long serialVersionUID = 1L;
 	
+	int status;
 	int locX;
 	int locY;
 	int battery;
-	int status;
-	String flname;
+	int temperature;
 
 	public ForkLift() {}
 	
-	public ForkLift(int locX, int locY, int battery, int status) {
-		this.locX = locX;
-		this.locY = locY;
-		this.battery = battery;
+	public ForkLift(int status, int locX, int locY, int battery, int temperature) {
+		super();
 		this.status = status;
-	}
-	public int getLocX() {
-		return locX;
-	}
-	public void setLocX(int locX) {
 		this.locX = locX;
-	}
-	public int getLocY() {
-		return locY;
-	}
-	public void setLocY(int locY) {
 		this.locY = locY;
-	}
-	public int getBattery() {
-		return battery;
-	}
-	public void setBattery(int battery) {
 		this.battery = battery;
+		this.temperature = temperature;
 	}
+
 	public int getStatus() {
 		return status;
 	}
+
+
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String getFlname() {
-		return flname;
+
+
+	public int getBattery() {
+		return battery;
 	}
-	public void setFlname(String flname) {
-		this.flname = flname;
+
+
+	public void setBattery(int battery) {
+		this.battery = battery;
+	}
+
+
+	public int getLocX() {
+		return locX;
+	}
+
+
+	public void setLocX(int locX) {
+		this.locX = locX;
+	}
+
+
+	public int getLocY() {
+		return locY;
+	}
+
+
+	public void setLocY(int locY) {
+		this.locY = locY;
+	}
+
+	public int getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
 	}
 	
-
 	
 
 }
