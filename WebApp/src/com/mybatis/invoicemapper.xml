@@ -5,12 +5,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 <mapper namespace="com.mapper.InvoiceMapper">
 	
 	<insert id="insert" parameterType="invoice">
-		INSERT INTO invoice (itemid, itemname, wareid, warename, invoicestat, invoiceqty, empno, empname) 
-		VALUES (#{itemid},#{itemname},#{wareid},#{warename},#{invoicestat}, #{invoiceqty}, #{empno}, #{empname})	
+		INSERT INTO invoice
+		VALUES (invoiceseq.nextval, #{empno,jdbcType=VARCHAR}, #{empname,jdbcType=VARCHAR}, sysdate)	
 	</insert>
 	
 	<update id="update" parameterType="invoice">
-		UPDATE invoice SET itemid=#{itemid},itemname=#{itemname},wareid=#{wareid},warename=#{warename},invoicestat=#{invoicestat},invoiceqty=#{invoiceqty},empno=#{empno},empname=#{empname} WHERE invoiceid=#{invoiceid}
+		UPDATE invoice SET empno=#{empno},empname=#{empname} WHERE invoiceid=#{invoiceid}
 	</update>
 	
 	<delete id="delete" parameterType="invoice">
@@ -23,7 +23,12 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectAll" parameterType="invoice" resultType="invoice">
-		SELECT * FROM invoice 
+		SELECT * FROM invoice
+		<where>
+			<if test = "startdate != null and startdate != '' and enddate != null and enddate != ''">
+				and invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
+			</if>
+		</where>
 	</select>
 	
 </mapper>

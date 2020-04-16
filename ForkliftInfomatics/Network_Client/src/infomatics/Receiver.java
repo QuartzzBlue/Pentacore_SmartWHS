@@ -14,20 +14,20 @@ class Receiver implements Runnable {
 
 	InputStream is;
 	ObjectInputStream ois;
-	
+
 	OutputStream os;
 	ObjectOutputStream oos;
 
 	Socket socket;
-	
-	public Receiver() {}
+	static int status = 2; // waiting
+
+	public Receiver() {
+	}
 
 	public Receiver(Socket socket) throws IOException {
 		this.socket = socket;
 		is = socket.getInputStream();
 		ois = new ObjectInputStream(is);
-		os = socket.getOutputStream();
-		oos = new ObjectOutputStream(os);
 	}
 
 	@Override
@@ -37,44 +37,70 @@ class Receiver implements Runnable {
 		int poolSize = threadPoolExecutor.getPoolSize();// 스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
 
-		ActiveConnection.ipToOos.put(socket.getInetAddress().toString(),oos);
-		System.out.println("Connected : "+socket.getInetAddress() + ", 접속 수 : " + ActiveConnection.ipToOos.size());		
-		
-		
-	
+		// Test 코드
+		Msg msg = new Msg("tabletServer", "ForkliftInfomatics");
+		msg.setTask(1, "product", 3, 10, 20);
 
-		while (ois != null) {
-			Msg msg = null;
-			try {
-				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
-				msg = (Msg) ois.readObject();
-				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("source ID : "+msg.getSrcID());		
-				int  battery = msg.getForkLift().getBattery();
-				
-				System.out.println("battery : "+battery);
-				
-				//ecu 가 접속했을 때만 Pad 로 전송
-				if(!msg.getSrcID().contains("tab")) {
-					Runnable r = new Sender(msg);
-					Main.executorService.submit(r);
-				}
-				
-
-			} catch (Exception e) {
-				System.out.println("Server Die");
-				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
-				//value 값으로 key 값 찾기
-				for(String id : ActiveConnection.idToIp.keySet()) {
-					if(socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
-						ActiveConnection.idToIp.remove(id);
-					}		
-				}
-				System.out.println("Disconnected : " + socket.getInetAddress().toString());
-				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
-				break;
+		if (msg.getTask() != null) {
+			status = 0; // working
+			String str = "";
+			if (msg.getTask().getLocX() < 10) {
+				str += "0" + msg.getTask().getLocX();
+			} else {
+				str += msg.getTask().getLocX() + "";
 			}
+			if (msg.getTask().getLocY() < 10) {
+				str += "0" + msg.getTask().getLocY();
+			} else {
+				str += msg.getTask().getLocY() + "";
+			}
+			Runnable r = new SerialWrite(str);
+			Main.executorService.submit(r);
 		}
+
+//		while (ois != null) {
+//			Msg msg = null;
+//			try {
+//				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
+//				msg = (Msg) ois.readObject();
+//				
+//				System.out.println("Received Task : "+"srcid: "+msg.getSrcID()+"dntnid : " + msg.getDstnID()+"IO : " +
+//				msg.getTask().getIo() + "LocX : "+ msg.getTask().getLocX()+"LocY : " + msg.getTask().getLocY()+"itemName : "+ 
+//						msg.getTask().getName()+"Qty : "+ msg.getTask().getQty());
+//				
+//				if(msg.getTask()!=null) {
+//					status = 0; //working
+//					String str="";
+//					if(msg.getTask().getLocX()<10) {
+//						str+="0"+msg.getTask().getLocX();
+//					}else {
+//						str+=msg.getTask().getLocX()+"";
+//					}
+//					if(msg.getTask().getLocY()<10) {
+//						str+="0"+msg.getTask().getLocY();
+//					}else {
+//						str+=msg.getTask().getLocY()+"";
+//					}
+//					Runnable r = new SerialWrite(str);
+//					Main.executorService.submit(r);
+//				}
+//				
+//				
+//
+//			} catch (Exception e) {
+//				System.out.println("Server Die");
+//				ActiveConnection.ipToOos.remove(socket.getInetAddress().toString());
+//				//value 값으로 key 값 찾기
+//				for(String id : ActiveConnection.idToIp.keySet()) {
+//					if(socket.getInetAddress().toString().equals(ActiveConnection.idToIp.get(id))) {
+//						ActiveConnection.idToIp.remove(id);
+//					}		
+//				}
+//				System.out.println("Disconnected : " + socket.getInetAddress().toString());
+//				System.out.println("접속 수 : " + ActiveConnection.ipToOos.size());
+//				break;
+//			}
+//		}
 
 		try {
 			if (ois != null) {

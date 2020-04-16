@@ -19,5 +19,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/ojdbc6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

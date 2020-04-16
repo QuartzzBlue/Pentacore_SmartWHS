@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.frame.Dao;
 import com.vo.ItemVO;
 
+import javassist.expr.Instanceof;
+
 
 @Service("itservice")
 public class ItemService implements com.frame.Service<ItemVO> {
@@ -22,7 +24,6 @@ public class ItemService implements com.frame.Service<ItemVO> {
 	@Transactional
 	@Override
 	public void insert(ItemVO v) throws Exception {
-		
 		int index = Integer.parseInt(v.getWarename().substring(4,6));
 		v.setWarename(wareNameList[index]);
 		dao.insert(v);
@@ -31,31 +32,22 @@ public class ItemService implements com.frame.Service<ItemVO> {
 	@Transactional
 	@Override
 	public void delete(ItemVO v) throws Exception {
-		
-		int index = Integer.parseInt(v.getWarename().substring(4,6));
-		v.setWarename(wareNameList[index]);
 		dao.delete(v);
 	}
 
 	@Transactional
 	@Override
 	public void update(ItemVO v) throws Exception {
-		int index = Integer.parseInt(v.getWarename().substring(4,6));
-		v.setWarename(wareNameList[index]);
 		dao.update(v);
 	}
 
 	@Override
 	public ItemVO select(ItemVO v) throws Exception {
-		int index = Integer.parseInt(v.getWarename().substring(4,6));
-		v.setWarename(wareNameList[index]);
 		return dao.select(v);
 	}
 
 	@Override
 	public ArrayList<ItemVO> selectAll(ItemVO v) throws Exception {
-		int index = Integer.parseInt(v.getWarename().substring(4,6));
-		v.setWarename(wareNameList[index]);
 		return dao.selectAll(v);
 	}
 
