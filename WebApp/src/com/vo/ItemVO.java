@@ -14,11 +14,14 @@ public class ItemVO {
 	
 	
 	public ItemVO() {
-		super();
 	}
+	
+	public ItemVO(String itemid) {
+		this.itemid = itemid;
+	}
+
 	public ItemVO(String itemid, String wareid, String itemname, String warename, String itemcate, double itemprice,
 			int itemstock, double itemweightpb, int itemqtypb, String itemloc) {
-		super();
 		this.itemid = itemid;
 		this.wareid = wareid;
 		this.itemname = itemname;

@@ -19,13 +19,11 @@ public class ItemService implements com.frame.Service<ItemVO> {
 	@Resource(name="itdao")
 	Dao<ItemVO> dao;
 	
-	String wareNameList[] = {"이천 제1물류창고"};
-	
 	@Transactional
 	@Override
 	public void insert(ItemVO v) throws Exception {
 		int index = Integer.parseInt(v.getWarename().substring(4,6));
-		v.setWarename(wareNameList[index]);
+		v.setWarename(com.controller.ItemController.wareNameList[index]);
 		dao.insert(v);
 	}
 	

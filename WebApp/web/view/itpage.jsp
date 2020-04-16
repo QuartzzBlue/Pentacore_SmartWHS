@@ -207,7 +207,7 @@
 												<td><input type="text" class="form-control"
 													id="warename" name="warename" placeholder="창고명"></td>
 												<td><input type="text" class="form-control"
-													id="invoiceqty" name="invoiceqty" placeholder="개수"
+													id="invoicedtlqty" name="invoicedtlqty" placeholder="개수"
 													style="width: 80px;"></td>
 												<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
 												<td><select class="form-control" id="invoicestat"
@@ -257,7 +257,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Data Table</h4>
+							<h4 class="card-title">Invoice Search -> AJAX로 바꾸고 Invoice 검색 후에 클릭시 detail 출력</h4>
 
 							<div class="table-responsive">
 								<form name="itemRegister" method="post"
@@ -335,8 +335,8 @@
 												<td>${iv.itemname}</td>
 												<td>${iv.warename}</td>
 												<td>${iv.invoicestat }</td>
-												<td>${iv.invoiceqty }</td>
-												<td>${iv.invoicedate }</td>
+												<td>${iv.invoicedtlqty }</td>
+												<td>${iv.invoicedtldate }</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -660,12 +660,14 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 	<script>
-	
+		
 		// warehouse id list
 		var wareIdList = [ "wh1111", "#" ];
 
 		// invoice detail item list
 		var jsonInvoice = Array();
+		
+		//////////////////////////////////////////////
 		
 		function setWareID(w) {
 			var target = document.getElementById("wareid_"
@@ -675,8 +677,9 @@
 			else
 				target.value = "";
 		}
-
 		
+		
+		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function(){
 			$(document.body).delegate(".selectedItList", "click", function(){
 				var itemid = $(this).find("td").eq(0).text();
@@ -691,46 +694,22 @@
 			});
 		});
 		
+		// Add item to invoice
 		$(function() {
-			$("#addItemToInvoice").on({
-				click: function(){
+			$("#addItemToInvoice").on({click: function(){
 					var jsonItem = new Object();
-					
-					//var itemid = $("#setItInfo").find("input[name=itemid]").val();
-					//var itemname = $("#setItInfo").find("input[name=itemname]").val();
-					//var wareid = $("#setItInfo").find("input[name=wareid]").val();
-					//var warename = $("#setItInfo").find("input[name=warename]").val();
-					//var invoiceqty = $("#setItInfo").find("input[name=invoiceqty]").val();
-					//var invoicestat = $("#setItInfo").find("input[name=invoicestat]").val();
+
 					
 					jsonItem.itemid = $("#setItInfo").find("input[name=itemid]").val();
 					jsonItem.itemname = $("#setItInfo").find("input[name=itemname]").val();
 					jsonItem.wareid = $("#setItInfo").find("input[name=wareid]").val();
 					jsonItem.warename = $("#setItInfo").find("input[name=warename]").val();
-					jsonItem.invoiceqty = $("#setItInfo").find("input[name=invoiceqty]").val();
+					jsonItem.invoicedtlqty = $("#setItInfo").find("input[name=invoicedtlqty]").val();
 					jsonItem.invoicestat = $("#setItInfo").find("select[name=invoicestat]").val();
-					
 					
 					jsonInvoice.push(jsonItem);
 					
-					var html = "";
-					
-					$.each(jsonInvoice,function(index, jsonItemArr){
-						html += "<tr class=\"ivItemList\">";
-						html += "<td>" +index+ "</td>";
-						html += "<td>" +jsonItemArr.itemid+ "</td>";
-						html += "<td>" +jsonItemArr.itemname+ "</td>";
-						html += "<td>" +jsonItemArr.wareid+ "</td>";
-						html += "<td>" +jsonItemArr.warename+ "</td>";
-						html += "<td>" +jsonItemArr.invoiceqty+ "</td>";
-						html += "<td>" +jsonItemArr.invoicestat+ "</td>";
-						html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
-						html += "</tr>";
-					});
-					
-					html += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"submit\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
-					
-					$("#invoiceDetail").html(html);
+					updateIvDetail();
 					
 				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			    	console.log(e.responseText);
@@ -738,53 +717,49 @@
 			});
 		});
 		
+		// Delete item from invoice
 		$(function(){
 			$(document.body).delegate(".deleteIvItem", "click", function(){
 				var idx = $(this).closest("tr").find("td").eq(0).text();
-				alert(idx);
+				//alert(idx);
 				jsonInvoice.splice(idx, 1);
-				alert(JSON.stringify(jsonInvoice));
+				//alert(JSON.stringify(jsonInvoice));
 				
-				var html = "";
-				
-				$.each(jsonInvoice,function(index, jsonItemArr){
-					html += "<tr class=\"ivItemList\">";
-					html += "<td>" +index+ "</td>";
-					html += "<td>" +jsonItemArr.itemid+ "</td>";
-					html += "<td>" +jsonItemArr.itemname+ "</td>";
-					html += "<td>" +jsonItemArr.wareid+ "</td>";
-					html += "<td>" +jsonItemArr.warename+ "</td>";
-					html += "<td>" +jsonItemArr.invoiceqty+ "</td>";
-					html += "<td>" +jsonItemArr.invoicestat+ "</td>";
-					html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
-					html += "</tr>";
-				});
-				
-				html += "<td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"submit\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
-				
-				$("#invoiceDetail").html(html);
+				updateIvDetail();
 				
 			});
 		});
 		
-		
+		// Register Invoice
 		$(function(){
-			$(document.body).delegate(".selectedItList", "click", function(){
-				var itemid = $(this).find("td").eq(0).text();
-				var itemname = $(this).find("td").eq(1).text();
-				var wareid = $(this).find("td").eq(6).text();
-				var warename = $(this).find("td").eq(7).text();
-				//alert($("#setItInfo").find("input[name=itemid]").val());
-				$("#setItInfo").find("input[name=itemid]").val(itemid);
-				$("#setItInfo").find("input[name=itemname]").val(itemname);
-				$("#setItInfo").find("input[name=wareid]").val(wareid);
-				$("#setItInfo").find("input[name=warename]").val(warename);
+			$(document.body).delegate("#ivRegister", "click", function(){
+				$.ajax({
+					type:"post"		// 포스트방식
+					,url:"invoiceregister.pc"		// url 주소
+					,data:JSON.stringify(jsonInvoice)
+					,dataType:"text"
+					,contentType:"application/json; charset=UTF-8"
+					,success:function(response){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+						console.log(response);
+						var token = response.responseText;
+						if(token = "SUCCESS"){
+							alert("발주가 완료되었습니다.");
+							jsonInvoice = Array();
+							$("#invoiceDetail").html("");
+							updateItem();
+						}else if(token = "ERROR"){  
+							alert("발주실패ㅒㅒㅒㅒ");
+						}
+					},error:function(request, status, error) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+						console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				    }
+				});
 			});
 		});
 		
 		
-		$(document).ready(function(){
-			
+		//Item list update
+		var updateItem = function(){
 			// 아이템 리스트 가져오기
 			$.ajax({
 				type:"post"		// 포스트방식
@@ -818,7 +793,33 @@
 			    	console.log(e.responseText);
 			    }
 			});
+		}
+		
+		var updateIvDetail = function(){
+			var html = "";
+			
+			$.each(jsonInvoice,function(index, jsonItemArr){
+				html += "<tr class=\"ivItemList\">";
+				html += "<td>" +index+ "</td>";
+				html += "<td>" +jsonItemArr.itemid+ "</td>";
+				html += "<td>" +jsonItemArr.itemname+ "</td>";
+				html += "<td>" +jsonItemArr.wareid+ "</td>";
+				html += "<td>" +jsonItemArr.warename+ "</td>";
+				html += "<td>" +jsonItemArr.invoicedtlqty+ "</td>";
+				html += "<td>" +jsonItemArr.invoicestat+ "</td>";
+				html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
+				html += "</tr>";
+			});
+			
+			html += "<td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
+			
+			$("#invoiceDetail").html(html);
+		}
+		
+		$(document).ready(function(){
+			updateItem();	
 		});
+		
 	</script>
 
 
