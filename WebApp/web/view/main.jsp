@@ -8,6 +8,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Dashboard</title>
+<!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
@@ -19,8 +23,26 @@
 <link rel="stylesheet"
 	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css?143" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 
+
+<!-- Page plugins css -->
+<link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css"
+	rel="stylesheet">
+<!-- Color picker plugins css -->
+<link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css"
+	rel="stylesheet">
+<!-- Date picker plugins css -->
+<link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
+	rel="stylesheet">
+<link
+	href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
+	rel="stylesheet">
+<!-- Table -->
+<link
+	href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
+	rel="stylesheet">
+	
 
 </head>
 
@@ -150,9 +172,6 @@
 	<c:choose>
 
 		<c:when test="${center == null }">
-			<script>
-				console.log('hello!!!!');
-			</script>
 			<jsp:include page="itpage.jsp" />
 		</c:when>
 		<c:otherwise>
@@ -207,17 +226,45 @@
 	<script src="./plugins/raphael/raphael.min.js"></script>
 	<script src="./plugins/morris/morris.min.js"></script>
 	<!-- Pignose Calender -->
-	<script src="./plugins/moment/moment.min.js"></script>
+	<!-- <script src="./plugins/moment/moment.min.js"></script> -->
 	<script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
 	<!-- ChartistJS -->
 	<script src="./plugins/chartist/js/chartist.min.js"></script>
 	<script
 		src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
-	<!-- JQeury -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="./js/dashboard/dashboard-1.js"></script>
+	
+
+
+	<script src="./plugins/moment/moment.js"></script>
+	
+	<!-- Clock Plugin JavaScript -->
+	<script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
+	<!-- Color Picker Plugin JavaScript -->
+	 <script
+		src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
+	<script
+		src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
+	<script
+		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	<!-- Date Picker Plugin JavaScript -->
+	<script
+		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script
+		src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+	<script src="./js/plugins-init/form-pickers-init.js"></script>
+
+	<!-- Table -->
+	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+	<script
+		src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+	<script src="./js/plugins-init/datatables.init-ex.js"></script>
+
+	<!-- Modal -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 </body>
 

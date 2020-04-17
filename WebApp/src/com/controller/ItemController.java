@@ -174,6 +174,17 @@ public class ItemController {
 		
 	}
 	
+	@RequestMapping("/setmodal.pc")
+	public ModelAndView setmodal(ModelAndView mv) {
+		
+		mv.addObject("modal", "itemLoc");
+		mv.addObject("center", "itpage");
+		mv.setViewName("main");
+		return mv;
+		
+		
+	}
+	
 	public void sendTask(String ivStat, String itName, int ivQty){
 		
 		int io = -1;
