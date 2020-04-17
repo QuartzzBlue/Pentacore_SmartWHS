@@ -61,7 +61,7 @@ public class Receiver implements Runnable {
 				
 				//tabletServer 접속할때는 Sender 할 필요 없다
 				if(msg.getTask()!=null) {
-					System.out.println("Receive Task (IO,x,y,qty): " + msg.getTask().getIo() + ","+msg.getTask().getLocX()+","+msg.getTask().getLocY()+","+msg.getTask().getQty());
+					System.out.println("Receive Task (IO,name,qty,x,y): " + msg.getTask().getIo() + ","+msg.getTask().getName()+","+msg.getTask().getQty()+","+msg.getTask().getLocX()+","+msg.getTask().getLocY());
 					Runnable r= new Sender(msg);
 					Main.executorService.submit(r);
 				}
