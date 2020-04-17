@@ -9,33 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- Custom Stylesheet -->
-<link
-	href="./plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-	rel="stylesheet">
-<!-- Page plugins css -->
-<link href="./plugins/clockpicker/dist/jquery-clockpicker.min.css"
-	rel="stylesheet">
-<!-- Color picker plugins css -->
-<link href="./plugins/jquery-asColorPicker-master/css/asColorPicker.css"
-	rel="stylesheet">
-<!-- Date picker plugins css -->
-<link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css"
-	rel="stylesheet">
-<!-- Daterange picker plugins css -->
-<link href="./plugins/timepicker/bootstrap-timepicker.min.css"
-	rel="stylesheet">
-<link href="./plugins/bootstrap-daterangepicker/daterangepicker.css"
-	rel="stylesheet">
-
-<link
-	href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
-	rel="stylesheet">
-
-<link href="css/style.css" rel="stylesheet">
 
 <style>
-	.badge-danger{cursor : pointer; }
+.badge-danger {
+	cursor: pointer;
+}
 </style>
 </head>
 
@@ -183,67 +161,103 @@
 							<h4 class="card-title">Data Table</h4>
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
-									<!--세션설정-->
-									<table class="table">
-										<thead>
-											<tr>
-												<th>Item ID<span class="text-danger">*</span></th>
-												<th>Item Name<span class="text-danger">*</span></th>
-												<th>Warehouse ID<span class="text-danger">*</span></th>
-												<th>Warehouse Name<span class="text-danger">*</span></th>
-												<th>Qty<span class="text-danger">*</span></th>
-												<th>Status<span class="text-danger">*</span></th>
-												<th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr id="setItInfo">
-												<td><input type="text" class="form-control" id="itemid"
-													name="itemid" placeholder="상품 ID"></td>
-												<td><input type="text" class="form-control"
-													id="itemname" name="itemname" placeholder="상품명"></td>
-												<td><input type="text" class="form-control" id="wareid"
-													name="wareid" placeholder="창고ID"></td>
-												<td><input type="text" class="form-control"
-													id="warename" name="warename" placeholder="창고명"></td>
-												<td><input type="text" class="form-control"
-													id="invoicedtlqty" name="invoicedtlqty" placeholder="개수"
-													style="width: 80px;"></td>
-												<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
-												<td><select class="form-control" id="invoicestat"
-													name="invoicestat">
-														<option value="">입/출고</option>
-														<option value="Receiving">Receiving</option>
-														<option value="Shipping">Shipping</option>
-												</select></td>
-												<td><button type="button" id="addItemToInvoice"
-														class="btn mb-1 btn-primary btn-lg">Add</button>
-												<td>
-											</tr>
-										</tbody>
-									</table>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Item ID<span class="text-danger">*</span></th>
+											<th>Item Name<span class="text-danger">*</span></th>
+											<th>Warehouse ID<span class="text-danger">*</span></th>
+											<th>Warehouse Name<span class="text-danger">*</span></th>
+											<th>Qty<span class="text-danger">*</span></th>
+											<th>Status<span class="text-danger">*</span></th>
+											<th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr id="setItInfo">
+											<td><input type="text" class="form-control" id="itemid"
+												name="itemid" placeholder="상품 ID"></td>
+											<td><input type="text" class="form-control"
+												id="itemname" name="itemname" placeholder="상품명"></td>
+											<td><input type="text" class="form-control" id="wareid"
+												name="wareid" placeholder="창고ID"></td>
+											<td><input type="text" class="form-control"
+												id="warename" name="warename" placeholder="창고명"></td>
+											<td><input type="text" class="form-control"
+												id="invoicedtlqty" name="invoicedtlqty" placeholder="개수"
+												style="width: 80px;"></td>
+											<!-- (추가)출고 시 현재 재고보다 많은 양을 선택하면 에러 띄워야함 -->
+											<td><select class="form-control" id="invoicestat"
+												name="invoicestat">
+													<option value="">입/출고</option>
+													<option value="Receiving">Receiving</option>
+													<option value="Shipping">Shipping</option>
+											</select></td>
+
+
+											<!-- ----------Modal-------- -->
+
+											<td><input type="text" class="form-control" id="itemloc"
+												name="itemloc"></td>
+											<td><a href="#itemLocModal" class="btn btn-primary"
+												data-toggle="modal" data-target="#theModal"
+												data-remote="/WebApp/view/modal/itemLoc.jsp">선택</a>
+												<div class="modal fade" id="theModal" tabindex="-1" role="dialog">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="exampleModalLabel">New
+																	message</h5>
+																<button type="button" class="close" data-dismiss="modal"
+																	aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal">Close</button>
+																<button type="button" class="btn btn-primary">Send
+																	message</button>
+															</div>
+														</div>
+													</div>
+												</div></td>
+											<!-- Modal End -->
+
+
+
+
+											<td><button type="button" id="addItemToInvoice"
+													class="btn mb-1 btn-primary btn-lg">Add</button>
+											<td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 
 							<div class="table-responsive">
 								<!-- <form name="itemRegister" method="post"
 									action="invoiceregister.pc"> -->
-									<table class="table"> 
-										<thead>
-											<tr>
-												<th></th>
-												<th>Item ID</th>
-												<th>Item Name</th>
-												<th>Warehouse ID</th>
-												<th>Warehouse Name</th>
-												<th>Qty</th>
-												<th>Status</th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody id="invoiceDetail">
+								<table class="table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Item ID</th>
+											<th>Item Name</th>
+											<th>Warehouse ID</th>
+											<th>Warehouse Name</th>
+											<th>Qty</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody id="invoiceDetail">
 
-										</tbody>
-									</table>
+									</tbody>
+								</table>
 
 								<!-- </form>  -->
 							</div>
@@ -257,7 +271,8 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Invoice Search -> AJAX로 바꾸고 Invoice 검색 후에 클릭시 detail 출력</h4>
+							<h4 class="card-title">Invoice Search -> AJAX로 바꾸고 Invoice
+								검색 후에 클릭시 detail 출력</h4>
 
 							<div class="table-responsive">
 								<form name="itemRegister" method="post"
@@ -621,54 +636,16 @@
 	</div>
 
 
-	<!--**********************************
-        Scripts
-    ***********************************-->
-	<script src="plugins/common/common.min.js"></script>
-	<script src="js/custom.min.js"></script>
-	<script src="js/settings.js"></script>
-	<script src="js/gleek.js"></script>
-	<script src="js/styleSwitcher.js"></script>
-
-	<script src="./plugins/moment/moment.js"></script>
-	<script
-		src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-	<!-- Clock Plugin JavaScript -->
-	<script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
-	<!-- Color Picker Plugin JavaScript -->
-	<script
-		src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
-	<script
-		src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
-	<script
-		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-	<!-- Date Picker Plugin JavaScript -->
-	<script
-		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-
-	<script src="./js/plugins-init/form-pickers-init.js"></script>
-
-	<!-- Table -->
-	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-	<script
-		src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
-	<script src="./js/plugins-init/datatables.init-ex.js"></script>
-
-	<!-- JQeury -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
 	<script>
-		
 		// warehouse id list
 		var wareIdList = [ "wh1111", "#" ];
 
 		// invoice detail item list
 		var jsonInvoice = Array();
-		
+
 		//////////////////////////////////////////////
-		
+
 		function setWareID(w) {
 			var target = document.getElementById("wareid_"
 					+ w.value.substring(7, 8));
@@ -677,11 +654,10 @@
 			else
 				target.value = "";
 		}
-		
-		
+
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
-		$(function(){
-			$(document.body).delegate(".selectedItList", "click", function(){
+		$(function() {
+			$(document.body).delegate(".selectedItList", "click", function() {
 				var itemid = $(this).find("td").eq(0).text();
 				var itemname = $(this).find("td").eq(1).text();
 				var wareid = $(this).find("td").eq(6).text();
@@ -693,133 +669,195 @@
 				$("#setItInfo").find("input[name=warename]").val(warename);
 			});
 		});
-		
+
 		// Add item to invoice
 		$(function() {
-			$("#addItemToInvoice").on({click: function(){
-					var jsonItem = new Object();
+			$("#addItemToInvoice").on(
+					{
+						click : function() {
+							var jsonItem = new Object();
 
-					
-					jsonItem.itemid = $("#setItInfo").find("input[name=itemid]").val();
-					jsonItem.itemname = $("#setItInfo").find("input[name=itemname]").val();
-					jsonItem.wareid = $("#setItInfo").find("input[name=wareid]").val();
-					jsonItem.warename = $("#setItInfo").find("input[name=warename]").val();
-					jsonItem.invoicedtlqty = $("#setItInfo").find("input[name=invoicedtlqty]").val();
-					jsonItem.invoicestat = $("#setItInfo").find("select[name=invoicestat]").val();
-					
-					jsonInvoice.push(jsonItem);
-					
-					updateIvDetail();
-					
-				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	console.log(e.responseText);
-			    }
-			});
+							jsonItem.itemid = $("#setItInfo").find(
+									"input[name=itemid]").val();
+							jsonItem.itemname = $("#setItInfo").find(
+									"input[name=itemname]").val();
+							jsonItem.wareid = $("#setItInfo").find(
+									"input[name=wareid]").val();
+							jsonItem.warename = $("#setItInfo").find(
+									"input[name=warename]").val();
+							jsonItem.invoicedtlqty = $("#setItInfo").find(
+									"input[name=invoicedtlqty]").val();
+							jsonItem.invoicestat = $("#setItInfo").find(
+									"select[name=invoicestat]").val();
+
+							jsonInvoice.push(jsonItem);
+
+							updateIvDetail();
+
+						},
+						error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+							console.log(e.responseText);
+						}
+					});
 		});
-		
+
 		// Delete item from invoice
-		$(function(){
-			$(document.body).delegate(".deleteIvItem", "click", function(){
+		$(function() {
+			$(document.body).delegate(".deleteIvItem", "click", function() {
 				var idx = $(this).closest("tr").find("td").eq(0).text();
 				//alert(idx);
 				jsonInvoice.splice(idx, 1);
 				//alert(JSON.stringify(jsonInvoice));
-				
+
 				updateIvDetail();
-				
+
 			});
 		});
-		
+
 		// Register Invoice
-		$(function(){
-			$(document.body).delegate("#ivRegister", "click", function(){
-				$.ajax({
-					type:"post"		// 포스트방식
-					,url:"invoiceregister.pc"		// url 주소
-					,data:JSON.stringify(jsonInvoice)
-					,dataType:"text"
-					,contentType:"application/json; charset=UTF-8"
-					,success:function(response){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
-						console.log(response);
-						var token = response.responseText;
-						if(token = "SUCCESS"){
-							alert("발주가 완료되었습니다.");
-							jsonInvoice = Array();
-							$("#invoiceDetail").html("");
-							updateItem();
-						}else if(token = "ERROR"){  
-							alert("발주실패ㅒㅒㅒㅒ");
-						}
-					},error:function(request, status, error) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-						console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				    }
-				});
-			});
+		$(function() {
+			$(document.body).delegate(
+					"#ivRegister",
+					"click",
+					function() {
+						$.ajax({
+							type : "post" // 포스트방식
+							,
+							url : "invoiceregister.pc" // url 주소
+							,
+							data : JSON.stringify(jsonInvoice),
+							dataType : "text",
+							contentType : "application/json; charset=UTF-8",
+							success : function(response) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
+								console.log(response);
+								var token = response.responseText;
+								if (token = "SUCCESS") {
+									alert("발주가 완료되었습니다.");
+									jsonInvoice = Array();
+									$("#invoiceDetail").html("");
+									updateItem();
+								} else if (token = "ERROR") {
+									alert("발주실패ㅒㅒㅒㅒ");
+								}
+							},
+							error : function(request, status, error) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+								console.log("code:" + request.status + "\n"
+										+ "message:" + request.responseText
+										+ "\n" + "error:" + error);
+							}
+						});
+					});
 		});
-		
-		
+
 		//Item list update
-		var updateItem = function(){
+		var updateItem = function() {
 			// 아이템 리스트 가져오기
 			$.ajax({
-				type:"post"		// 포스트방식
-				,url:"itemsearch.pc"		// url 주소
-				,data:{}
-				,dataType:"json"
-				,contentType:"application/json; charset=UTF-8"
-				,success:function(data){	//응답이 성공 상태 코드를 반환하면 호출되는 함수
+				type : "post" // 포스트방식
+				,
+				url : "itemsearch.pc" // url 주소
+				,
+				data : {},
+				dataType : "json",
+				contentType : "application/json; charset=UTF-8",
+				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
 					var html = "";
-					
-					$.each(data,function(index, item){
+
+					$.each(data, function(index, item) {
 						html += "<tr class=\"selectedItList\">";
-						html += "<td>" +item.itemid+ "</td>";
-						html += "<td>" +item.itemname+ "</td>";
-						html += "<td>" +item.itemcate+ "</td>";
-						html += "<td>" +item.itemprice+ "</td>";
-						html += "<td>" +item.itemweightpb+ "</td>";
-						html += "<td>" +item.itemqtypb+ "</td>";
-						html += "<td>" +item.wareid+ "</td>";
-						html += "<td>" +item.warename+ "</td>";
-						html += "<td>" +item.itemloc+ "</td>";
-						html += "<td>" +item.itemstock+ "</td>";
+						html += "<td>" + item.itemid + "</td>";
+						html += "<td>" + item.itemname + "</td>";
+						html += "<td>" + item.itemcate + "</td>";
+						html += "<td>" + item.itemprice + "</td>";
+						html += "<td>" + item.itemweightpb + "</td>";
+						html += "<td>" + item.itemqtypb + "</td>";
+						html += "<td>" + item.wareid + "</td>";
+						html += "<td>" + item.warename + "</td>";
+						html += "<td>" + item.itemloc + "</td>";
+						html += "<td>" + item.itemstock + "</td>";
 						html += "</tr>";
 					});
-					
-					
-					
+
 					$("#itListBody").html(html);
-				  
-				},error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	console.log(e.responseText);
-			    }
+
+				},
+				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+					console.log(e.responseText);
+				}
 			});
 		}
-		
-		var updateIvDetail = function(){
+
+		var updateIvDetail = function() {
 			var html = "";
-			
-			$.each(jsonInvoice,function(index, jsonItemArr){
-				html += "<tr class=\"ivItemList\">";
-				html += "<td>" +index+ "</td>";
-				html += "<td>" +jsonItemArr.itemid+ "</td>";
-				html += "<td>" +jsonItemArr.itemname+ "</td>";
-				html += "<td>" +jsonItemArr.wareid+ "</td>";
-				html += "<td>" +jsonItemArr.warename+ "</td>";
-				html += "<td>" +jsonItemArr.invoicedtlqty+ "</td>";
-				html += "<td>" +jsonItemArr.invoicestat+ "</td>";
-				html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
-				html += "</tr>";
-			});
-			
+
+			$
+					.each(
+							jsonInvoice,
+							function(index, jsonItemArr) {
+								html += "<tr class=\"ivItemList\">";
+								html += "<td>" + index + "</td>";
+								html += "<td>" + jsonItemArr.itemid + "</td>";
+								html += "<td>" + jsonItemArr.itemname + "</td>";
+								html += "<td>" + jsonItemArr.wareid + "</td>";
+								html += "<td>" + jsonItemArr.warename + "</td>";
+								html += "<td>" + jsonItemArr.invoicedtlqty
+										+ "</td>";
+								html += "<td>" + jsonItemArr.invoicestat
+										+ "</td>";
+								html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
+								html += "</tr>";
+							});
+
 			html += "<td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
-			
+
 			$("#invoiceDetail").html(html);
 		}
+
+		/*
+		$('#showItemLoc').on('show.bs.modal', function(e) {
+			console.log("2222");
+			var button = $(e.relatedTarget);
+			var modal = $(this);
+			
+			modal.find('#innerModal').load(button.data("remote"));
 		
-		$(document).ready(function(){
-			updateItem();	
 		});
+
 		
+		
+				$(function() {
+					$('#showItemLoc').click(function() {
+
+					var url = "/WebApp/view/modal/itemLoc.jsp"
+					$("#itemLocModal").load(url, function() { 
+					        $("#itemLocModal").modal("show"); 
+					 });
+
+					});
+				});
+		 */
+
+		$('#theModal').on('show.bs.modal', function(e) {
+
+			var button = $(e.relatedTarget);
+			var modal = $(this);
+
+			// load content from HTML string
+			//modal.find('.modal-body').html("Nice modal body baby...");
+
+			// or, load content from value of data-remote url
+			modal.find('.modal-body').load(button.data("remote"));
+
+		});
+		 
+		  $('#theModal').on('hide.bs.modal', function () {    
+		    //   console.log('username : '+$("#modal-username").val());    
+		    //   console.log('result : '+$("#modal-result").val());    
+		})
+
+		$(document).ready(function() {
+			updateItem();
+		});
 	</script>
 
 
