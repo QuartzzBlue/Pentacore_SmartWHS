@@ -13,27 +13,26 @@ import gnu.io.SerialPortEventListener;
 import msg.Msg;
 
 public class SerialServer implements SerialPortEventListener {
-	
-	static String[] devices = { "10000000", "10000001", "10000002", "10000003", "10000004" };
+
 	CommPortIdentifier commPortIdentifier;
 	CommPort commPort;
 	InputStream in;
 	BufferedInputStream bin;
 	static OutputStream out;
 	static String receiveStr;
-	
-	static String receiveid;
-	static String receivedata;
+
+	static String receiveId;
+	static String receiveData;
 	Msg msg;
-	int battery=0;
-	int locX=0;
-	int locY=0;
-	int temperature=0;
-	
-	Sender r = new Sender(msg);
-	
+	int status = -1;
+	int battery = 0;
+	int locX = 0;
+	int locY = 0;
+	int temperature = 0;
 
 	boolean flag = false;
+	
+	Sender r = new Sender(msg);
 
 	public SerialServer() {
 	}
@@ -43,11 +42,10 @@ public class SerialServer implements SerialPortEventListener {
 		System.out.println("Identified Com Port!");
 		connect();
 		System.out.println("Connect Com Port!");
-		
+
 		Runnable r = new SerialWrite();
 		Main.executorService.submit(r);
-		System.out.println("SerialWrite 생성자");
-		
+
 		System.out.println("Start CAN Network!!!");
 	}
 
@@ -60,19 +58,17 @@ public class SerialServer implements SerialPortEventListener {
 				SerialPort serialPort = (SerialPort) commPort;
 				serialPort.addEventListener(this);
 				serialPort.notifyOnDataAvailable(true);
-				serialPort.setSerialPortParams(921600, 
-						SerialPort.DATABITS_8, 
-						SerialPort.STOPBITS_1, 
-						SerialPort.PARITY_NONE); 
+				serialPort.setSerialPortParams(921600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+						SerialPort.PARITY_NONE);
 				in = serialPort.getInputStream();
 				bin = new BufferedInputStream(in);
 				out = serialPort.getOutputStream();
 			} else {
 				System.out.println("this port is not serial ");
-			} 
-				
-		} 
-			
+			}
+
+		}
+
 	}
 
 	@Override
@@ -98,32 +94,52 @@ public class SerialServer implements SerialPortEventListener {
 				receiveStr = new String(readBuffer);
 				System.out.println("Receive Data:" + receiveStr);
 
-				//ECU 로부터 can 송신하면
-				if(receiveStr.substring(1,4).equals("U28")) {
-					//id 가 Battery 면
-					receiveid = receiveStr.substring(4,12);
-					receivedata = receiveStr.substring(24,28);
-					
-					System.out.println("From (id) : " + receiveid);
-					System.out.println("Data : " + receivedata);
-					
-					if(receiveid.equals("10000001")) { //battery
-						battery = Integer.parseInt(receivedata);
+				// ECU 로부터 can 송신하면
+				if (receiveStr.substring(1, 4).equals("U28")) {
+
+					receiveId = receiveStr.substring(4, 12);
+					receiveData = receiveStr.substring(24, 28);
+
+					System.out.println("From (id) : " + receiveId);
+					System.out.println("Data : " + receiveData);
+
+					if (receiveId.equals("13000003")) { // battery
+						battery = Integer.parseInt(receiveData);
+						if (battery <= 990) {
+							SerialWrite.sendId = "10000001";
+							System.out.println("충전 시작");
+						}
 						System.out.println("battery : " + battery);
-						
-					}else if (receiveid.equals("10000002")){ //location
-						locX = Integer.parseInt(receivedata.substring(0, 2));
-						locY = Integer.parseInt(receivedata.substring(2, 4));
-						System.out.println("Location (x,y) : " +locX + ","+locY);
-					}else if (receiveid.equals("10000003")){ //temperature
-						temperature = Integer.parseInt(receivedata);
-						System.out.println("temperature : " +temperature);
+
+					} else if (receiveId.equals("14000004")) { // location
+						locX = Integer.parseInt(receiveData.substring(0, 2));
+						locY = Integer.parseInt(receiveData.substring(2, 4));
+						System.out.println("Location (x,y) : " + locX + "," + locY);
+					} else if (receiveId.equals("15000005")) { // temperature
+						temperature = Integer.parseInt(receiveData);
+						System.out.println("temperature : " + temperature);
 					}
-					msg =new Msg ("forklift01","tabletServer");
-					msg.setForkLift(0, locX, locY,battery, temperature);
+					
+					
+					if(SerialWrite.sendId.equals("10000000")) { //working
+						status = 0;
+					}
+					
+					else if(SerialWrite.sendId.equals("10000001")) { //charging
+						status = 1;
+					}
+		
+					else if(SerialWrite.sendId.equals("10000002")) { //working
+						status = 2;
+					}
+					msg = new Msg("forklift01", "tabletServer");
+					msg.setForkLift(status, locX, locY, battery, temperature);
+					if(msg.getTask()!=null) {
+						msg.setTask(Receiver.task.getIo(), Receiver.task.getName(), Receiver.task.getQty(), Receiver.task.getLocX(), Receiver.task.getLocY());
+					}
 					r.setMsg(msg);
 					Main.executorService.submit(r);
-					
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -131,5 +147,4 @@ public class SerialServer implements SerialPortEventListener {
 		}
 	}// serialEvent method
 
-	
 }
