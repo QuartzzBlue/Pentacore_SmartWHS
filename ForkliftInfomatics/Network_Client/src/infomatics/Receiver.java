@@ -44,29 +44,31 @@ class Receiver implements Runnable {
 			try {
 
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
-				msg = (Msg) ois.readObject();
+				//msg = (Msg) ois.readObject();
+				
+				
 				
 				//Test
+				Thread.sleep(5000);
 //				msg = new Msg("tabletServer","ForkliftInfomatics");
 //				msg.setTask(1, "PHONE", 1, 3, 20);
 //				task = msg.getTask();
 //				
-				Thread.sleep(1000);
 				//
 				
-				if (msg.getTask() != null) {
-					System.out.println("Received Task - " + "srcid: " + msg.getSrcID() + " dstnid : " + msg.getDstnID()
-							+ " IO : " + msg.getTask().getIo() + " LocX : " + msg.getTask().getLocX() + " LocY : "
-							+ msg.getTask().getLocY() + " itemName : " + msg.getTask().getName() + " Qty : "
-							+ msg.getTask().getQty());
-
-					SerialWrite.sendId = "10000000";
-					SerialWrite.data = msg.getTask().getLocX()+""+msg.getTask().getLocY();
+//				if (msg.getTask() != null) {
+//					System.out.println("Received Task - " + "srcid: " + msg.getSrcID() + " dstnid : " + msg.getDstnID()
+//							+ " IO : " + msg.getTask().getIo() + " LocX : " + msg.getTask().getLocX() + " LocY : "
+//							+ msg.getTask().getLocY() + " itemName : " + msg.getTask().getName() + " Qty : "
+//							+ msg.getTask().getQty());
+//
+//					SerialWrite.sendId = "10000000";
+////					SerialWrite.data = msg.getTask().getLocX()+""+msg.getTask().getLocY();
 //					Runnable r = new SerialWrite(msg.getTask().getLocX()+""+msg.getTask().getLocY());
 //					Main.executorService.submit(r);
-					
-
-				}
+//					
+//
+//				}
 
 			} catch (Exception e) {
 				e.printStackTrace();

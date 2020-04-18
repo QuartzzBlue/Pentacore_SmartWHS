@@ -92,7 +92,7 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				receiveStr = new String(readBuffer);
-				System.out.println("Receive Data:" + receiveStr);
+				//System.out.println("Receive Data:" + receiveStr);
 
 				// ECU 로부터 can 송신하면
 				if (receiveStr.substring(1, 4).equals("U28")) {
@@ -100,14 +100,21 @@ public class SerialServer implements SerialPortEventListener {
 					receiveId = receiveStr.substring(4, 12);
 					receiveData = receiveStr.substring(24, 28);
 
-					System.out.println("From (id) : " + receiveId);
-					System.out.println("Data : " + receiveData);
+					//System.out.println("From (id) : " + receiveId);
+					//System.out.println("Data : " + receiveData);
 
 					if (receiveId.equals("13000003")) { // battery
 						battery = Integer.parseInt(receiveData);
 						if (battery <= 990) {
-							SerialWrite.sendId = "10000001";
+							SerialWrite.sendId = "10000002";
+							Runnable r = new SerialWrite("0000");
+							Main.executorService.execute(r);
 							System.out.println("충전 시작");
+						}
+						else if (battery ==999) {
+							SerialWrite.sendId = "10000001";
+							Runnable r = new SerialWrite("0000");
+							Main.executorService.execute(r);
 						}
 						System.out.println("battery : " + battery);
 
@@ -129,7 +136,7 @@ public class SerialServer implements SerialPortEventListener {
 						status = 1;
 					}
 		
-					else if(SerialWrite.sendId.equals("10000002")) { //working
+					else if(SerialWrite.sendId.equals("10000002")) { //waiting
 						status = 2;
 					}
 					msg = new Msg("forklift01", "tabletServer");
