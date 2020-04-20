@@ -48,11 +48,12 @@
 													<th>Qty<span class="text-danger">*</span></th>
 													<th>Warehouse ID<span class="text-danger">*</span></th>
 													<th>Warehouse Name<span class="text-danger">*</span></th>
+													<th>Location<span class="text-danger">*</span></th>
 												</tr>
 											</thead>
 											<tbody>
 
-												<tr>
+												<tr id = "registeritList">
 													<td><input type="text" class="form-control"
 														id="itemid" name="itemid" placeholder="상품 ID"></td>
 													<td><input type="text" class="form-control"
@@ -81,6 +82,37 @@
 															<!--  <option value="ware01">CSS</option>-->
 
 													</select></td>
+													<td><input type="text" class="form-control" id="itemloc"
+														name="itemloc" placeholder="위치" readonly></td>
+														<!-- ----------Modal-------- -->
+
+											
+													<td><a href="#itemLocModal" class="btn btn-primary"
+														data-toggle="modal" data-target="#theModal"
+														data-remote="/WebApp/view/modal/itemLoc.jsp">선택</a>
+														<div class="modal fade" id="theModal" tabindex="-1"
+															role="dialog">
+															<div class="modal-dialog" role="document">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="exampleModalLabel">New
+																			message</h5>
+																		<button type="button" class="close" data-dismiss="modal"
+																			aria-label="Close">
+																			<span aria-hidden="true">&times;</span>
+																		</button>
+																	</div>
+																	<div class="modal-body"></div>
+																	<div class="modal-footer">
+																		<!-- <button type="button" class="btn btn-secondary"
+																			data-dismiss="modal">Close</button> -->
+																		<button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+																	</div>
+																</div>
+															</div>
+														</div></td>
+											<!-- Modal End -->
+												
 												</tr>
 												<tr>
 													<td></td>
@@ -113,7 +145,8 @@
 
 							<div class="table-responsive">
 								<table
-									class="table table-striped table-bordered zero-configuration dataTable">
+									class="table table-striped table-bordered zero-configuration dataTable"
+									id="itListBody">
 
 									<thead>
 										<tr>
@@ -130,7 +163,7 @@
 										</tr>
 									</thead>
 
-									<tbody id="itListBody">
+									<tbody id="itListTBody">
 										<!--<c:forEach var="it" items="${itemList }">
 											<tr class="selectedItList">
 												<td>${it.itemid}</td>
@@ -170,7 +203,8 @@
 											<th>Warehouse Name<span class="text-danger">*</span></th>
 											<th>Qty<span class="text-danger">*</span></th>
 											<th>Status<span class="text-danger">*</span></th>
-											<th>
+											
+											
 										</tr>
 									</thead>
 									<tbody>
@@ -193,41 +227,9 @@
 													<option value="Receiving">Receiving</option>
 													<option value="Shipping">Shipping</option>
 											</select></td>
+											
 
-
-											<!-- ----------Modal-------- -->
-
-											<td><input type="text" class="form-control" id="itemloc"
-												name="itemloc"></td>
-											<td><a href="#itemLocModal" class="btn btn-primary"
-												data-toggle="modal" data-target="#theModal"
-												data-remote="/WebApp/view/modal/itemLoc.jsp">선택</a>
-												<div class="modal fade" id="theModal" tabindex="-1" role="dialog">
-													<div class="modal-dialog" role="document">
-														<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel">New
-																	message</h5>
-																<button type="button" class="close" data-dismiss="modal"
-																	aria-label="Close">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-															</div>
-															<div class="modal-body">
-																
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-secondary"
-																	data-dismiss="modal">Close</button>
-																<button type="button" class="btn btn-primary">Send
-																	message</button>
-															</div>
-														</div>
-													</div>
-												</div></td>
-											<!-- Modal End -->
-
-
+											
 
 
 											<td><button type="button" id="addItemToInvoice"
@@ -339,10 +341,11 @@
 							<div class="table-responsive">
 								<table
 									class="table table-striped table-bordered zero-configuration dataTable">
-									<c:if test="${not empty ivTableHeader }">
+									<thead>
+										<c:if test="${not empty ivTableHeader }">
 										${ivTableHeader }
 									</c:if>
-
+									</thead>
 									<tbody>
 										<c:forEach var="iv" items="${invoiceList }">
 											<tr>
@@ -690,6 +693,11 @@
 							jsonItem.invoicestat = $("#setItInfo").find(
 									"select[name=invoicestat]").val();
 
+							
+							console.log($("#setItInfo").find(
+							"select[name=itemloc]").text());
+							console.log(jsonItem.itemloc);
+							
 							jsonInvoice.push(jsonItem);
 
 							updateIvDetail();
@@ -714,12 +722,36 @@
 			});
 		});
 
+		
+
+		//Item list update
+		var updateItem = function() {
+
+			$('#itListBody').DataTable({
+				retrieve : true,
+
+				ajax : {
+					url : 'itemsearch.pc',
+					dataSrc : ''
+				},columns : [ 
+					{data : 'itemid'}, 
+					{data : 'itemname'}, 
+					{data : 'itemcate'}, 
+					{data : 'itemprice'}, 
+					{data : 'itemweight'}, 
+					{data : 'itemqtypb'}, 
+					{data : 'wareid'}, 
+					{data : 'warename'}, 
+					{data : 'itemloc'}, 
+					{data : 'itemstock'} ]
+
+			});
+
+		};
+		
 		// Register Invoice
 		$(function() {
-			$(document.body).delegate(
-					"#ivRegister",
-					"click",
-					function() {
+			$(document.body).delegate("#ivRegister","click",function() {
 						$.ajax({
 							type : "post" // 포스트방식
 							,
@@ -735,7 +767,9 @@
 									alert("발주가 완료되었습니다.");
 									jsonInvoice = Array();
 									$("#invoiceDetail").html("");
-									updateItem();
+									
+									updateItem(1);
+									
 								} else if (token = "ERROR") {
 									alert("발주실패ㅒㅒㅒㅒ");
 								}
@@ -749,61 +783,18 @@
 					});
 		});
 
-		//Item list update
-		var updateItem = function() {
-			// 아이템 리스트 가져오기
-			$.ajax({
-				type : "post" // 포스트방식
-				,
-				url : "itemsearch.pc" // url 주소
-				,
-				data : {},
-				dataType : "json",
-				contentType : "application/json; charset=UTF-8",
-				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
-					var html = "";
-
-					$.each(data, function(index, item) {
-						html += "<tr class=\"selectedItList\">";
-						html += "<td>" + item.itemid + "</td>";
-						html += "<td>" + item.itemname + "</td>";
-						html += "<td>" + item.itemcate + "</td>";
-						html += "<td>" + item.itemprice + "</td>";
-						html += "<td>" + item.itemweightpb + "</td>";
-						html += "<td>" + item.itemqtypb + "</td>";
-						html += "<td>" + item.wareid + "</td>";
-						html += "<td>" + item.warename + "</td>";
-						html += "<td>" + item.itemloc + "</td>";
-						html += "<td>" + item.itemstock + "</td>";
-						html += "</tr>";
-					});
-
-					$("#itListBody").html(html);
-
-				},
-				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-					console.log(e.responseText);
-				}
-			});
-		}
-
 		var updateIvDetail = function() {
 			var html = "";
 
-			$
-					.each(
-							jsonInvoice,
-							function(index, jsonItemArr) {
+			$.each(jsonInvoice, function(index, jsonItemArr) {
 								html += "<tr class=\"ivItemList\">";
 								html += "<td>" + index + "</td>";
 								html += "<td>" + jsonItemArr.itemid + "</td>";
 								html += "<td>" + jsonItemArr.itemname + "</td>";
 								html += "<td>" + jsonItemArr.wareid + "</td>";
 								html += "<td>" + jsonItemArr.warename + "</td>";
-								html += "<td>" + jsonItemArr.invoicedtlqty
-										+ "</td>";
-								html += "<td>" + jsonItemArr.invoicestat
-										+ "</td>";
+								html += "<td>" + jsonItemArr.invoicedtlqty + "</td>";
+								html += "<td>" + jsonItemArr.invoicestat + "</td>";
 								html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
 								html += "</tr>";
 							});
@@ -813,30 +804,7 @@
 			$("#invoiceDetail").html(html);
 		}
 
-		/*
-		$('#showItemLoc').on('show.bs.modal', function(e) {
-			console.log("2222");
-			var button = $(e.relatedTarget);
-			var modal = $(this);
-			
-			modal.find('#innerModal').load(button.data("remote"));
-		
-		});
-
-		
-		
-				$(function() {
-					$('#showItemLoc').click(function() {
-
-					var url = "/WebApp/view/modal/itemLoc.jsp"
-					$("#itemLocModal").load(url, function() { 
-					        $("#itemLocModal").modal("show"); 
-					 });
-
-					});
-				});
-		 */
-
+	
 		$('#theModal').on('show.bs.modal', function(e) {
 
 			var button = $(e.relatedTarget);
@@ -849,14 +817,21 @@
 			modal.find('.modal-body').load(button.data("remote"));
 
 		});
-		 
-		  $('#theModal').on('hide.bs.modal', function () {    
-		    //   console.log('username : '+$("#modal-username").val());    
-		    //   console.log('result : '+$("#modal-result").val());    
+
+		$('#theModal').on('hide.bs.modal', function() {
+			console.log('data : ' + itemPosition);
+			$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+			//   console.log('result : '+$("#modal-result").val());    
 		})
 
+		
 		$(document).ready(function() {
 			updateItem();
+			$(document).on("mouseenter", "#itListTBody", function(){
+				$('#itListTBody tr').addClass("selectedItList");
+
+			});
+
 		});
 	</script>
 
