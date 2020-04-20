@@ -751,7 +751,6 @@
 
 		//Item list update
 		var updateItem = function() {
-			// 아이템 리스트 가져오기
 			$.ajax({
 				type : "post" // 포스트방식
 				,
@@ -762,6 +761,8 @@
 				contentType : "application/json; charset=UTF-8",
 				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
 					var html = "";
+				
+					console.log("아이템콘솔로그"+item);
 
 					$.each(data, function(index, item) {
 						html += "<tr class=\"selectedItList\">";
