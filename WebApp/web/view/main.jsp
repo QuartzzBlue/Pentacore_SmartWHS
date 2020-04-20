@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html lang="en">
@@ -8,10 +8,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Admin Dashboard</title>
+
 <!-- JQuery -->
-  <script src="https://code.jquery.com/jquery-latest.js"></script>
-  
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<!-- Bootstrap -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
@@ -200,7 +202,6 @@
 	<!--**********************************
             Footer end
         ***********************************-->
-	</div>
 	<!--**********************************
         Main wrapper end
     ***********************************-->
@@ -208,7 +209,9 @@
 	<!--**********************************
         Scripts
     ***********************************-->
-	<script src="plugins/common/common.min.js"></script>
+    
+    
+    <script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
@@ -227,7 +230,7 @@
 	<script src="./plugins/morris/morris.min.js"></script>
 	<!-- Pignose Calender -->
 	<!-- <script src="./plugins/moment/moment.min.js"></script> -->
-	<script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script>
+	<!-- <script src="./plugins/pg-calendar/js/pignose.calendar.min.js"></script> -->
 	<!-- ChartistJS -->
 	<script src="./plugins/chartist/js/chartist.min.js"></script>
 	<script
@@ -248,19 +251,24 @@
 		src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
 	<script
 		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
+	
+	
 	<!-- Date Picker Plugin JavaScript -->
 	<script
 		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script
 		src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-	<script src="./js/plugins-init/form-pickers-init.js"></script>
-
+	<script src="./js/plugins-init/form-pickers-init.js"></script>\
+	
+    
 	<!-- Table -->
-	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-	<script
-		src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
-	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 	<script src="./js/plugins-init/datatables.init-ex.js"></script>
+	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+	<!--<script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>  -->
+	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js?12"></script>
+	<script src="./plugins/tables/js/datatable-init/datatable-api.min.js"></script>
+	<script src="./plugins/tables/js/datatable-init/datatable-styling.min.js"></script>
+	
 
 	<!-- Modal -->
 	<script
