@@ -42,18 +42,6 @@ public class Sender implements Runnable{
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
      
 		System.out.println("Sender [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
-		
-		if(Receiver.status=='0') { //working
-			msg.getForkLift().setStatus(0);
-		}
-		
-		else if(Receiver.status=='1') { //charging
-			msg.getForkLift().setStatus(1);
-		}
-		
-		if(Receiver.status=='2') { //working
-			msg.getForkLift().setStatus(2);
-		}
          
 		if(Client.oos!=null) {
 			

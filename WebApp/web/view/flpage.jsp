@@ -107,6 +107,38 @@
       ]
     });
     
+  
+  //Status Update
+  //document ready
+	function forkliftstatus(){
+		$.ajax({
+			url : "receivefl.pc", //URL 주소
+			//contentType : "/json; charset=UTF-8",
+			success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
+				console.log("success");
+
+				var html = "";
+
+				$.each(data, function(index, fork) {
+					html += "<tr class=\"folkliftlist\">";
+					html += "<td>" + fork.status + "</td>";
+					html += "<td>" + fork.locX + "</td>";
+					html += "<td>" + fork.locY + "</td>";
+					html += "<td>" + fork.battery + "</td>";
+					html += "<td>" + fork.temperature + "</td>";
+					html += "</tr>";
+				});
+				$("#itListBody").html(html);
+
+			},
+			error : function(e) { // 이곳의 ajax에서 에러나면 콘솔창으로 에러 메시지 출력
+				console.log(e.responseText);
+			}
+		});
+	}
+
+  	forkliftstatus();
+    
     
     
     </script>

@@ -783,6 +783,47 @@
 					});
 		});
 
+
+		//Item list update
+		var updateItem = function() {
+			$.ajax({
+				type : "post" // 포스트방식
+				,
+				url : "itemsearch.pc" // url 주소
+				,
+				data : {},
+				dataType : "json",
+				contentType : "application/json; charset=UTF-8",
+				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
+					var html = "";
+				
+					console.log("아이템콘솔로그"+item);
+
+					$.each(data, function(index, item) {
+						html += "<tr class=\"selectedItList\">";
+						html += "<td>" + item.itemid + "</td>";
+						html += "<td>" + item.itemname + "</td>";
+						html += "<td>" + item.itemcate + "</td>";
+						html += "<td>" + item.itemprice + "</td>";
+						html += "<td>" + item.itemweightpb + "</td>";
+						html += "<td>" + item.itemqtypb + "</td>";
+						html += "<td>" + item.wareid + "</td>";
+						html += "<td>" + item.warename + "</td>";
+						html += "<td>" + item.itemloc + "</td>";
+						html += "<td>" + item.itemstock + "</td>";
+						html += "</tr>";
+					});
+
+					$("#itListBody").html(html);
+
+				},
+				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+					console.log(e.responseText);
+				}
+			});
+		}
+
+
 		var updateIvDetail = function() {
 			var html = "";
 
