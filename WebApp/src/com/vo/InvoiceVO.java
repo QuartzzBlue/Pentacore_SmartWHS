@@ -7,7 +7,7 @@ public class InvoiceVO {
 	int invoiceid;
 	String empno;
 	String empname;
-	Date invoicedate;
+	String invoicedate;
 	String startdate;
 	String enddate;
 	ArrayList<InvoicedetailVO> dtllist;
@@ -16,7 +16,7 @@ public class InvoiceVO {
 	public InvoiceVO() {
 	}
 	
-	public InvoiceVO(String empno, String empname, Date invoicedate, String startdate, String enddate,
+	public InvoiceVO(String empno, String empname, String invoicedate, String startdate, String enddate,
 			ArrayList<InvoicedetailVO> dtllist) {
 		super();
 		this.empno = empno;
@@ -28,7 +28,7 @@ public class InvoiceVO {
 	}
 	
 
-	public InvoiceVO(int invoiceid, String empno, String empname, Date invoicedate) {
+	public InvoiceVO(int invoiceid, String empno, String empname, String invoicedate) {
 		this.invoiceid = invoiceid;
 		this.empno = empno;
 		this.empname = empname;
@@ -36,7 +36,7 @@ public class InvoiceVO {
 	}
 
 
-	public InvoiceVO(int invoiceid, String empno, String empname, Date invoicedate, String startdate, String enddate,
+	public InvoiceVO(int invoiceid, String empno, String empname, String invoicedate, String startdate, String enddate,
 			ArrayList<InvoicedetailVO> dtllist) {
 		this.invoiceid = invoiceid;
 		this.empno = empno;
@@ -65,10 +65,10 @@ public class InvoiceVO {
 	public void setEmpname(String empname) {
 		this.empname = empname;
 	}
-	public Date getInvoicedate() {
+	public String getInvoicedate() {
 		return invoicedate;
 	}
-	public void setInvoicedate(Date invoicedate) {
+	public void setInvoicedate(String invoicedate) {
 		this.invoicedate = invoicedate;
 	}
 	public String getStartdate() {

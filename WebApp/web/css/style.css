@@ -3987,7 +3987,9 @@ button.close {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
-  outline: 0; }
+  outline: 0; 
+  padding-right: 10px;
+  }
 
 .modal-backdrop {
   position: fixed;
@@ -4042,9 +4044,7 @@ button.close {
   overflow: scroll; }
 
 @media (min-width: 576px) {
-  .modal-dialog {
-    max-width: 500px;
-    margin: 1.75rem auto; }
+  
   .modal-dialog-centered {
     min-height: calc(100% - (1.75rem * 2)); }
     .modal-dialog-centered::before {
@@ -4052,9 +4052,19 @@ button.close {
   .modal-sm {
     max-width: 300px; } }
 
-@media (min-width: 992px) {
+@media {
+ .modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto; 
+    display: inline-block; 
+    vertical-align: middle; 
+    
+    }
   .modal-lg {
-    max-width: 800px; } }
+    max-width: 800px;
+    text-align: center;
+    } 
+ }
 
 .tooltip {
   position: absolute;

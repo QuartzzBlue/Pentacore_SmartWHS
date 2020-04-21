@@ -14,6 +14,7 @@
 .badge-danger {
 	cursor: pointer;
 }
+
 </style>
 </head>
 
@@ -90,7 +91,7 @@
 													<td><a href="#itemLocModal" class="btn btn-primary"
 														data-toggle="modal" data-target="#theModal"
 														data-remote="/WebApp/view/modal/itemLoc.jsp">선택</a>
-														<div class="modal fade" id="theModal" tabindex="-1"
+														<div class="modal fade modal-lg" id="theModal" tabindex="-1"
 															role="dialog">
 															<div class="modal-dialog" role="document">
 																<div class="modal-content">
@@ -141,7 +142,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Data Table</h4>
+							<h4 class="card-title">Item Table</h4>
 
 							<div class="table-responsive">
 								<table
@@ -191,7 +192,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Data Table</h4>
+							<h4 class="card-title">Invoice Register</h4>
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
 								<table class="table">
@@ -229,8 +230,6 @@
 											</select></td>
 											
 
-											
-
 
 											<td><button type="button" id="addItemToInvoice"
 													class="btn mb-1 btn-primary btn-lg">Add</button>
@@ -244,17 +243,8 @@
 								<!-- <form name="itemRegister" method="post"
 									action="invoiceregister.pc"> -->
 								<table class="table">
-									<thead>
-										<tr>
-											<th></th>
-											<th>Item ID</th>
-											<th>Item Name</th>
-											<th>Warehouse ID</th>
-											<th>Warehouse Name</th>
-											<th>Qty</th>
-											<th>Status</th>
-											<th></th>
-										</tr>
+									<thead id="invoiceDetailHead">
+										
 									</thead>
 									<tbody id="invoiceDetail">
 
@@ -273,37 +263,24 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Invoice Search -> AJAX로 바꾸고 Invoice
-								검색 후에 클릭시 detail 출력</h4>
+							<h4 class="card-title">Invoice Search</h4>
 
 							<div class="table-responsive">
-								<form name="itemRegister" method="post"
-									action="invoicesearch.pc">
+								<!-- <form name="itemRegister" method="post"
+									action="invoicesearch.pc"> -->
 									<table class="table">
 										<thead>
 											<tr>
-												<th>Item ID</th>
-												<th>Item Name</th>
-												<th>Warehouse ID</th>
-												<th>Status</th>
+												<th>Employee ID</th>
 												<th>Start Date</th>
 												<th>End Date</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td><input type="text" class="form-control" id="itemid"
-													name="itemid" placeholder="상품 ID"></td>
-												<td><input type="text" class="form-control"
-													id="itemname" name="itemname" placeholder="상품명"></td>
-												<td><input type="text" class="form-control" id="wareid"
-													name="wareid" placeholder="창고ID"></td>
-												<td><select class="form-control" id="invoicestat"
-													name="invoicestat">
-														<option value="">입/출고</option>
-														<option value="Receiving">Receiving</option>
-														<option value="Shipping">Shipping</option>
-												</select></td>
+											<tr id = "invSearching">
+												<td><input type="text" class="form-control" id="empno"
+													name="empno" placeholder="관리자 사번"></td>
 												<td><div class="input-group">
 														<input type="text" id="startdate" name="startdate"
 															class="form-control mydatepicker"
@@ -320,33 +297,25 @@
 															class="input-group-text"><i
 																class="mdi mdi-calendar-check"></i></span></span>
 													</div></td>
-
-											</tr>
-											<tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-
-												<td><button type="submit"
+												<td><button type="submit" id="regInvoice"
 														class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
+
 											</tr>
+											
 										</tbody>
 									</table>
-								</form>
+								<!-- </form> -->
 
 							</div>
 
 							<div class="table-responsive">
-								<table
-									class="table table-striped table-bordered zero-configuration dataTable">
-									<thead>
-										<c:if test="${not empty ivTableHeader }">
+								<table id ="invListBody" class="table table-striped table-bordered">
+									<thead id="invListTHead">
+										<!--<c:if test="${not empty ivTableHeader }">
 										${ivTableHeader }
-									</c:if>
+										</c:if>-->
 									</thead>
-									<tbody>
+									<tbody id ="invListTBody">
 										<c:forEach var="iv" items="${invoiceList }">
 											<tr>
 												<td>${iv.itemid}</td>
@@ -416,223 +385,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
-
-					<div class="card">
-						<div class="chart-wrapper mb-4">
-							<div class="px-4 pt-4 d-flex justify-content-between">
-								<div>
-									<h4>Sales Activities</h4>
-									<p>Last 6 Month</p>
-								</div>
-								<div>
-									<span><i class="fa fa-caret-up text-success"></i></span>
-									<h4 class="d-inline-block text-success">720</h4>
-									<p class=" text-danger">+120.5(5.0%)</p>
-								</div>
-							</div>
-							<div>
-								<canvas id="chart_widget_3"></canvas>
-							</div>
-						</div>
-						<div class="card-body border-top pt-4">
-							<div class="row">
-								<div class="col-sm-6">
-									<ul>
-										<li>5% Negative Feedback</li>
-										<li>95% Positive Feedback</li>
-									</ul>
-									<div>
-										<h5>Customer Feedback</h5>
-										<h3>385749</h3>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div id="chart_widget_3_1"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-3 col-lg-6 col-sm-6 col-xxl-6">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Activity</h4>
-							<div id="activity">
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/1.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>Received New Order</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/2.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>iPhone develered</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/2.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>3 Order Pending</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/2.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>Join new Manager</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/2.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>Branch open 5 min Late</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media border-bottom-1 pt-3 pb-3">
-									<img width="35" src="./images/avatar/2.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>New support ticket received</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-								<div class="media pt-3 pb-3">
-									<img width="35" src="./images/avatar/3.jpg"
-										class="mr-3 rounded-circle">
-									<div class="media-body">
-										<h5>Facebook Post 30 Comments</h5>
-										<p class="mb-0">I shared this on my fb wall a few months
-											back,</p>
-									</div>
-									<span class="text-muted ">April 24, 2018</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xl-6 col-lg-12 col-sm-12 col-xxl-12">
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title mb-0">Store Location</h4>
-							<div id="world-map" style="height: 470px;"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-
-
-			<div class="row">
-				<div class="col-lg-3 col-sm-6">
-					<div class="card">
-						<div class="social-graph-wrapper widget-facebook">
-							<span class="s-icon"><i class="fa fa-facebook"></i></span>
-						</div>
-						<div class="row">
-							<div class="col-6 border-right">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">89k</h4>
-									<p class="m-0">Friends</p>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">119k</h4>
-									<p class="m-0">Followers</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="card">
-						<div class="social-graph-wrapper widget-linkedin">
-							<span class="s-icon"><i class="fa fa-linkedin"></i></span>
-						</div>
-						<div class="row">
-							<div class="col-6 border-right">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">89k</h4>
-									<p class="m-0">Friends</p>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">119k</h4>
-									<p class="m-0">Followers</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="card">
-						<div class="social-graph-wrapper widget-googleplus">
-							<span class="s-icon"><i class="fa fa-google-plus"></i></span>
-						</div>
-						<div class="row">
-							<div class="col-6 border-right">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">89k</h4>
-									<p class="m-0">Friends</p>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">119k</h4>
-									<p class="m-0">Followers</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-sm-6">
-					<div class="card">
-						<div class="social-graph-wrapper widget-twitter">
-							<span class="s-icon"><i class="fa fa-twitter"></i></span>
-						</div>
-						<div class="row">
-							<div class="col-6 border-right">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">89k</h4>
-									<p class="m-0">Friends</p>
-								</div>
-							</div>
-							<div class="col-6">
-								<div class="pt-3 pb-3 pl-0 pr-0 text-center">
-									<h4 class="m-1">119k</h4>
-									<p class="m-0">Followers</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 		<!-- / container-fluid mt-3 -->
 		<!-- #/ container -->
@@ -646,8 +398,11 @@
 
 		// invoice detail item list
 		var jsonInvoice = Array();
+		
+		
+		//var selectedRow = Array();
 
-		//////////////////////////////////////////////
+		////////////////////////함수
 
 		function setWareID(w) {
 			var target = document.getElementById("wareid_"
@@ -661,6 +416,7 @@
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function() {
 			$(document.body).delegate(".selectedItList", "click", function() {
+				//selectedRow.push(table.row());
 				var itemid = $(this).find("td").eq(0).text();
 				var itemname = $(this).find("td").eq(1).text();
 				var wareid = $(this).find("td").eq(6).text();
@@ -692,11 +448,6 @@
 									"input[name=invoicedtlqty]").val();
 							jsonItem.invoicestat = $("#setItInfo").find(
 									"select[name=invoicestat]").val();
-
-							
-							console.log($("#setItInfo").find(
-							"select[name=itemloc]").text());
-							console.log(jsonItem.itemloc);
 							
 							jsonInvoice.push(jsonItem);
 
@@ -713,9 +464,7 @@
 		$(function() {
 			$(document.body).delegate(".deleteIvItem", "click", function() {
 				var idx = $(this).closest("tr").find("td").eq(0).text();
-				//alert(idx);
 				jsonInvoice.splice(idx, 1);
-				//alert(JSON.stringify(jsonInvoice));
 
 				updateIvDetail();
 
@@ -726,9 +475,8 @@
 
 		//Item list update
 		var updateItem = function() {
-
-			$('#itListBody').DataTable({
-				retrieve : true,
+			//https://datatables.net/
+			var itTable = $('#itListBody').DataTable({
 
 				ajax : {
 					url : 'itemsearch.pc',
@@ -746,6 +494,11 @@
 					{data : 'itemstock'} ]
 
 			});
+			$(document).on("mouseenter", "#itListTBody", function(){
+				$('#itListTBody tr').addClass("selectedItList");
+
+			});
+			
 
 		};
 		
@@ -767,12 +520,23 @@
 									alert("발주가 완료되었습니다.");
 									jsonInvoice = Array();
 									$("#invoiceDetail").html("");
-									
-									updateItem(1);
-									
-								} else if (token = "ERROR") {
+									$("#invoiceDetailHead").html("");
+									/* 한 줄씩 업데이트 할 때
+									// https://datatables.net/blog/2019-01-11#Updating-the-parent-table
+									for(var i = 0; i < selectedRow.length; i++){
+										var row = selectedRow[i];
+										$('#itListBody', row.child()).DataTable().ajax.reload();
+									}
+									selectedRow = [];
+									*/
+									/* 전체 업데이트 */
+									$('#itListBody').DataTable().ajax.reload();
+									} else if (token = "ERROR") {
+										
 									alert("발주실패ㅒㅒㅒㅒ");
 								}
+								
+								
 							},
 							error : function(request, status, error) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 								console.log("code:" + request.status + "\n"
@@ -781,47 +545,11 @@
 							}
 						});
 					});
+			//updateItem();
+			
+			
 		});
 
-
-		//Item list update
-		var updateItem = function() {
-			$.ajax({
-				type : "post" // 포스트방식
-				,
-				url : "itemsearch.pc" // url 주소
-				,
-				data : {},
-				dataType : "json",
-				contentType : "application/json; charset=UTF-8",
-				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
-					var html = "";
-				
-					console.log("아이템콘솔로그"+item);
-
-					$.each(data, function(index, item) {
-						html += "<tr class=\"selectedItList\">";
-						html += "<td>" + item.itemid + "</td>";
-						html += "<td>" + item.itemname + "</td>";
-						html += "<td>" + item.itemcate + "</td>";
-						html += "<td>" + item.itemprice + "</td>";
-						html += "<td>" + item.itemweightpb + "</td>";
-						html += "<td>" + item.itemqtypb + "</td>";
-						html += "<td>" + item.wareid + "</td>";
-						html += "<td>" + item.warename + "</td>";
-						html += "<td>" + item.itemloc + "</td>";
-						html += "<td>" + item.itemstock + "</td>";
-						html += "</tr>";
-					});
-
-					$("#itListBody").html(html);
-
-				},
-				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-					console.log(e.responseText);
-				}
-			});
-		}
 
 
 		var updateIvDetail = function() {
@@ -839,12 +567,70 @@
 								html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
 								html += "</tr>";
 							});
-
-			html += "<td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
-
-			$("#invoiceDetail").html(html);
+	
+			html += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
+			if(jsonInvoice.length == 0){
+				$("#invoiceDetailHead").html("");
+				$("#invoiceDetail").html("");
+			}else{
+				$("#invoiceDetailHead").html("<tr><th></th><th>Item ID</th><th>Item Name</th><th>Warehouse ID</th><th>Warehouse Name</th><th>Qty</th><th>Status</th><th></th></tr>");
+				$("#invoiceDetail").html(html);
+			}
+			
+			
 		}
 
+		$( '#regInvoice' ).click( function() {
+			
+			var empno = $("#invSearching").find("input[name=empno]").val();
+			var startdate = $("#invSearching").find("input[name=startdate]").val();
+			var enddate = $("#invSearching").find("input[name=enddate]").val();
+			
+			console.log(startdate + " ~ " + enddate);
+			
+			$.ajax({
+				url : 'invoicesearch.pc?empno='+empno+'&sd='+startdate+'&ed='+enddate,
+				data : {},
+				//contentType : "application/json; charset=UTF-8",
+				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
+					var html = "";
+					
+					$.each(data, function(index, inv) {
+						html += "<tr class=\"selectedItList\">";
+						html += "<td>" + inv.invoiceid + "</td>";
+						html += "<td>" + inv.empno + "</td>";
+						html += "<td>" + inv.empname + "</td>";
+						html += "<td>" + inv.invoicedate + "</td>";
+						html += "</tr>";
+					});
+					$("#invListTHead").html('<tr><th>Invoice ID</th><th>Employee ID</th><th>Employee Name</th><th>Date</th></tr>');
+					$("#invListTBody").html(html);
+				},
+				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
+					console.log(e.responseText);
+				}
+			});
+			
+			var invTable = $('#invListBody').DataTable({searching: false, paging: true, ordering: true});
+			//https://datatables.net/
+			/*
+			var invTable = $('#invListBody').DataTable({
+				
+				ajax : {
+					url : 'invoicesearch.pc?sd='+startdate+'&ed='+enddate
+				},columns : [ 
+					{data : 'invoiceid'}, 
+					{data : 'empno'}, 
+					{data : 'empname'}, 
+					{data : 'invoicedate'}]
+
+			});
+			$(document).on("mouseenter", "#invListTBody", function(){
+				$('#invListTBody tr').addClass("selectedInv");
+				
+			});*/
+		} );
+		
 	
 		$('#theModal').on('show.bs.modal', function(e) {
 
@@ -861,19 +647,20 @@
 
 		$('#theModal').on('hide.bs.modal', function() {
 			console.log('data : ' + itemPosition);
-			$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+			if(itemPosition == null){
+				alert("자리를 선택해 주세요!");
+			}else{
+				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+			}
+			
 			//   console.log('result : '+$("#modal-result").val());    
 		})
 
-		
 		$(document).ready(function() {
 			updateItem();
-			$(document).on("mouseenter", "#itListTBody", function(){
-				$('#itListTBody tr').addClass("selectedItList");
-
-			});
-
 		});
+		
+		
 	</script>
 
 

@@ -27,8 +27,11 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" parameterType="invoice" resultType="invoice">
 		SELECT * FROM invoice
 		<where>
+			<if test = "empno != null and empno != ''">
+				empno=#{empno}
+			</if>
 			<if test = "startdate != null and startdate != '' and enddate != null and enddate != ''">
-				invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
+				and invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
 			</if>
 		</where>
 	</select>
