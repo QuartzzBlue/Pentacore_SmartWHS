@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class SerialWrite implements Runnable {
 
 	static String data;
-	static String sendId = "10000002";
+	static String sendId = "10000001";
 	String sendData = "0000000000000000";
 	String msg = sendId + sendData;
 

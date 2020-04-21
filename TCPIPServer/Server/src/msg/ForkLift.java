@@ -12,6 +12,7 @@ public class ForkLift implements Serializable{
 	int battery;
 	int temperature;
 
+	
 	public ForkLift() {}
 	
 	public ForkLift(int status, int locX, int locY, int battery, int temperature) {
