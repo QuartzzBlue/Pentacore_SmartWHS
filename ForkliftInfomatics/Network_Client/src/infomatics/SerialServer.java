@@ -31,7 +31,7 @@ public class SerialServer implements SerialPortEventListener {
 	int temperature = 0;
 
 	boolean flag = false;
-	
+
 	Sender r = new Sender(msg);
 
 	public SerialServer() {
@@ -92,7 +92,7 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				receiveStr = new String(readBuffer);
-				//System.out.println("Receive Data:" + receiveStr);
+				// System.out.println("Receive Data:" + receiveStr);
 
 				// ECU 로부터 can 송신하면
 				if (receiveStr.substring(1, 4).equals("U28")) {
@@ -100,19 +100,19 @@ public class SerialServer implements SerialPortEventListener {
 					receiveId = receiveStr.substring(4, 12);
 					receiveData = receiveStr.substring(24, 28);
 
-					//System.out.println("From (id) : " + receiveId);
-					//System.out.println("Data : " + receiveData);
+					// System.out.println("From (id) : " + receiveId);
+
+					// System.out.println("Data : " + receiveData);
 
 					if (receiveId.equals("13000003")) { // battery
 						battery = Integer.parseInt(receiveData);
-						if (battery <= 990) {
-							SerialWrite.sendId = "10000002";
+						if (battery <= 990 && !SerialWrite.sendId.equals("10000000")) {
+							SerialWrite.sendId = "10000002"; // 충전 상태로 변경
 							Runnable r = new SerialWrite("0000");
 							Main.executorService.execute(r);
-							System.out.println("충전 시작");
-						}
-						else if (battery ==999) {
-							SerialWrite.sendId = "10000001";
+							System.out.println("Charging");
+						} else if (battery == 999) {
+							SerialWrite.sendId = "10000001"; // 대기 상태로 변경
 							Runnable r = new SerialWrite("0000");
 							Main.executorService.execute(r);
 						}
@@ -121,29 +121,38 @@ public class SerialServer implements SerialPortEventListener {
 					} else if (receiveId.equals("14000004")) { // location
 						locX = Integer.parseInt(receiveData.substring(0, 2));
 						locY = Integer.parseInt(receiveData.substring(2, 4));
+
 						System.out.println("Location (x,y) : " + locX + "," + locY);
+						if(locX == 13 && locY==11) {
+							SerialWrite.sendId = "10000001"; // 대기 상태로 변경
+						}
+						
 					} else if (receiveId.equals("15000005")) { // temperature
 						temperature = Integer.parseInt(receiveData);
 						System.out.println("temperature : " + temperature);
 					}
 					
-					
-					if(SerialWrite.sendId.equals("10000000")) { //working
+					if (SerialWrite.sendId.equals("10000000")) { // working
 						status = 0;
 					}
-					
-					else if(SerialWrite.sendId.equals("10000001")) { //charging
+
+					else if (SerialWrite.sendId.equals("10000001")) { // waiting
 						status = 1;
+						Receiver.task = null;
 					}
-		
-					else if(SerialWrite.sendId.equals("10000002")) { //waiting
+
+					else if (SerialWrite.sendId.equals("10000002")) { // charging
 						status = 2;
+						Receiver.task = null;
 					}
 					msg = new Msg("forklift01", "tabletServer");
-					msg.setForkLift(status, locX, locY, battery, temperature);
-					if(msg.getTask()!=null) {
-						msg.setTask(Receiver.task.getIo(), Receiver.task.getName(), Receiver.task.getQty(), Receiver.task.getLocX(), Receiver.task.getLocY());
+					msg.setForkLift(status, locX, locY, battery, temperature, 0);
+
+					if (Receiver.task != null) {
+						msg.setTask(Receiver.task.getIo(), Receiver.task.getName(), Receiver.task.getQty(),
+								Receiver.task.getLocX(), Receiver.task.getLocY());
 					}
+
 					r.setMsg(msg);
 					Main.executorService.submit(r);
 
