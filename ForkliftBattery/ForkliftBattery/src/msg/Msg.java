@@ -7,7 +7,7 @@ public class Msg implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	String srcIP;
-	String srcID;
+	String srcID; //forklift01
 	String dstnIP;
 	String dstnID;
 	
@@ -83,15 +83,16 @@ public class Msg implements Serializable {
 		return forkLift;
 	}
 
-	public void setForkLift(int status,int locX, int locY,int battery,int temperature) {
+	public void setForkLift(int status,int locX, int locY,int battery,int temperature, int distance) {
 		if(this.forkLift==null) {
-			forkLift = new ForkLift(status,locX,locY,battery,temperature);
+			forkLift = new ForkLift(status,locX,locY,battery,temperature,distance);
 		}else {
 			forkLift.setStatus(status);
 			forkLift.setBattery(battery);
 			forkLift.setLocX(locX);
 			forkLift.setLocY(locY);
-			forkLift.setLocY(temperature);
+			forkLift.setTemperature(temperature);
+			forkLift.setDistance(distance);
 		}
 	}
 
