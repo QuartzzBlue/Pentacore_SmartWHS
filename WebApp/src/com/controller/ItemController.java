@@ -3,8 +3,11 @@ package com.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
@@ -13,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.frame.Service;
@@ -39,9 +41,11 @@ public class ItemController {
 
 	/* static 변수들 */
 	public static String wareNameList[] = { "이천 제1물류창고" };
-	private static String[] itMap = {"aa_ff_aa_aa_aa_aa", "ff_aa_aa_aa_aa_aa", "aa_aa_aa_aa_aa_aa","aa_aa_aa_aa_aa_aa","af_aa_aa_aa_aa_aa", "aa_aa_aa_aa_aa_aa","aa_aa_aa_aa_aa_aa","aa_aa_aa_aa_aa_aa","aa_aa_aa_aa_af_aa","aa_aa_aa_aa_aa_aa"};
-	static Client client = null;
-	static Msg msg = null;
+	private static Set<String> itMap = new HashSet<String>();
+	private static int[] xSet = new int['M'];
+//	private static int[] ySet = new int[]
+	private static Client client = null;
+	private static Msg msg = null;
 
 	@RequestMapping("/itemregister.pc")
 	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem) {
@@ -58,38 +62,19 @@ public class ItemController {
 
 		return mv;
 	}
-	
-//	@RequestMapping("/getItemLoc.pc")
-//	@ResponseBody
-//	public void getItemLoc(HttpServletResponse rs) {
-//		if(itMap == null) {
-//			//item 다 불러와서 map 새로 짜기 
-//		}
-//		
-//		JSONArray ja = new JSONArray();
-//		for(String m : itMap) {
-//			JSONObject json = new JSONObject();
-////			json.put("col", m);
-//			ja.put(m);
-//		}
-//		System.out.println(ja.toString());
-//		
-//		rs.setContentType("text/html; charset=utf-8");
-//		PrintWriter out;
-//		try {
-//			out = rs.getWriter();
-//			out.print(ja.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
+
 	
 	@RequestMapping("/getItemLoc.pc")
 	@ResponseBody
 	public ArrayList<String> getItemLoc(HttpServletResponse rs) {
-		if(itMap == null) {
+		if(itMap.isEmpty()) { //혹시 비어 있다면 다시 확인!
 			//item 다 불러와서 map 새로 짜기 
+			ArrayList<ItemVO> itemList = null;
+			try {
+				itemList = itservice.selectAll(new ItemVO());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		ArrayList<String> ja = new ArrayList<String>();
@@ -97,15 +82,7 @@ public class ItemController {
 			ja.add(m);
 		}
 		System.out.println(ja.toString());
-		
-//		rs.setContentType("text/html; charset=utf-8");
-//		PrintWriter out;
-//		try {
-//			out = rs.getWriter();
-//			out.print(ja.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+
 		
 		return  ja;
 	}
@@ -137,6 +114,7 @@ public class ItemController {
 				json.put("itemloc", "NULL");
 			}else {
 				json.put("itemloc", i.getItemloc());
+				itMap.add(i.getItemloc());
 			}
 				
 			json.put("itemstock", i.getItemstock());
@@ -172,8 +150,18 @@ public class ItemController {
 				ivd.setInvoicestat((String) temp.get("invoicestat"));
 				ivdList.add(ivd);
 
+				//item location 가져오기 
+				ItemVO tmpIt = new ItemVO();
+				tmpIt.setItemid((String) temp.get("itemid"));
+				try {
+					tmpIt = itservice.select(tmpIt);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				//
+				System.out.println(tmpIt.getItemloc());
 				/* TCP/IP 서버에 Task 전송 */
-				sendTask(ivd.getInvoicestat(), ivd.getItemname(), ivd.getInvoicedtlqty());
+				sendTask(ivd.getInvoicestat(), ivd.getItemname(), ivd.getInvoicedtlqty(), tmpIt.getItemloc());
 
 				
 			}
@@ -193,33 +181,77 @@ public class ItemController {
 
 	}
 
-	@RequestMapping("/invoicesearch.pc")
-	public ModelAndView invoicesearch(ModelAndView mv, InvoicedetailVO ivd) {
+//	@RequestMapping("/invoicesearch.pc")
+//	public ModelAndView invoicesearch(ModelAndView mv, InvoicedetailVO ivd) {
+//
+//		System.out.println("!!!!" + ivd.toString());
+//		ArrayList<InvoicedetailVO> dtList = null;
+//		try {
+//			dtList = invdtlservice.selectAll(ivd);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		String ivTableHeader = "										<tr>\r\n"
+//				+ "											<th>Item ID</th>\r\n"
+//				+ "											<th>Item Name</th>\r\n"
+//				+ "											<th>Warehouse Name</th>\r\n"
+//				+ "											<th>Status</th>\r\n"
+//				+ "											<th>Qty</th>\r\n"
+//				+ "											<th>Date</th>\r\n"
+//				+ "										</tr>\r\n";
+//		mv.addObject("ivTableHeader", ivTableHeader);
+//		mv.addObject("invoiceList", dtList);
+//		mv.addObject("center", "itpage");
+//		mv.setViewName("main");
+//		return mv;
+//
+//	}
 
-		System.out.println("!!!!" + ivd.toString());
-		ArrayList<InvoicedetailVO> dtList = null;
+	@RequestMapping("/invoicesearch.pc")
+	public @ResponseBody ArrayList<InvoiceVO> invoicesearch(ModelAndView mv, HttpServletRequest request, HttpServletResponse rs) {
+		
+		String empno = request.getParameter("empno");
+		String startdate = request.getParameter("sd");
+		String enddate = request.getParameter("ed");
+		
+		System.out.println("empno : " + empno + "sd : " + startdate + ", ed : " + enddate);
+		
+		ArrayList<InvoiceVO> invList = null;
+		InvoiceVO temp = new InvoiceVO();
+		temp.setStartdate(startdate);
+		temp.setEnddate(enddate);
+		temp.setEmpno(empno);
 		try {
-			dtList = invdtlservice.selectAll(ivd);
+			invList = invservice.selectAll(temp);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}	
+		System.out.println(invList.get(1).getInvoicedate());
+		return invList;
 
-		String ivTableHeader = "										<tr>\r\n"
-				+ "											<th>Item ID</th>\r\n"
-				+ "											<th>Item Name</th>\r\n"
-				+ "											<th>Warehouse Name</th>\r\n"
-				+ "											<th>Status</th>\r\n"
-				+ "											<th>Qty</th>\r\n"
-				+ "											<th>Date</th>\r\n"
-				+ "										</tr>\r\n";
-		mv.addObject("ivTableHeader", ivTableHeader);
-		mv.addObject("invoiceList", dtList);
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-		return mv;
-
+//		JSONArray ja = new JSONArray();
+//		for (InvoiceVO i : invList) {
+//			JSONObject json = new JSONObject();
+//			json.put("invoiceid", i.getInvoiceid());
+//			json.put("empno", i.getEmpno());
+//			json.put("empname", i.getEmpname());
+//			json.put("invoicedate", i.getInvoicedate());
+//			ja.put(json);
+//		}
+		
+//		rs.setContentType("text/html; charset=utf-8");
+//		PrintWriter out;
+//		try {
+//			out = rs.getWriter();
+//			out.print(ja.toString());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
-
+	
+	
 	@RequestMapping("/setmodal.pc")
 	public ModelAndView setmodal(ModelAndView mv) {
 
@@ -230,14 +262,20 @@ public class ItemController {
 
 	}
 
-	public void sendTask(String ivStat, String itName, int ivQty) {
-
+	public void sendTask(String ivStat, String itName, int ivQty, String itLoc) {
+		
+		
+		// 입고&출고 controller 설정
 		int io = -1;
 		if (ivStat.toUpperCase().equals("RECEIVING")) io = 1;
 		else io = 0; 
-			
+		
+		// 아이템 위치 (x,y) 좌표로 환산
+		
+		
+		
 		msg = new Msg("Web", "ForkliftInfomatics");
-		msg.setTask(io, itName, ivQty, 3, 6);
+		msg.setTask(io, itName, ivQty, 2, 2);
 
 		String address = "70.12.113.200";
 		if (client == null) {
