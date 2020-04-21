@@ -11,21 +11,24 @@ public class ForkLift implements Serializable{
 	int locY;
 	int battery;
 	int temperature;
+	int distance;
 
 	public ForkLift() {}
 	
-	public ForkLift(int status, int locX, int locY, int battery, int temperature) {
+	public ForkLift(int status, int locX, int locY, int battery, int temperature, int distance) {
 		super();
 		this.status = status;
 		this.locX = locX;
 		this.locY = locY;
 		this.battery = battery;
 		this.temperature = temperature;
+		this.distance = distance;
 	}
 
 	public int getStatus() {
 		return status;
 	}
+
 
 	public void setStatus(int status) {
 		this.status = status;
@@ -69,6 +72,20 @@ public class ForkLift implements Serializable{
 		this.temperature = temperature;
 	}
 	
-	
+	public int getDistance() {
+		return distance;
+	}
 
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+	
+	///////////////////////
+	@Override
+	public String toString() {
+		return "ItemMapper [status=" + status + ", locX=" + locX + ", locY=" + locY + ", battery="
+				+ battery + ", temperature=" + temperature + ", distance=" + distance + "]";
+		}
 }
+	
+	
