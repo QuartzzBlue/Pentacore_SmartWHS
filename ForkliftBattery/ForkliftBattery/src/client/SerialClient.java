@@ -19,13 +19,12 @@ public class SerialClient implements SerialPortEventListener{
 	InputStream in;
 	BufferedInputStream bin;
 	static String receiveStr;
-	static String id = "10000001";
+	static String id = "13000003";
 	static String data = "3000000000000000";
 	static String msg = id + data;
+	String receiveId;
+	String receiveData;
 	static OutputStream out;
-	static TimerTask task;
-	static Timer timer;
-	boolean flag = false;
 	
 	public SerialClient() {
 	}
@@ -86,38 +85,17 @@ public class SerialClient implements SerialPortEventListener{
 				}
 				receiveStr = new String(readBuffer);
 				System.out.println("Receive Data:" + receiveStr);
-//				if (!ss.substring(0, 6).equals(":G01A8") && !ss.substring(0, 6).equals(":W2810")) { // ':G01A8' -> 처음
-//																									// 연결될 때 받는 메시지 (데이터
-//																									// 값 아님)
-//					String controller = ss.substring(12, 13);
-//					System.out.println("controller : " + controller);
-//					if (ss.substring(4, 12).equals("10000000") || ss.substring(4, 12).equals("10000002")) { // 전체 알림이거나
-//																											// 메시지일 때만
-//						if (controller.equals("1")) {
-//							flag = false;
-//							System.out.println("Stop Client...");
-//							timer.cancel();
-//						} else if (controller.equals("0")) {
-//							flag = true;
-//							String id = "10000002";
-//							String data = "30000000000000";
-//							String msg = id + data;
-//							System.out.println("Restart Client...");
-//							try {
-//								task = new TimerTask() {
-//									@Override
-//									public void run() {
-//										new Thread(new SerialWrite(msg)).start();
-//									}
-//								};
-//								timer = new Timer();
-//								timer.scheduleAtFixedRate(task, 1234, 3232);
-//							} catch (Exception e) {
-//								e.printStackTrace();
-//							}
-//						}
-//					}
-//				}
+				
+				receiveId=receiveStr.substring(4,12);
+				
+				if(receiveId.equals("10000000")){ //working
+					SerialWrite.d = -3;
+				}else if (receiveId.equals("10000001")){ //waiting
+					SerialWrite.d = -2;
+				}else if (receiveId.equals("10000002")) { //charging
+					SerialWrite.d = 3;
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

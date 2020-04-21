@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 	
-		SerialClient serialClient = new SerialClient("COM9");
+		SerialClient serialClient = new SerialClient("COM12");
 
 	}
 
