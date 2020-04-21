@@ -22,6 +22,7 @@ class Receiver implements Runnable {
 	Socket socket;
 	static int status = 2; // waiting
 	static Task task;
+	String loc;
 
 	public Receiver() {
 	}
@@ -44,31 +45,40 @@ class Receiver implements Runnable {
 			try {
 
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
-				//msg = (Msg) ois.readObject();
+				msg = (Msg) ois.readObject();
 				
 				
-				
-				//Test
-				Thread.sleep(5000);
-//				msg = new Msg("tabletServer","ForkliftInfomatics");
-//				msg.setTask(1, "PHONE", 1, 3, 20);
-//				task = msg.getTask();
 //				
-				//
+//				//Test
+//				msg = new Msg("tabletServer","ForkliftInfomatics");
+//				msg.setTask(1, "PHONE", 2, 15, 5);
+//				task = msg.getTask();
+//				Thread.sleep(10000);
+//				//
 				
-//				if (msg.getTask() != null) {
-//					System.out.println("Received Task - " + "srcid: " + msg.getSrcID() + " dstnid : " + msg.getDstnID()
-//							+ " IO : " + msg.getTask().getIo() + " LocX : " + msg.getTask().getLocX() + " LocY : "
-//							+ msg.getTask().getLocY() + " itemName : " + msg.getTask().getName() + " Qty : "
-//							+ msg.getTask().getQty());
-//
-//					SerialWrite.sendId = "10000000";
-////					SerialWrite.data = msg.getTask().getLocX()+""+msg.getTask().getLocY();
-//					Runnable r = new SerialWrite(msg.getTask().getLocX()+""+msg.getTask().getLocY());
-//					Main.executorService.submit(r);
-//					
-//
-//				}
+				if (msg.getTask() != null) {
+					System.out.println("Received Task - " + "srcid: " + msg.getSrcID() + " dstnid : " + msg.getDstnID()
+							+ " IO : " + msg.getTask().getIo() + " LocX : " + msg.getTask().getLocX() + " LocY : "
+							+ msg.getTask().getLocY() + " itemName : " + msg.getTask().getName() + " Qty : "
+							+ msg.getTask().getQty());
+
+					SerialWrite.sendId = "10000000";
+					if(msg.getTask().getLocX()<10) {
+						loc="0"+msg.getTask().getLocX();
+					}else {
+						loc = msg.getTask().getLocX()+"";
+					}
+					
+					if(msg.getTask().getLocY()<10) {
+						loc+="0"+msg.getTask().getLocY();
+					}else {
+						loc += msg.getTask().getLocX()+"";
+					}
+					SerialWrite.data = loc;
+					Runnable r = new SerialWrite(loc);
+					Main.executorService.submit(r);
+				}
+				
 
 			} catch (Exception e) {
 				e.printStackTrace();
