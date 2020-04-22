@@ -11,10 +11,33 @@
 
 
 <style>
-.badge-danger {
-	cursor: pointer;
+hr{
+	border: none;
+    border-top: 1px solid #DEE2E6;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
 }
-
+.card-title{
+	display: flex;
+	text-align: center;
+	align-items: baseline;
+}
+.card-title i{
+	color: #E9EAEC;
+	opacity: 0.1;                /* Opacity (Transparency) */
+    color: rgba(0, 0, 0, 0.5);   /* RGBA Color (Alternative Transparency) */
+    -webkit-filter: blur(2px);
+}
+.card-title h4{
+	margin : 0;
+}
+.card-title div{
+	margin-left: 9px;
+	font-size: 0.9rem;
+	
+}
 </style>
 </head>
 
@@ -32,8 +55,8 @@
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Product Register</h4>
-							</div>
+								<h4>Product Register</h4> <div><i class="fas fa-question-circle"></i></div>
+							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
 									<form name="itemRegister" method="post"
@@ -83,14 +106,13 @@
 															<!--  <option value="ware01">CSS</option>-->
 
 													</select></td>
-													<td><input type="text" class="form-control" id="itemloc"
-														name="itemloc" placeholder="위치" readonly></td>
+													<td id = "modalTd"><input type="text" class="form-control" id="itemloc"
+														name="itemloc" placeholder="위치" style="width : 80px"readonly>
+														
 														<!-- ----------Modal-------- -->
-
-											
-													<td><a href="#itemLocModal" class="btn btn-primary"
-														data-toggle="modal" data-target="#theModal"
-														data-remote="/WebApp/view/modal/itemLoc.jsp">선택</a>
+														<i class="mdi mdi-magnify" id="mdi-search" 
+														data-toggle="modal" data-target="#theModal" data-remote="view/modal/itemLoc.jsp"></i>
+													
 														<div class="modal fade modal-lg" id="theModal" tabindex="-1"
 															role="dialog">
 															<div class="modal-dialog" role="document">
@@ -123,9 +145,10 @@
 													<td></td>
 													<td></td>
 													<td></td>
+													<td></td>
 													<td><button type="submit"
 															class="btn mb-1 btn-primary btn-lg"
-															id="toastr-success-top-right" style="width: 150px;">Register</button></td>
+															id="toastr-success-top-right" >Register</button></td>
 												</tr>
 											</tbody>
 										</table>
@@ -142,11 +165,13 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Item Table</h4>
+							<div class="card-title">
+								<h4>Item Table</h4><div><i class="fas fa-question-circle"></i></div>
+							</div><hr></hr>
 
 							<div class="table-responsive">
 								<table
-									class="table table-striped table-bordered zero-configuration dataTable"
+									class="table table-striped table-bordered"
 									id="itListBody">
 
 									<thead>
@@ -192,7 +217,9 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Invoice Register</h4>
+							<div class="card-title">
+								<h4>Invoice Register</h4><div><i class="fas fa-question-circle"></i></div>
+							</div><hr></hr>
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
 								<table class="table">
@@ -204,8 +231,7 @@
 											<th>Warehouse Name<span class="text-danger">*</span></th>
 											<th>Qty<span class="text-danger">*</span></th>
 											<th>Status<span class="text-danger">*</span></th>
-											
-											
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -228,12 +254,10 @@
 													<option value="Receiving">Receiving</option>
 													<option value="Shipping">Shipping</option>
 											</select></td>
-											
-
 
 											<td><button type="button" id="addItemToInvoice"
 													class="btn mb-1 btn-primary btn-lg">Add</button>
-											<td>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -263,7 +287,9 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Invoice Search</h4>
+							<div class="card-title">
+								<h4>Invoice Search</h4><div><i class="fas fa-question-circle"></i></div>
+							</div><hr></hr>
 
 							<div class="table-responsive">
 								<!-- <form name="itemRegister" method="post"
@@ -272,6 +298,7 @@
 										<thead>
 											<tr>
 												<th>Employee ID</th>
+												<th>Employee Name</th>
 												<th>Start Date</th>
 												<th>End Date</th>
 												<th></th>
@@ -281,6 +308,8 @@
 											<tr id = "invSearching">
 												<td><input type="text" class="form-control" id="empno"
 													name="empno" placeholder="관리자 사번"></td>
+													<td><input type="text" class="form-control" id="empname"
+													name="empname" placeholder="관리자 이름"></td>
 												<td><div class="input-group">
 														<input type="text" id="startdate" name="startdate"
 															class="form-control mydatepicker"
@@ -297,8 +326,8 @@
 															class="input-group-text"><i
 																class="mdi mdi-calendar-check"></i></span></span>
 													</div></td>
-												<td><button type="submit" id="regInvoice"
-														class="btn mb-1 btn-primary btn-lg" style="width: 150px;">Search</button></td>
+												<td><button type="submit" id="searchInvoice"
+														class="btn mb-1 btn-primary btn-lg">Search</button></td>
 
 											</tr>
 											
@@ -307,7 +336,7 @@
 								<!-- </form> -->
 
 							</div>
-
+							<span id="invListInfo"></span>
 							<div class="table-responsive">
 								<table id ="invListBody" class="table table-striped table-bordered">
 									<thead id="invListTHead">
@@ -315,19 +344,29 @@
 										${ivTableHeader }
 										</c:if>-->
 									</thead>
-									<tbody id ="invListTBody">
-										<c:forEach var="iv" items="${invoiceList }">
-											<tr>
-												<td>${iv.itemid}</td>
-												<td>${iv.itemname}</td>
-												<td>${iv.warename}</td>
-												<td>${iv.invoicestat }</td>
-												<td>${iv.invoicedtlqty }</td>
-												<td>${iv.invoicedtldate }</td>
-											</tr>
-										</c:forEach>
-									</tbody>
+									<tbody id ="invListTBody"></tbody>
 								</table>
+								<!-- ///////////// Modal ////////////// -->
+								<!-- <i class="mdi mdi-magnify" id="mdi-search" 
+										data-toggle="modal" data-target="#theModal" data-remote="view/modal/itemLoc.jsp"></i> -->
+													
+								<div class="modal fade modal-lg" id="selectedInvDt" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body"></div>
+											<div class="modal-footer">
+												<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+												<button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -399,8 +438,6 @@
 		// invoice detail item list
 		var jsonInvoice = Array();
 		
-		
-		//var selectedRow = Array();
 
 		////////////////////////함수
 
@@ -412,7 +449,32 @@
 			else
 				target.value = "";
 		}
+		
+		$('#theModal').on('show.bs.modal', function(e) {
 
+			var button = $(e.relatedTarget);
+			var modal = $(this);
+
+			// load content from HTML string
+			//modal.find('.modal-body').html("Nice modal body baby...");
+
+			// or, load content from value of data-remote url
+			modal.find('.modal-body').load(button.data("remote"));
+			
+
+		});
+
+		$('#theModal').on('hide.bs.modal', function() {
+			console.log('data : ' + itemPosition);
+			if(itemPosition == null){
+				alert("자리를 선택해 주세요!");
+			}else{
+				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+			}
+			
+			//   console.log('result : '+$("#modal-result").val());    
+		})
+		
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function() {
 			$(document.body).delegate(".selectedItList", "click", function() {
@@ -452,6 +514,13 @@
 							jsonInvoice.push(jsonItem);
 
 							updateIvDetail();
+							
+							$("#setItInfo").find("input[name=itemid]").val("");
+							$("#setItInfo").find("input[name=itemname]").val("");
+							$("#setItInfo").find("input[name=wareid]").val("");
+							$("#setItInfo").find("input[name=warename]").val("");
+							$("#setItInfo").find("input[name=invoicedtlqty]").val("");
+							$("#setItInfo").find("select[name=invoicestat]").find('option:first').attr('selected', 'selected');
 
 						},
 						error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
@@ -471,7 +540,6 @@
 			});
 		});
 
-		
 
 		//Item list update
 		var updateItem = function() {
@@ -521,16 +589,18 @@
 									jsonInvoice = Array();
 									$("#invoiceDetail").html("");
 									$("#invoiceDetailHead").html("");
-									/* 한 줄씩 업데이트 할 때
+									
 									// https://datatables.net/blog/2019-01-11#Updating-the-parent-table
+									/* dataTable 한 줄씩 업데이트 할 때
 									for(var i = 0; i < selectedRow.length; i++){
 										var row = selectedRow[i];
 										$('#itListBody', row.child()).DataTable().ajax.reload();
 									}
 									selectedRow = [];
 									*/
-									/* 전체 업데이트 */
+									/* dataTable 전체 업데이트 */
 									$('#itListBody').DataTable().ajax.reload();
+									
 									} else if (token = "ERROR") {
 										
 									alert("발주실패ㅒㅒㅒㅒ");
@@ -580,82 +650,67 @@
 			
 		}
 
-		$( '#regInvoice' ).click( function() {
+		$( '#searchInvoice' ).click( function() {
 			
 			var empno = $("#invSearching").find("input[name=empno]").val();
+			var empname = $("#invSearching").find("input[name=empname]").val();
 			var startdate = $("#invSearching").find("input[name=startdate]").val();
 			var enddate = $("#invSearching").find("input[name=enddate]").val();
 			
 			console.log(startdate + " ~ " + enddate);
 			
-			$.ajax({
-				url : 'invoicesearch.pc?empno='+empno+'&sd='+startdate+'&ed='+enddate,
-				data : {},
-				//contentType : "application/json; charset=UTF-8",
-				success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
-					var html = "";
-					
-					$.each(data, function(index, inv) {
-						html += "<tr class=\"selectedItList\">";
-						html += "<td>" + inv.invoiceid + "</td>";
-						html += "<td>" + inv.empno + "</td>";
-						html += "<td>" + inv.empname + "</td>";
-						html += "<td>" + inv.invoicedate + "</td>";
-						html += "</tr>";
-					});
-					$("#invListTHead").html('<tr><th>Invoice ID</th><th>Employee ID</th><th>Employee Name</th><th>Date</th></tr>');
-					$("#invListTBody").html(html);
-				},
-				error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-					console.log(e.responseText);
-				}
-			});
+			$("#invListTHead").html('<tr><th>Invoice ID</th><th>Employee ID</th><th>Employee Name</th><th>Date</th></tr>');
 			
-			var invTable = $('#invListBody').DataTable({searching: false, paging: true, ordering: true});
 			//https://datatables.net/
-			/*
 			var invTable = $('#invListBody').DataTable({
-				
+				searching : false, 
+				paging : true, 
+				ordering : true,
+				pageLength : 5,
+				lengthChange: false,
 				ajax : {
-					url : 'invoicesearch.pc?sd='+startdate+'&ed='+enddate
+					url : 'invoicesearch.pc?empno='+empno+'&empname='+empname+'&sd='+startdate+'&ed='+enddate,
+					dataSrc : '',
 				},columns : [ 
 					{data : 'invoiceid'}, 
 					{data : 'empno'}, 
 					{data : 'empname'}, 
 					{data : 'invoicedate'}]
-
 			});
+			
+			$("#invListInfo").html(" * 테이블을 클릭하면 주문서 상세 정보를 볼 수 있습니다.");
+			
 			$(document).on("mouseenter", "#invListTBody", function(){
 				$('#invListTBody tr').addClass("selectedInv");
+				$('#invListTBody tr').attr('data-toggle', "modal");
+				$('#invListTBody tr').attr('data-target', "#selectedInvDt");
+				$('#invListTBody tr').attr('data-remote', "view/modal/invDetail.jsp");
 				
-			});*/
+			});
 		} );
 		
+		$(function() {
+			$(document.body).delegate(".selectedInv", "click", function() {
+				var invoiceid = $(this).find("td").eq(0).text(); //invoiceid
+ 
+				console.log(invoiceid);
+				
+		});
 	
-		$('#theModal').on('show.bs.modal', function(e) {
+
+		$('#selectedInvDt').on('show.bs.modal', function(e) {
 
 			var button = $(e.relatedTarget);
 			var modal = $(this);
+			
 
-			// load content from HTML string
-			//modal.find('.modal-body').html("Nice modal body baby...");
-
-			// or, load content from value of data-remote url
 			modal.find('.modal-body').load(button.data("remote"));
+			
 
 		});
+		
 
-		$('#theModal').on('hide.bs.modal', function() {
-			console.log('data : ' + itemPosition);
-			if(itemPosition == null){
-				alert("자리를 선택해 주세요!");
-			}else{
-				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
-			}
-			
-			//   console.log('result : '+$("#modal-result").val());    
-		})
-
+	});
 		$(document).ready(function() {
 			updateItem();
 		});

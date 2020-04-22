@@ -30,6 +30,9 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 			<if test = "empno != null and empno != ''">
 				empno=#{empno}
 			</if>
+			<if test = "empname != null and empname != ''">
+				and empname=#{empname}
+			</if>
 			<if test = "startdate != null and startdate != '' and enddate != null and enddate != ''">
 				and invoicedate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
 			</if>

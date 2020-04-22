@@ -25,7 +25,7 @@
 <link rel="stylesheet"
 	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css?1" rel="stylesheet">
+<link href="css/style.css?134" rel="stylesheet">
 
 
 <!-- Page plugins css -->
@@ -216,7 +216,8 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
-
+	<!-- font awesome -->
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 	<!-- Chartjs -->
 	<script src="./plugins/chart.js/Chart.bundle.min.js"></script>
 	<!-- Circle progress -->

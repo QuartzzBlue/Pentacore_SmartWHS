@@ -25,21 +25,10 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<select id="selectAll" parameterType="invoicedetail" resultType="invoicedetail">
 		SELECT * FROM invoicedetail
 		<where>
-			<if test = "itemid != null and itemid != ''">
-				itemid=#{itemid}
+			<if test = "invoiceid != null and invoiceid != '' and invoiceid != 0">
+				invoiceid=#{invoiceid}
 			</if>
-			<if test = "itemname != null and itemname != ''">
-				and itemname=#{itemname}
-			</if>
-			<if test = "wareid != null and wareid != ''">
-				and wareid=#{wareid}
-			</if>
-			<if test = "invoicestat != null and invoicestat != ''">
-				and invoicestat=#{invoicestat}
-			</if>
-			<if test ="startdate != null and startdate != '' and enddate != null and enddate != ''">
-				and invoicedtldate between to_date(#{startdate},'YYYY-MM-DD') and to_date(#{enddate},'YYYY-MM-DD')+1
-			</if>
+			
 		</where>
 	</select>
 	
