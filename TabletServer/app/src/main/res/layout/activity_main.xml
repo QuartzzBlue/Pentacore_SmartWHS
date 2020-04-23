@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPink"
-                android:text="titleWarehouse"
+                android:text="  창고 현황"
                 android:textSize="20sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,13 +98,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPink"
-                android:text="titleConsole"
+                android:text="  상태메세지"
                 android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_consoleQueue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>
@@ -130,14 +131,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPink"
-                android:text="titleForkLift"
+                android:text="  지게차 상태"
                 android:textSize="20sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/round_corner_layout">
 
                 <TextView
                     android:id="@+id/forkLift1_name"
@@ -232,7 +237,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/round_corner_layout">
 
                 <TextView
                     android:id="@+id/forkLift2_name"
@@ -326,7 +335,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/round_corner_layout">
 
                 <TextView
                     android:id="@+id/forkLift3_temperatureLabel"
@@ -421,7 +434,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/round_corner_layout">
 
                 <TextView
                     android:id="@+id/forkLift4_name"
@@ -524,13 +542,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPink"
-                android:text="titleTaskQueue"
+                android:text="  태스크 목록"
                 android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_taskQueue"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>

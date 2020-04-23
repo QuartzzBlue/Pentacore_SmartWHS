@@ -21,8 +21,8 @@ public class SendInTcpip implements Runnable {
 		this.msg = msg;
 	}
 
-	String srcID;
-	String srcIP;
+	String dstnID;
+	String dstnIP;
 	@Override
 	public void run() {
 
@@ -32,20 +32,22 @@ public class SendInTcpip implements Runnable {
 
 		//int value = Integer.parseInt("예외");
 
-		System.out.println("SendInTcpip [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 
+		dstnID = msg.getDstnID();
+		dstnIP = ActiveConnection.idToIp.get(dstnID);
+		msg.setDstnIP(dstnIP);
+		ObjectOutputStream oos = ActiveConnection.ipToOos.get(dstnID);
+
+		System.out.println("SendInTcpip [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
 				+", dstnid : "+msg.getDstnID());
-		srcID = msg.getDstnID();
-		srcIP = ActiveConnection.idToIp.get(srcID);
-		ObjectOutputStream oos = ActiveConnection.ipToOos.get(srcIP);
 
 		if(oos != null) {
 			try {
 				oos.writeObject(msg);
 			} catch (IOException e) {
-				ActiveConnection.ipToOos.remove(srcIP);
-				ActiveConnection.idToIp.remove(srcID);
+				ActiveConnection.ipToOos.remove(dstnIP);
+				ActiveConnection.idToIp.remove(dstnID);
 				e.printStackTrace();
 			}
 		} else {
@@ -55,8 +57,8 @@ public class SendInTcpip implements Runnable {
 				e.printStackTrace();
 			}
 			// oos==null
-			ActiveConnection.ipToOos.remove(srcIP);
-			ActiveConnection.idToIp.remove(srcID);
+			ActiveConnection.ipToOos.remove(dstnIP);
+			ActiveConnection.idToIp.remove(dstnID);
 		}
 
 

@@ -56,6 +56,7 @@ public class ClientReceiver implements Runnable {
                 // msg에 들어있는 task를 queue에 추가
                 Task task = msg.getTask();
                 MainActivity.taskQueue.offer(msg.getTask());
+                // taskUI 바꿔주는 메소드 호출;
                 MainActivity.updateTaskQueueUI();
                 task.getIo();
                 task.getName();
@@ -64,27 +65,20 @@ public class ClientReceiver implements Runnable {
                 task.getLocY();
                 MainActivity.printConsole("새로운 테스크 "+task.getIo()+", "+task.getName()+"*"+task.getQty()+"("+task.getLocX()+", "+task.getLocY()+")가 추가되었습니다.");
 //                System.out.println("taskQueue Size : "+MainActivity.taskQueue.size());
-                // taskUI 바꿔주는 메소드 호출;
-
 
 //                // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
-//                MainActivity.assignTask();
-//                Task task = msg.getTask();
-//                MainActivity.printConsole("TCP/IP서버로부터 TASK("+task.getIo()+", 위치("+task.getLocX()+","+task.getLocY()+"), 수량 "+task.getQty()+"를 받았습니다.");
+                MainActivity.assignTask();
             } catch (ClassNotFoundException | IOException e) {
-                e.printStackTrace();
+                System.out.println("Error at ClientReceiver");
+//                e.printStackTrace();
                 break;
             }
 
         }
 
         try {
-            if (ois != null) {
-                ois.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
+            if (ois != null) ois.close();
+            if (socket != null) socket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
