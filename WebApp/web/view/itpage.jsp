@@ -43,13 +43,8 @@ hr{
 
 
 <body>
-
 	<div class="content-body">
 		<div class="container-fluid mt-3">
-
-<button type="button" id = "popover" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on top
-</button>
 
 			<!-- ************* (1) *************** -->
 			<div class="row">
@@ -57,8 +52,8 @@ hr{
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Product Register</h4><div><i class="fas fa-question-circle" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"></i></div>
-								
+								<h4>Product Register</h4><div><button class="fas fa-question-circle tooltipbutton" role="tooltip"></button></div>
+								<!-- <button type="button" id = "popover" class="btn btn-secondary" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Popover on top</button>-->
 							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
@@ -419,7 +414,6 @@ hr{
 	</div>
 
 
-
 	<script>
 		// warehouse id list
 		var wareIdList = [ "wh1111", "#" ];
@@ -430,9 +424,15 @@ hr{
 
 		////////////////////////함수
 		
+		/*
+		var tooltip = document.querySelector('.tooltipbutton');
+		Popper.createPopper(tooltip, {
+		    placement: 'right',
+		  });
+		
 		$(function () {
-		  	$('[data-toggle="popover"]').popover({ trigger: "hover" });
-		})
+		  	$('[data-toggle="popover"]').popover({ trigger: "hover"});
+		})*/
 		
 		
 		function setWareID(w) {
@@ -715,6 +715,7 @@ hr{
 	});
 		$(document).ready(function() {
 			updateItem();
+			history.replaceState({}, null, location.pathname);
 		});
 		
 		

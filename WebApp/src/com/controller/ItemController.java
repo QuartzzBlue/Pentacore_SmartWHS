@@ -52,7 +52,7 @@ public class ItemController {
 
 
 	@RequestMapping("/itemregister.pc")
-	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem) {
+	public String itemregister(ModelAndView mv, ItemVO newItem) {
 
 		System.out.println("**" + newItem.toString());
 		try {
@@ -61,10 +61,7 @@ public class ItemController {
 			e.printStackTrace();
 		}
 
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-
-		return mv;
+		return "redirect:itpage.pc";
 	}
 
 	
