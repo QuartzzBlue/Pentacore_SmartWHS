@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,8 @@ public class ItemController {
 	private static Client client = null;
 	private static Msg msg = null;
 	private static ItemNameMapper itNameMapper = null;
+	private static Logger logger = LoggerFactory.getLogger(ItemController.class);
+
 
 	@RequestMapping("/itemregister.pc")
 	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem) {
@@ -298,6 +302,8 @@ public class ItemController {
 		}
 		Runnable r = new Sender(msg);
 		Main.executorService.execute(r);
+		logger.info(itName + " " + xPoint + " " + yPoint);
+		//logger.debug(itName + " " + xPoint + " " + yPoint);
 	}
 
 }

@@ -24,7 +24,7 @@ hr{
 	text-align: center;
 	align-items: baseline;
 }
-.card-title i{
+.card-title div i{
 	color: #E9EAEC;
 	opacity: 0.1;                /* Opacity (Transparency) */
     color: rgba(0, 0, 0, 0.5);   /* RGBA Color (Alternative Transparency) */
@@ -47,7 +47,9 @@ hr{
 	<div class="content-body">
 		<div class="container-fluid mt-3">
 
-
+<button type="button" id = "popover" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on top
+</button>
 
 			<!-- ************* (1) *************** -->
 			<div class="row">
@@ -55,7 +57,8 @@ hr{
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Product Register</h4> <div><i class="fas fa-question-circle"></i></div>
+								<h4>Product Register</h4><div><i class="fas fa-question-circle" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?"></i></div>
+								
 							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
@@ -113,9 +116,8 @@ hr{
 														<i class="mdi mdi-magnify" id="mdi-search" 
 														data-toggle="modal" data-target="#theModal" data-remote="view/modal/itemLoc.jsp"></i>
 													
-														<div class="modal fade modal-lg" id="theModal" tabindex="-1"
-															role="dialog">
-															<div class="modal-dialog" role="document">
+														<div class="modal fade" id="theModal" tabindex="-1" role="dialog"> 
+															<div class="modal-dialog modal-lg" role="document">
 																<div class="modal-content">
 																	<div class="modal-header">
 																		<h5 class="modal-title" id="exampleModalLabel">New
@@ -189,22 +191,7 @@ hr{
 										</tr>
 									</thead>
 
-									<tbody id="itListTBody">
-										<!--<c:forEach var="it" items="${itemList }">
-											<tr class="selectedItList">
-												<td>${it.itemid}</td>
-												<td>${it.itemname}</td>
-												<td>${it.itemcate}</td>
-												<td>${it.itemprice}</td>
-												<td>${it.itemweightpb}</td>
-												<td>${it.itemqtypb}</td>
-												<td>${it.wareid}</td>
-												<td>${it.warename}</td>
-												<td>${it.itemloc}</td>
-												<td>${it.itemstock}</td>
-											</tr>
-										</c:forEach>-->
-									</tbody>
+									<tbody id="itListTBody"></tbody>
 								</table>
 							</div>
 						</div>
@@ -350,11 +337,13 @@ hr{
 								<!-- <i class="mdi mdi-magnify" id="mdi-search" 
 										data-toggle="modal" data-target="#theModal" data-remote="view/modal/itemLoc.jsp"></i> -->
 													
-								<div class="modal fade modal-lg" id="selectedInvDt" tabindex="-1" role="dialog">
-									<div class="modal-dialog" role="document">
+								<div class="modal fade" id="selectedInvDt" tabindex="-1" role="dialog">
+									<div class="modal-dialog modal-lg" role="document">
 										<div class="modal-content">
+											<input type="hidden" id="selectedInvId"> <!-- invoice id -->
+											<input type="hidden" id="selectedInvDate"> <!-- invoice date -->
 											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+												<h5 class="modal-title" id="selectedInvLabel">Invoice Detail</h5>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -362,7 +351,7 @@ hr{
 											<div class="modal-body"></div>
 											<div class="modal-footer">
 												<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-												<button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+												<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 											</div>
 										</div>
 									</div>
@@ -440,7 +429,12 @@ hr{
 		
 
 		////////////////////////함수
-
+		
+		$(function () {
+		  	$('[data-toggle="popover"]').popover({ trigger: "hover" });
+		})
+		
+		
 		function setWareID(w) {
 			var target = document.getElementById("wareid_"
 					+ w.value.substring(7, 8));
@@ -545,7 +539,6 @@ hr{
 		var updateItem = function() {
 			//https://datatables.net/
 			var itTable = $('#itListBody').DataTable({
-
 				ajax : {
 					url : 'itemsearch.pc',
 					dataSrc : ''
@@ -692,8 +685,9 @@ hr{
 		$(function() {
 			$(document.body).delegate(".selectedInv", "click", function() {
 				var invoiceid = $(this).find("td").eq(0).text(); //invoiceid
- 
-				console.log(invoiceid);
+				var invoicedate = $(this).find("td").eq(3).text(); //invoice date
+				$('#invListTBody tr').attr('data-invid', invoiceid);
+				$('#invListTBody tr').attr('data-invdate', invoicedate);
 				
 		});
 	
@@ -703,11 +697,19 @@ hr{
 			var button = $(e.relatedTarget);
 			var modal = $(this);
 			
-
+			var invid = button.data("invid");
+			var invdate = button.data("invdate");
+			console.log(invid);
+			console.log(invdate);
+			
+			$('.modal-content #selectedInvId').val(invid);
+			$('.modal-content #selectedInvDate').val(invdate);
 			modal.find('.modal-body').load(button.data("remote"));
+			modal.find('#selectedInvLabel').html("#"+invid+" Invoice Detail");
 			
 
 		});
+
 		
 
 	});

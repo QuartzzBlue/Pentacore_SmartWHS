@@ -25,7 +25,7 @@
 <link rel="stylesheet"
 	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css?134" rel="stylesheet">
+<link href="css/style.css?1234" rel="stylesheet">
 
 
 <!-- Page plugins css -->
