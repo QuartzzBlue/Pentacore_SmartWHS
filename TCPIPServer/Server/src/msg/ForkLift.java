@@ -24,7 +24,6 @@ public class ForkLift implements Serializable{
 		this.temperature = temperature;
 		this.distance = distance;
 	}
-
 	public int getStatus() {
 		return status;
 	}

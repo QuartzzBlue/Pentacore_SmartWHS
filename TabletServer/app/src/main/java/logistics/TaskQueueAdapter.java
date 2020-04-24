@@ -40,8 +40,14 @@ public class TaskQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             StringBuilder sb = new StringBuilder();
             if(task.getIo()==0) sb.append("[입고] ");
             else if(task.getIo()==1) sb.append("[출고] ");
-            sb.append(task.getName()).append(",  수량: ").append(task.getQty())
-                .append("개,  위치: ").append(task.getLocX()).append(", ").append(task.getLocY()).append("");
+            sb.append(task.getName())
+                .append(",  수량: ")
+                .append(task.getQty())
+                .append("개,  위치: ")
+                .append(task.getLocX())
+                .append(", ")
+                .append(task.getLocY())
+                .append("");
             taskQueue_item.setText(sb.toString());
         }
 

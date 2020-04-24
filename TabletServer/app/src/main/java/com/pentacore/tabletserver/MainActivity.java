@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -12,6 +13,9 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -32,16 +36,17 @@ import network.SendInTcpip;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity mainActivity;
+
     static Warehouse warehouse;
     ForkLift forkLift1, forkLift2, forkLift3, forkLift4;
     static ForkLiftViewSet forkLiftViewSet1, forkLiftViewSet2, forkLiftViewSet3, forkLiftViewSet4;
 
-    public static Map forkLiftMap;
-    static Map forkLiftViewSetMap;
+    public static Map<String, ForkLift> forkLiftMap;
+    static Map<String, ForkLiftViewSet> forkLiftViewSetMap;
 
-    int WORKING = 0;
-    int WAITING = 1;
-    int CHARGING = 2;
+    static int WORKING = 0;
+    static int WAITING = 1;
+    static int CHARGING = 2;
 
     static ConstraintLayout layoutWarehouseMap;
     public static Queue taskQueue;
@@ -54,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView consoleQueueRecyclerView;
     private static ConsoleQueueAdapter consoleQueueAdapter;
 
-
-
     public static ExecutorService executorService = Executors.newFixedThreadPool(10);
+    Runnable server;
 
 
     @Override
@@ -71,20 +75,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Run TabletServer
         int port=8888;
-        Runnable server = new Server(port);
+        server = new Server(port);
         executorService.execute(server);
 
         // Connect to TCP/IP Server
-        String dstnIP = "70.12.113.192";
+        String dstnIP = "70.12.113.200";
         int dstnPort = 9999;
         Runnable client = new Client(dstnIP, dstnPort);
         executorService.execute(client);
 
         warehouse = new Warehouse(26, 14);
-        forkLift1 = new ForkLift("forkLift1");
-        forkLift2 = new ForkLift("forkLift2");
-        forkLift3 = new ForkLift("forkLift3");
-        forkLift4 = new ForkLift("forkLift4");
+        forkLift1 = new ForkLift("forklift1");
+        forkLift2 = new ForkLift("forklift2");
+        forkLift3 = new ForkLift("forklift3");
+        forkLift4 = new ForkLift("forklift4");
 
         forkLiftMap = new HashMap<String, ForkLift>();
         forkLiftMap.put(forkLift1.getName(), forkLift1);
@@ -121,10 +125,10 @@ public class MainActivity extends AppCompatActivity {
         forkLiftViewSet4.forkLiftView = findViewById(R.id.forkLift4);
 
         forkLiftViewSetMap = new HashMap<String, ForkLiftViewSet>();
-        forkLiftViewSetMap.put("forkLift1", forkLiftViewSet1);
-        forkLiftViewSetMap.put("forkLift2", forkLiftViewSet2);
-        forkLiftViewSetMap.put("forkLift3", forkLiftViewSet3);
-        forkLiftViewSetMap.put("forkLift4", forkLiftViewSet4);
+        forkLiftViewSetMap.put("forklift1", forkLiftViewSet1);
+        forkLiftViewSetMap.put("forklift2", forkLiftViewSet2);
+        forkLiftViewSetMap.put("forklift3", forkLiftViewSet3);
+        forkLiftViewSetMap.put("forklift4", forkLiftViewSet4);
 
         taskQueue = new LinkedList();
         waitingForkLiftQueue = new LinkedList();
@@ -175,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void locateForkLift(View forkLiftView, int dstnX, int dstnY) {
         ConstraintSet set = new ConstraintSet();
+        if(layoutWarehouseMap==null) return;
         set.clone(layoutWarehouseMap);
         set.connect(forkLiftView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, (int)warehouse.axisX[dstnX]);
         set.connect(forkLiftView.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, (int)warehouse.axisY[dstnY]);
@@ -211,22 +216,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void assignTask() {
-        if (!waitingForkLiftQueue.isEmpty() && !taskQueue.isEmpty()) {
-            ForkLift forkLift = (ForkLift)waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
+        if (waitingForkLiftQueue.isEmpty() || taskQueue.isEmpty()) return;
+            logistics.ForkLift forkLift = (logistics.ForkLift)waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
+            MainActivity.forkLiftMap.get(forkLift.getName()).setStatus(WORKING); // status만 일단 먼저 바꿈
 
-            MainActivity.printConsole("지게차"+forkLift.getName()+"에 Task를 할당했습니다.");
-            Msg msg = new Msg(); // srcID, srcIP, blahblah
-            // msg.setTask(taskQueue.poll());
+            msg.Task task = (msg.Task)(taskQueue.poll());
+            Msg msg = new Msg("warehouse1", forkLift.getName()); // srcID, dstnID
+            msg.setTask(task.getIo(), task.getName(), task.getQty(), task.getLocX(), task.getLocY());
+
             Runnable sendInTcpip = new SendInTcpip(msg); //전송
             MainActivity.executorService.submit(sendInTcpip);
 
+            MainActivity.printConsole("지게차"+forkLift.getName()+"에 Task를 할당했습니다.");
             //Console.log(n번 지게차에 task 내용 뭐뭐 를 할당하였습니다.);
-            // 그러면 msg가 지게차 Infomatics로 가서 지게차는 얘를 할당받고
-            // 지게차가 받은 msg를 다시 태블릿으로 보낼 때 태블릿 UI가 업데이트 된다.
 
             // taskUI 바꿔주는 메소드 호출
             taskQueueAdapter.notifyDataSetChanged();
-        }
     }
 
     public static void updateTaskQueueUI() {
@@ -239,7 +244,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void printConsole(String logMessage) {
-        consoleQueue.offer(logMessage);
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yy-MM-dd hh:mm:ss");
+        consoleQueue.offer("["+simpleDate.format(new Date())+"] "+logMessage);
         if(consoleQueue.size()>50) consoleQueue.poll();
         mainActivity.runOnUiThread(new Runnable() {
             @Override
@@ -247,6 +253,27 @@ public class MainActivity extends AppCompatActivity {
                 consoleQueueAdapter.updateConsoleQueue(consoleQueue);
             }
         });
+    }
+
+    private long lastTimeBackPressed;
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed < 1500){
+            finish();
+            return;
+        }
+        lastTimeBackPressed = System.currentTimeMillis();
+        Toast.makeText(this,"'뒤로' 버튼을 한 번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            if(((Server)server).serverSocket!=null) ((Server)server).serverSocket.close();
+            if(((Server)server).socket!=null) ((Server)server).socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

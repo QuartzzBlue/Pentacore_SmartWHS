@@ -11,6 +11,9 @@
 
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+
 <!-- Bootstrap -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 	
@@ -25,7 +28,7 @@
 <link rel="stylesheet"
 	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css?1" rel="stylesheet">
+<link href="css/style.css?1234" rel="stylesheet">
 
 
 <!-- Page plugins css -->
@@ -216,7 +219,8 @@
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
 	<script src="js/styleSwitcher.js"></script>
-
+	<!-- font awesome -->
+	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 	<!-- Chartjs -->
 	<script src="./plugins/chart.js/Chart.bundle.min.js"></script>
 	<!-- Circle progress -->

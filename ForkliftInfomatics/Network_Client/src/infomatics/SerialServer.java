@@ -24,11 +24,12 @@ public class SerialServer implements SerialPortEventListener {
 	static String receiveId;
 	static String receiveData;
 	Msg msg;
-	int status = -1;
-	int battery = 0;
-	int locX = 0;
-	int locY = 0;
-	int temperature = 0;
+	int status = 1;
+	int battery = 999;
+	int locX = 11;
+	int locY = 13;
+	int temperature = 50;
+	String tmpid = SerialWrite.sendId;
 
 	boolean flag = false;
 
@@ -92,9 +93,9 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				receiveStr = new String(readBuffer);
-				// System.out.println("Receive Data:" + receiveStr);
+				System.out.println("Receive Data:" + receiveStr);
 
-				// ECU 로부터 can 송신하면
+				// ECU 濡쒕��꽣 can �넚�떊�븯硫�
 				if (receiveStr.substring(1, 4).equals("U28")) {
 
 					receiveId = receiveStr.substring(4, 12);
@@ -106,32 +107,38 @@ public class SerialServer implements SerialPortEventListener {
 
 					if (receiveId.equals("13000003")) { // battery
 						battery = Integer.parseInt(receiveData);
-						if (battery <= 990 && !SerialWrite.sendId.equals("10000000")) {
-							SerialWrite.sendId = "10000002"; // 충전 상태로 변경
-							Runnable r = new SerialWrite("0000");
-							Main.executorService.execute(r);
-							System.out.println("Charging");
-						} else if (battery == 999) {
-							SerialWrite.sendId = "10000001"; // 대기 상태로 변경
-							Runnable r = new SerialWrite("0000");
-							Main.executorService.execute(r);
-						}
 						System.out.println("battery : " + battery);
 
 					} else if (receiveId.equals("14000004")) { // location
 						locX = Integer.parseInt(receiveData.substring(0, 2));
 						locY = Integer.parseInt(receiveData.substring(2, 4));
-
 						System.out.println("Location (x,y) : " + locX + "," + locY);
-						if(locX == 13 && locY==11) {
-							SerialWrite.sendId = "10000001"; // 대기 상태로 변경
-						}
-						
+
 					} else if (receiveId.equals("15000005")) { // temperature
 						temperature = Integer.parseInt(receiveData);
 						System.out.println("temperature : " + temperature);
 					}
+
+					//
+					if (locX == 11 && locY == 13 && battery <= 980) {
+						SerialWrite.sendId = "10000002";
+						System.out.println("Charging");
+					}
+
+					if (battery == 999 && locX == 11 && locY == 13) {
+						SerialWrite.sendId = "10000001";
+						System.out.println("Waiting");
+					}
 					
+					if(!tmpid.equals(SerialWrite.sendId)) {
+						Runnable r = new SerialWrite("0000");
+						Main.executorService.execute(r);
+					}
+
+					tmpid = SerialWrite.sendId;
+
+					//
+
 					if (SerialWrite.sendId.equals("10000000")) { // working
 						status = 0;
 					}
@@ -145,18 +152,18 @@ public class SerialServer implements SerialPortEventListener {
 						status = 2;
 						Receiver.task = null;
 					}
-					msg = new Msg("forklift01", "tabletServer");
-					msg.setForkLift(status, locX, locY, battery, temperature, 0);
-
-					if (Receiver.task != null) {
-						msg.setTask(Receiver.task.getIo(), Receiver.task.getName(), Receiver.task.getQty(),
-								Receiver.task.getLocX(), Receiver.task.getLocY());
-					}
-
-					r.setMsg(msg);
-					Main.executorService.submit(r);
-
 				}
+
+				msg = new Msg("forklift1", "tabletServer");
+				msg.setForkLift(status, locX, locY, battery, temperature, 0);
+
+				if (Receiver.task != null) {
+					msg.setTask(Receiver.task.getIo(), Receiver.task.getName(), Receiver.task.getQty(),
+							Receiver.task.getLocX(), Receiver.task.getLocY());
+				}
+
+				r.setMsg(msg);
+				Main.executorService.submit(r);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

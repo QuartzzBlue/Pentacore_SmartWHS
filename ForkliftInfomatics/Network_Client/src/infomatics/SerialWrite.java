@@ -22,10 +22,10 @@ public class SerialWrite implements Runnable {
 	public void run() {
 
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
-		int poolSize = threadPoolExecutor.getPoolSize();// 스레드 풀 사이즈 얻기
-		String threadName = Thread.currentThread().getName();// 스레드 풀에 있는 해당 스레드 이름 얻기
+		int poolSize = threadPoolExecutor.getPoolSize();// �뒪�젅�뱶 �� �궗�씠利� �뼸湲�
+		String threadName = Thread.currentThread().getName();// �뒪�젅�뱶 ���뿉 �엳�뒗 �빐�떦 �뒪�젅�뱶 �씠由� �뼸湲�
 
-		System.out.println("SerialWrite [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
+		System.out.println("SerialWrite");
 
 		if (!data.equals(":G11A9\r")) {
 
@@ -52,13 +52,6 @@ public class SerialWrite implements Runnable {
 		try {
 			SerialServer.out.write(outData);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

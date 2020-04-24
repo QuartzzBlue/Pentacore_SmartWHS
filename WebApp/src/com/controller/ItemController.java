@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.data.ItemNameMapper;
 import com.frame.Service;
 import com.vo.InvoiceVO;
 import com.vo.InvoicedetailVO;
@@ -42,13 +45,14 @@ public class ItemController {
 	/* static 변수들 */
 	public static String wareNameList[] = { "이천 제1물류창고" };
 	private static Set<String> itMap = new HashSet<String>();
-	private static int[] xSet = new int['M'];
-//	private static int[] ySet = new int[]
 	private static Client client = null;
 	private static Msg msg = null;
+	private static ItemNameMapper itNameMapper = null;
+	private static Logger logger = LoggerFactory.getLogger(ItemController.class);
+
 
 	@RequestMapping("/itemregister.pc")
-	public ModelAndView itemregister(ModelAndView mv, ItemVO newItem) {
+	public String itemregister(ModelAndView mv, ItemVO newItem) {
 
 		System.out.println("**" + newItem.toString());
 		try {
@@ -57,10 +61,7 @@ public class ItemController {
 			e.printStackTrace();
 		}
 
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-
-		return mv;
+		return "redirect:itpage.pc";
 	}
 
 	
@@ -74,6 +75,9 @@ public class ItemController {
 				itemList = itservice.selectAll(new ItemVO());
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+			for(ItemVO i : itemList) {
+				itMap.add(i.getItemloc());
 			}
 		}
 		
@@ -89,7 +93,8 @@ public class ItemController {
 
 	@RequestMapping("/itemsearch.pc")
 	public void itemsearch(HttpServletResponse rs, ItemVO iv) {
-
+		
+		
 		ArrayList<ItemVO> itemList = null;
 		try {
 			itemList = itservice.selectAll(iv);
@@ -133,7 +138,10 @@ public class ItemController {
 
 	@RequestMapping("/invoiceregister.pc")
 	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson) {
-
+		if(itNameMapper == null) {
+			itNameMapper = new ItemNameMapper();
+		}
+		
 		System.out.println(ivJson);
 		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
 		String response = null;
@@ -181,54 +189,29 @@ public class ItemController {
 
 	}
 
-//	@RequestMapping("/invoicesearch.pc")
-//	public ModelAndView invoicesearch(ModelAndView mv, InvoicedetailVO ivd) {
-//
-//		System.out.println("!!!!" + ivd.toString());
-//		ArrayList<InvoicedetailVO> dtList = null;
-//		try {
-//			dtList = invdtlservice.selectAll(ivd);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		String ivTableHeader = "										<tr>\r\n"
-//				+ "											<th>Item ID</th>\r\n"
-//				+ "											<th>Item Name</th>\r\n"
-//				+ "											<th>Warehouse Name</th>\r\n"
-//				+ "											<th>Status</th>\r\n"
-//				+ "											<th>Qty</th>\r\n"
-//				+ "											<th>Date</th>\r\n"
-//				+ "										</tr>\r\n";
-//		mv.addObject("ivTableHeader", ivTableHeader);
-//		mv.addObject("invoiceList", dtList);
-//		mv.addObject("center", "itpage");
-//		mv.setViewName("main");
-//		return mv;
-//
-//	}
 
 	@RequestMapping("/invoicesearch.pc")
-	public @ResponseBody ArrayList<InvoiceVO> invoicesearch(ModelAndView mv, HttpServletRequest request, HttpServletResponse rs) {
+	public @ResponseBody ArrayList<InvoiceVO> invoicesearch(ModelAndView mv, HttpServletRequest request) {
 		
 		String empno = request.getParameter("empno");
+		String empname = request.getParameter("empname");
 		String startdate = request.getParameter("sd");
 		String enddate = request.getParameter("ed");
 		
-		System.out.println("empno : " + empno + "sd : " + startdate + ", ed : " + enddate);
+		System.out.println("empno : " + empno + "empname : " + empname + "sd : " + startdate + ", ed : " + enddate);
 		
 		ArrayList<InvoiceVO> invList = null;
 		InvoiceVO temp = new InvoiceVO();
 		temp.setStartdate(startdate);
 		temp.setEnddate(enddate);
 		temp.setEmpno(empno);
+		temp.setEmpno(empname);
 		try {
 			invList = invservice.selectAll(temp);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		System.out.println(invList.get(1).getInvoicedate());
+		//System.out.println(invList.get(1).getInvoicedate());
 		return invList;
 
 //		JSONArray ja = new JSONArray();
@@ -251,19 +234,45 @@ public class ItemController {
 //		}
 	}
 	
-	
-	@RequestMapping("/setmodal.pc")
-	public ModelAndView setmodal(ModelAndView mv) {
+	@RequestMapping("/invoicedtlsearch.pc")
+	public @ResponseBody ArrayList<InvoicedetailVO> invoicedtlsearch(ModelAndView mv, HttpServletRequest request) {
+		
+		String invoiceid = request.getParameter("invoiceid");
 
-		mv.addObject("modal", "itemLoc");
-		mv.addObject("center", "itpage");
-		mv.setViewName("main");
-		return mv;
+		System.out.println("invoiceid : " + invoiceid);
+		
+		ArrayList<InvoicedetailVO> invdtlList = null;
+		InvoicedetailVO temp = new InvoicedetailVO();
+		temp.setInvoiceid(Integer.parseInt(invoiceid));
+		try {
+			invdtlList = invdtlservice.selectAll(temp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		//System.out.println(invList.get(1).getInvoicedate());
+		return invdtlList;
 
+//		JSONArray ja = new JSONArray();
+//		for (InvoiceVO i : invList) {
+//			JSONObject json = new JSONObject();
+//			json.put("invoiceid", i.getInvoiceid());
+//			json.put("empno", i.getEmpno());
+//			json.put("empname", i.getEmpname());
+//			json.put("invoicedate", i.getInvoicedate());
+//			ja.put(json);
+//		}
+		
+//		rs.setContentType("text/html; charset=utf-8");
+//		PrintWriter out;
+//		try {
+//			out = rs.getWriter();
+//			out.print(ja.toString());
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public void sendTask(String ivStat, String itName, int ivQty, String itLoc) {
-		
 		
 		// 입고&출고 controller 설정
 		int io = -1;
@@ -271,11 +280,14 @@ public class ItemController {
 		else io = 0; 
 		
 		// 아이템 위치 (x,y) 좌표로 환산
+		String[] itPoint = itNameMapper.getItemPoint(itLoc).split("_");
+		int xPoint = Integer.parseInt(itPoint[1]);
+		int yPoint = Integer.parseInt(itPoint[0]);
 		
-		
+		System.out.println("x : " + xPoint + ", y : " + yPoint);
 		
 		msg = new Msg("Web", "ForkliftInfomatics");
-		msg.setTask(io, itName, ivQty, 2, 2);
+		msg.setTask(io, itName, ivQty, xPoint, yPoint);
 
 		String address = "70.12.113.200";
 		if (client == null) {
@@ -287,6 +299,8 @@ public class ItemController {
 		}
 		Runnable r = new Sender(msg);
 		Main.executorService.execute(r);
+		logger.info(itName + " " + xPoint + " " + yPoint);
+		//logger.debug(itName + " " + xPoint + " " + yPoint);
 	}
 
 }

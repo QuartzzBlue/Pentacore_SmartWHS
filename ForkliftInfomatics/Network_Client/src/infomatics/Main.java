@@ -1,5 +1,6 @@
 package infomatics;
 
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -9,12 +10,13 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-		SerialServer sc = new SerialServer("COM11");
 		
-//		Runnable r = new Server (7777);
-//		executorService.submit(r);
-//		//ECU 의 TCP/IP Server
-//		//시리얼통신으로 받아오면 필요없음
+		String port;
+		System.out.println("Port Number : ");
+		Scanner sc = new Scanner(System.in);
+		port = sc.nextLine();
+		
+		SerialServer sserialServer = new SerialServer(port);
 	
 		String address = "70.12.226.134";
 		Client client = new Client(address,8888);

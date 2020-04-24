@@ -12,11 +12,12 @@ public class ForkLift {
     int battery;
 
     public ForkLift() {
-
     }
     public ForkLift(String name) {
         this.name = name;
-        this.battery = 1000;
+        this.status = 1;
+        this.temparature = 20;
+        this.battery = 999;
     }
 
     public int getCurrentX() {
