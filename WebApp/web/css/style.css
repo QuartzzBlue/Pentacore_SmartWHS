@@ -20084,3 +20084,51 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not ([data-layou
 	padding-left: 8px;
 	font-size: 20px;
 }
+hr{
+	border: none;
+    border-top: 1px solid #DEE2E6;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+}
+.card-title{
+	display: flex;
+	text-align: center;
+	align-items: baseline;
+}
+.card-title div button{
+	color: #E9EAEC;
+	opacity: 0.1;                /* Opacity (Transparency) */
+    color: rgba(0, 0, 0, 0.5);   /* RGBA Color (Alternative Transparency) */
+    -webkit-filter: blur(2px);
+}
+.card-title h4{
+	margin : 0;
+}
+.card-title div{
+	margin-left: 9px;
+	font-size: 0.9rem;
+	
+}
+.table tbody .whInfo{
+	display : inline-flex;
+}
+.table tbody .whInfo input{
+	width: 80px;
+}
+.table tbody .whInfo select{
+	margin-left: 0.5rem;
+}
+.borderbox{
+	border: 1px solid #DEE2E6;
+	width : 100%;
+	text-align: center;
+}
+#ivRegister{
+	padding-bottom: 0px
+}
+#invoiceDetailHead{
+	border-bottom : 1px solid #DEE2E6;
+	background-color : F2F2F2;
+}

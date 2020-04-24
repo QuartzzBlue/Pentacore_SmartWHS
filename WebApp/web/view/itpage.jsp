@@ -24,7 +24,7 @@ hr{
 	text-align: center;
 	align-items: baseline;
 }
-.card-title div i{
+.card-title div button{
 	color: #E9EAEC;
 	opacity: 0.1;                /* Opacity (Transparency) */
     color: rgba(0, 0, 0, 0.5);   /* RGBA Color (Alternative Transparency) */
@@ -37,6 +37,27 @@ hr{
 	margin-left: 9px;
 	font-size: 0.9rem;
 	
+}
+.table tbody .whInfo{
+	display : inline-flex;
+}
+.table tbody .whInfo input{
+	width: 80px;
+}
+.table tbody .whInfo select{
+	margin-left: 0.5rem;
+}
+.borderbox{
+	border: 1px solid #DEE2E6;
+	width : 100%;
+	text-align: center;
+}
+#ivRegister{
+	padding-bottom: 0px
+}
+#invoiceDetailHead{
+	border-bottom : 1px solid #DEE2E6;
+	background-color : F2F2F2;
 }
 </style>
 </head>
@@ -51,9 +72,9 @@ hr{
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
+						
 							<div class="card-title">
-								<h4>Product Register</h4><div><button class="fas fa-question-circle tooltipbutton" role="tooltip"></button></div>
-								<!-- <button type="button" id = "popover" class="btn btn-secondary" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">Popover on top</button>-->
+								<h4>Product Register</h4><div data-toggle="tooltip" data-placement="right" title="입/출고를 진행할 아이템을 등록합니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
@@ -68,8 +89,8 @@ hr{
 													<th>Price<span class="text-danger">*</span></th>
 													<th>Weight<span class="text-danger">*</span></th>
 													<th>Qty<span class="text-danger">*</span></th>
-													<th>Warehouse ID<span class="text-danger">*</span></th>
-													<th>Warehouse Name<span class="text-danger">*</span></th>
+													<th>Warehouse<span class="text-danger" >*</span></th>
+													<!-- <th>Warehouse Name<span class="text-danger">*</span></th> -->
 													<th>Location<span class="text-danger">*</span></th>
 												</tr>
 											</thead>
@@ -94,16 +115,16 @@ hr{
 														id="itemweightpb" name="itemweightpb" placeholder="무게"></td>
 													<td><input type="number" class="form-control"
 														id="itemqtypb" name="itemqtypb" placeholder="개수"></td>
-													<td><input type="text" class="form-control"
-														id="wareid_R" name="wareid" placeholder="창고ID" readonly></td>
-													<td><select class="form-control" id="warename"
+													<td><div class="whInfo"><input type="text" class="form-control"
+														id="wareid_R" name="wareid" placeholder="창고ID" readonly>
+														<select class="form-control" id="warename"
 														name="warename" style="width: 150px;"
 														onchange="setWareID(this)">
 															<option>창고명</option>
 															<option value="ware00_R">이천 제1물류창고</option>
 															<!--  <option value="ware01">CSS</option>-->
-
-													</select></td>
+													</select></div></td>
+													
 													<td id = "modalTd"><input type="text" class="form-control" id="itemloc"
 														name="itemloc" placeholder="위치" style="width : 80px"readonly>
 														
@@ -142,7 +163,6 @@ hr{
 													<td></td>
 													<td></td>
 													<td></td>
-													<td></td>
 													<td><button type="submit"
 															class="btn mb-1 btn-primary btn-lg"
 															id="toastr-success-top-right" >Register</button></td>
@@ -163,7 +183,7 @@ hr{
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Item Table</h4><div><i class="fas fa-question-circle"></i></div>
+								<h4>Item Table</h4><div data-toggle="tooltip" data-placement="right" title="등록된 아이템들을 확인할 수 있습니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 
 							<div class="table-responsive">
@@ -200,7 +220,7 @@ hr{
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Invoice Register</h4><div><i class="fas fa-question-circle"></i></div>
+								<h4>Invoice Register</h4><div data-toggle="tooltip" data-placement="right" title="등록된 아이템에 한하여 입/출고를 진행할 수 있습니다. 위 테이블에서 입/출고를 진행할 아이템을 선택 후 수량과 입/출고를 지정해주세요."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 							<div class="table-responsive">
 								<!-- (추가) 서버에 올려보낼 때, 로그인id(empno)도 같이 올려 보내야함 -->
@@ -219,13 +239,13 @@ hr{
 									<tbody>
 										<tr id="setItInfo">
 											<td><input type="text" class="form-control" id="itemid"
-												name="itemid" placeholder="상품 ID"></td>
+												name="itemid" placeholder="상품 ID" readonly></td>
 											<td><input type="text" class="form-control"
-												id="itemname" name="itemname" placeholder="상품명"></td>
+												id="itemname" name="itemname" placeholder="상품명" readonly></td>
 											<td><input type="text" class="form-control" id="wareid"
-												name="wareid" placeholder="창고ID"></td>
+												name="wareid" placeholder="창고ID" readonly></td>
 											<td><input type="text" class="form-control"
-												id="warename" name="warename" placeholder="창고명"></td>
+												id="warename" name="warename" placeholder="창고명" readonly></td>
 											<td><input type="text" class="form-control"
 												id="invoicedtlqty" name="invoicedtlqty" placeholder="개수"
 												style="width: 80px;"></td>
@@ -244,21 +264,22 @@ hr{
 									</tbody>
 								</table>
 							</div>
-
-							<div class="table-responsive">
-								<!-- <form name="itemRegister" method="post"
-									action="invoiceregister.pc"> -->
-								<table class="table">
-									<thead id="invoiceDetailHead">
-										
-									</thead>
-									<tbody id="invoiceDetail">
-
-									</tbody>
-								</table>
-
-								<!-- </form>  -->
-							</div>
+							
+							
+							<div id= "invoiceDetailTable">
+								<div class="table-responsive">
+									
+									<table class="table">
+										<thead id="invoiceDetailHead">
+											
+										</thead>
+										<tbody id="invoiceDetail">
+	
+										</tbody>
+									</table>
+								</div>
+							</div> <!-- table end --> 
+							
 						</div>
 					</div>
 				</div>
@@ -270,7 +291,7 @@ hr{
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
-								<h4>Invoice Search</h4><div><i class="fas fa-question-circle"></i></div>
+								<h4>Invoice Search</h4><div data-toggle="tooltip" data-placement="right" title="주문서 내역 조회 기능입니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 
 							<div class="table-responsive">
@@ -356,9 +377,9 @@ hr{
 					</div>
 				</div>
 			</div>
-
+<!-- Table 
 			<div class="row">
-				<!-- Table -->
+				
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
@@ -394,7 +415,7 @@ hr{
 											</td>
 											<td><i class="fa fa-circle-o text-success  mr-2"></i>
 												Paid</td>
-											<td><span>Last Login</span> <!--<span class="m-0 pl-3">10 sec ago</span> -->
+											<td><span>Last Login</span> <span class="m-0 pl-3">10 sec ago</span>
 											</td>
 											<td></td>
 											<td></td>
@@ -407,7 +428,7 @@ hr{
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 		<!-- / container-fluid mt-3 -->
 		<!-- #/ container -->
@@ -421,7 +442,17 @@ hr{
 		// invoice detail item list
 		var jsonInvoice = Array();
 		
+		
+		var invTable;
+		
+		// session Emp Info
+		var sessionEmpId = "<%=session.getAttribute("empno") %>"
+		var sessionEmpName = "<%=session.getAttribute("empname") %>"
+		var sessionEmpJob = "<%=session.getAttribute("empjob") %>"
 
+		//console.log("empInfo : " + sessionEmpId + ", " + sessionEmpName + ", " + sessionEmpJob);
+		
+		
 		////////////////////////함수
 		
 		/*
@@ -515,7 +546,8 @@ hr{
 							$("#setItInfo").find("input[name=warename]").val("");
 							$("#setItInfo").find("input[name=invoicedtlqty]").val("");
 							$("#setItInfo").find("select[name=invoicestat]").find('option:first').attr('selected', 'selected');
-
+							
+					
 						},
 						error : function(e) { // 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 							console.log(e.responseText);
@@ -582,7 +614,7 @@ hr{
 									jsonInvoice = Array();
 									$("#invoiceDetail").html("");
 									$("#invoiceDetailHead").html("");
-									
+									$("#invoiceDetailTable").removeClass("borderbox");
 									// https://datatables.net/blog/2019-01-11#Updating-the-parent-table
 									/* dataTable 한 줄씩 업데이트 할 때
 									for(var i = 0; i < selectedRow.length; i++){
@@ -617,27 +649,30 @@ hr{
 
 		var updateIvDetail = function() {
 			var html = "";
-
+			
 			$.each(jsonInvoice, function(index, jsonItemArr) {
 								html += "<tr class=\"ivItemList\">";
-								html += "<td>" + index + "</td>";
+								html += '<td style = "width : 50px">' + "#" + index + '</td>';
 								html += "<td>" + jsonItemArr.itemid + "</td>";
 								html += "<td>" + jsonItemArr.itemname + "</td>";
 								html += "<td>" + jsonItemArr.wareid + "</td>";
 								html += "<td>" + jsonItemArr.warename + "</td>";
 								html += "<td>" + jsonItemArr.invoicedtlqty + "</td>";
 								html += "<td>" + jsonItemArr.invoicestat + "</td>";
-								html += "<td><span class=\"badge badge-pill badge-danger deleteIvItem\">DELETE</span></td>"
+								html += '<td><span class="badge badge-pill badge-danger deleteIvItem"> DELETE </span></td>'
 								html += "</tr>";
 							});
 	
-			html += "<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary btn-lg\">Order</button><td>";
+			html += "<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button type=\"button\" id =\"ivRegister\" class=\"btn mb-1 btn-primary\">Order</button></td></tr>";
+			
 			if(jsonInvoice.length == 0){
 				$("#invoiceDetailHead").html("");
 				$("#invoiceDetail").html("");
+				$("#invoiceDetailTable").removeClass("borderbox");
 			}else{
-				$("#invoiceDetailHead").html("<tr><th></th><th>Item ID</th><th>Item Name</th><th>Warehouse ID</th><th>Warehouse Name</th><th>Qty</th><th>Status</th><th></th></tr>");
+				$("#invoiceDetailHead").html("<tr><th></th><th>Item ID</th><th>Item Name</th><th>Warehouse ID</th><th>Warehouse Name</th><th>Qty</th><th>Status</th><th style='width:100px'></th></tr>");
 				$("#invoiceDetail").html(html);
+				$("#invoiceDetailTable").addClass("borderbox");
 			}
 			
 			
@@ -653,23 +688,33 @@ hr{
 			console.log(startdate + " ~ " + enddate);
 			
 			$("#invListTHead").html('<tr><th>Invoice ID</th><th>Employee ID</th><th>Employee Name</th><th>Date</th></tr>');
+			/*if(invTable != null){
+				invTable = null;
+				$('#invListBody').DataTable().ajax.reload();
+				$('#invListBody').dataTable( {
+					  "destroy": true
+					});
+			}
+			else{*/
+				//https://datatables.net/
+				invTable = $('#invListBody').DataTable({
+					retrieve: true,
+					searching : false, 
+					paging : true, 
+					ordering : true,
+					pageLength : 5,
+					lengthChange: false,
+					ajax : {
+						url : 'invoicesearch.pc?empno='+empno+'&empname='+empname+'&sd='+startdate+'&ed='+enddate,
+						dataSrc : '',
+					},columns : [ 
+						{data : 'invoiceid'}, 
+						{data : 'empno'}, 
+						{data : 'empname'}, 
+						{data : 'invoicedate'}]
+				});
+			//}
 			
-			//https://datatables.net/
-			var invTable = $('#invListBody').DataTable({
-				searching : false, 
-				paging : true, 
-				ordering : true,
-				pageLength : 5,
-				lengthChange: false,
-				ajax : {
-					url : 'invoicesearch.pc?empno='+empno+'&empname='+empname+'&sd='+startdate+'&ed='+enddate,
-					dataSrc : '',
-				},columns : [ 
-					{data : 'invoiceid'}, 
-					{data : 'empno'}, 
-					{data : 'empname'}, 
-					{data : 'invoicedate'}]
-			});
 			
 			$("#invListInfo").html(" * 테이블을 클릭하면 주문서 상세 정보를 볼 수 있습니다.");
 			
@@ -680,7 +725,7 @@ hr{
 				$('#invListTBody tr').attr('data-remote', "view/modal/invDetail.jsp");
 				
 			});
-		} );
+		});
 		
 		$(function() {
 			$(document.body).delegate(".selectedInv", "click", function() {

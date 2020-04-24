@@ -12,7 +12,10 @@
 <!-- JQuery -->
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+<!-- popper & tooltip -->
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
 
 <!-- Bootstrap -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -25,10 +28,9 @@
 	rel="stylesheet">
 <!-- Chartist -->
 <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-<link rel="stylesheet"
-	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 <!-- Custom Stylesheet -->
-<link href="css/style.css?1234" rel="stylesheet">
+<link href="css/style.css?213" rel="stylesheet">
 
 
 <!-- Page plugins css -->
@@ -106,15 +108,26 @@
 			<div class="header-menu">
 				<span> <!-- 상품 입출고 --> <a href="itpage.pc"
 					aria-expanded="false" class="header-menu-list"> <i
-						class="icon-note menu-icon"></i> <span class="nav-text">Stock
-							Management</span>
+						class="icon-note menu-icon"></i> <span class="nav-text">Stock</span>
 				</a> <!-- 지게차 관리 --> <a href="flpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-speedometer menu-icon"></i>
-						<span class="nav-text">Forklift Management</span>
+						<span class="nav-text">Forklift</span>
 				</a> <!-- 솔루션 --> <a href="solpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-globe-alt menu-icon"></i>
 						<span class="nav-text">Solution</span>
-				</a>
+				</a><!-- 직원 관리 페이지 --> 
+						<c:choose>
+							<c:when test="${empjob eq '관리자'}">
+								<a href="emppage.pc" aria-expanded="false"
+									class="header-menu-list"> <i class="icon-user menu-icon"></i>
+									<span class="nav-text">Employee</span>
+								</a>
+							</c:when>
+							
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					
 				</span>
 			</div>
 
@@ -134,15 +147,24 @@
 					<li class="icons dropdown"><a href="javascript:void(0)"
 						data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i> <!-- <span class="badge badge-pill gradient-2">3</span> -->
 					</a></li>
+					
+					<li class = "icons">
+						<c:choose>
+							<c:when test="${empno != null}">
+								${empname} 님 환영합니다.
+							</c:when>
+							
+							<c:otherwise>
+							</c:otherwise>
+						</c:choose>
+					</li>
 					<!-- 개인 아이콘 -->
-					<li class="icons dropdown">
-						<div class="user-img c-pointer position-relative"
-							data-toggle="dropdown">
-							<span class="activity active"></span> <img
-								src="images/user/1.png" height="40" width="40" alt="">
+					<li class="icons">
+						<div class="user-img c-pointer position-relative dropdown">
+							<span class="activity active"></span> 
+							<img src="images/user/1.png" height="40" width="40" alt="dropdown-toggle" data-toggle="dropdown">
 						</div>
-						<div
-							class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+						<div class="animated fadeIn dropdown-menu">
 							<div class="dropdown-content-body">
 								<ul>
 									<li><a href="app-profile.html"><i class="icon-user"></i>
@@ -152,7 +174,6 @@
 											<div class="badge gradient-3 badge-pill gradient-1">3</div>
 									</a></li>
 
-									<hr class="my-2">
 									<li><a href="page-lock.html"><i class="icon-lock"></i>
 											<span>Lock Screen</span></a></li>
 									<li><a href="page-login.html"><i class="icon-key"></i>
@@ -223,12 +244,10 @@
 	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 	<!-- Chartjs -->
 	<script src="./plugins/chart.js/Chart.bundle.min.js"></script>
-	<!-- Circle progress -->
-	<script src="./plugins/circle-progress/circle-progress.min.js"></script>
-	<!-- Datamap -->
-	<script src="./plugins/d3v3/index.js"></script>
-	<script src="./plugins/topojson/topojson.min.js"></script>
-	<script src="./plugins/datamaps/datamaps.world.min.js"></script>
+	<!-- Circle progress 
+	<script src="./plugins/circle-progress/circle-progress.min.js"></script>-->
+
+	
 	<!-- Morrisjs -->
 	<script src="./plugins/raphael/raphael.min.js"></script>
 	<script src="./plugins/morris/morris.min.js"></script>
@@ -266,7 +285,6 @@
 	
     
 	<!-- Table -->
-	<script src="./js/plugins-init/datatables.init-ex.js"></script>
 	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
 	<!--<script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>  -->
 	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js?12"></script>
