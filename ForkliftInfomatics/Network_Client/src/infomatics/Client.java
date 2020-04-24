@@ -36,8 +36,8 @@ public class Client{
 		os = socket.getOutputStream();
 		oos = new ObjectOutputStream(os);
 	
-		Runnable r = new Receiver(socket);
-		Main.executorService.submit(r);
+		//Runnable r = new Receiver(socket);
+		//Main.executorService.submit(r);
 	
 	}
 }

@@ -22,6 +22,8 @@ public class Main {
 		Client client = new Client(address,8888);
 		//Tablet Server ÀÇ Client
 		
+		
+		
 
 	}
 }
