@@ -36,6 +36,7 @@ public class Sender implements Runnable {
 		String dstn = null;
 
 		dstn = ActiveConnection.idToIp.get("tabletServer");
+		System.out.println(dstn);
 
 		try {
 			ActiveConnection.ipToOos.get(dstn).writeObject(msg);

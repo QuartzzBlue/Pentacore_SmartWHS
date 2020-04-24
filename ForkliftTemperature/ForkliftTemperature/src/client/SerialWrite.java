@@ -6,77 +6,97 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class SerialWrite implements Runnable {
 
 	String data;
-	int temperature = 50;
-	String temperatureStr;
-	static boolean flag = false;
-	int flag2 = -1;
 
-	// ¸ğµç µ¥ÀÌÅÍ´Â String
 	public SerialWrite() {
 		this.data = ":G11A9\r";
+	}
+	
+	public SerialWrite(String msg) {
+		this.data = convertData(msg);
+	}
+	
+	public String convertData(String msg) {
+		msg = msg.toUpperCase();
+		msg = "W28" + msg;
+		//W28 00000000 0000000000000000
+		char[] c = msg.toCharArray();
+		int checkSum = 0;
+		for(char ch:c) {
+			checkSum+=ch;
+		}
+		checkSum = (checkSum & 0xFF);
+		String result = ":";
+		result += msg + 
+				Integer.toHexString(checkSum).toUpperCase()+
+				"\r";
+		System.out.println("Send Data : "+result);
+		return result;
 	}
 
 	@Override
 	public void run() {
 
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
-		int poolSize = threadPoolExecutor.getPoolSize();// ½º·¹µå Ç® »çÀÌÁî ¾ò±â
-		String threadName = Thread.currentThread().getName();// ½º·¹µå Ç®¿¡ ÀÖ´Â ÇØ´ç ½º·¹µå ÀÌ¸§ ¾ò±â
+		int poolSize = threadPoolExecutor.getPoolSize();
+		String threadName = Thread.currentThread().getName();
 
-		while (SerialClient.out != null) {
-			
-			System.out.println("SerialWrite");
-
-			String tmp = SerialClient.id + SerialClient.data;
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-
-			if (temperature < 50) {
-				flag2 = 1;
-			} else if (temperature > 100)
-				flag2 = -1;
-
-			temperature += (int) (Math.random() * 2) * flag2;
-
-			// x,y À§Ä¡ ±æÀÌ°¡ 4¹®ÀÚ°¡ µÇ°Ô
-			if (temperature < 10) {
-				temperatureStr = "0" + temperature;
-			} else {
-				temperatureStr = temperature + "";
-			}
-
-			int temperatureStrlen = temperatureStr.length();
-
-			tmp = tmp.substring(0, tmp.length() - temperatureStrlen) + temperatureStr;
-
-			tmp = tmp.toUpperCase();
-			SerialClient.msg = "W28" + tmp;
-			// W28 00000000 0000000000000000
-
-			// checkSum °è»ê
-			char[] c = SerialClient.msg.toCharArray();
-			int checkSum = 0;
-			for (char ch : c) {
-				checkSum += ch;
-			}
-			checkSum = (checkSum & 0xFF);
-
-			String result = ":";
-			result += SerialClient.msg + Integer.toHexString(checkSum).toUpperCase() + "\r";
-			System.out.println("result : " + result);
-			this.data = result;
+//		while (SerialClient.out != null) {
+//			
+//			System.out.println("SerialWrite");
+//
+//			String tmp = SerialClient.id + SerialClient.data;
+//
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e1) {
+//				e1.printStackTrace();
+//			}
+//
+//			if (temperature < 50) {
+//				flag2 = 1;
+//			} else if (temperature > 100)
+//				flag2 = -1;
+//
+//			temperature += (int) (Math.random() * 2) * flag2;
+//
+//			// x,y ï¿½ìç§»ï¿½ æ¹²ëª„ì” åª›ï¿½ 4è‡¾ëª„ì˜„åª›ï¿½ ï¿½ë¦ºå¯ƒï¿½
+//			if (temperature < 10) {
+//				temperatureStr = "0" + temperature;
+//			} else {
+//				temperatureStr = temperature + "";
+//			}
+//
+//			int temperatureStrlen = temperatureStr.length();
+//
+//			tmp = tmp.substring(0, tmp.length() - temperatureStrlen) + temperatureStr;
+//
+//			tmp = tmp.toUpperCase();
+//			SerialClient.msg = "W28" + tmp;
+//			// W28 00000000 0000000000000000
+//
+//			// checkSum æ€¨ê¾©ê¶›
+//			char[] c = SerialClient.msg.toCharArray();
+//			int checkSum = 0;
+//			for (char ch : c) {
+//				checkSum += ch;
+//			}
+//			checkSum = (checkSum & 0xFF);
+//
+//			String result = ":";
+//			result += SerialClient.msg + Integer.toHexString(checkSum).toUpperCase() + "\r";
+//			System.out.println("result : " + result);
+//			this.data = result;
+      
 			byte[] outData = data.getBytes();
 			try {
-				SerialClient.out.write(outData);// ÀÌ·¸°Ô data¸¦ CAN Network Area¿¡ ½ğ´Ù.
+				SerialClient.out.write(outData);// ï¿½Ì·ï¿½ï¿½ï¿½ dataï¿½ï¿½ CAN Network Areaï¿½ï¿½ ï¿½ï¿½ï¿½.
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-		} // While
+
+//		} // While
+
 
 	}
 

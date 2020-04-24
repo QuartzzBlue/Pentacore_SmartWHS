@@ -17,11 +17,6 @@ public class SerialClient implements SerialPortEventListener {
 	InputStream in;
 	BufferedInputStream bin;
 	static String receiveStr;
-	static int stockLocX;
-	static int stockLocY;
-	static String id = "15000005";
-	static String data = "0000000000000000";
-	static String msg = id + data;
 	static OutputStream out;
 	boolean flag = false;
 
@@ -49,10 +44,11 @@ public class SerialClient implements SerialPortEventListener {
 				SerialPort serialPort = (SerialPort) commPort;
 				serialPort.addEventListener(this);
 				serialPort.notifyOnDataAvailable(true);
-				serialPort.setSerialPortParams(921600, // 통신속도
-						SerialPort.DATABITS_8, // 데이터 비트
-						SerialPort.STOPBITS_1, // stop 비트
-						SerialPort.PARITY_NONE); // 패리티
+				serialPort.setSerialPortParams(921600,
+						SerialPort.DATABITS_8,
+						SerialPort.STOPBITS_1, 
+						SerialPort.PARITY_NONE);
+
 				in = serialPort.getInputStream();
 				bin = new BufferedInputStream(in);
 				out = serialPort.getOutputStream();
