@@ -46,6 +46,7 @@ public class ConsoleQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+//        System.out.println("RecyclerViewPosition : "+position);
         ConsoleQueueAdapter.ViewHolder viewHolder = (ConsoleQueueAdapter.ViewHolder) holder;
         viewHolder.setItem((String)(consoleQueue.get(position)));
     }

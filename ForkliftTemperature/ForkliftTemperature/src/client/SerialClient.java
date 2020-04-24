@@ -49,10 +49,10 @@ public class SerialClient implements SerialPortEventListener {
 				SerialPort serialPort = (SerialPort) commPort;
 				serialPort.addEventListener(this);
 				serialPort.notifyOnDataAvailable(true);
-				serialPort.setSerialPortParams(921600, // Åë½Å¼Óµµ
-						SerialPort.DATABITS_8, // µ¥ÀÌÅÍ ºñÆ®
-						SerialPort.STOPBITS_1, // stop ºñÆ®
-						SerialPort.PARITY_NONE); // ÆÐ¸®Æ¼
+				serialPort.setSerialPortParams(921600, // í†µì‹ ì†ë„
+						SerialPort.DATABITS_8, // ë°ì´í„° ë¹„íŠ¸
+						SerialPort.STOPBITS_1, // stop ë¹„íŠ¸
+						SerialPort.PARITY_NONE); // íŒ¨ë¦¬í‹°
 				in = serialPort.getInputStream();
 				bin = new BufferedInputStream(in);
 				out = serialPort.getOutputStream();
@@ -81,9 +81,12 @@ public class SerialClient implements SerialPortEventListener {
 			try {
 				while (bin.available() > 0) {
 					int numBytes = bin.read(readBuffer);
+					System.out.println(numBytes);
 				}
+
 				receiveStr = new String(readBuffer);
 				System.out.println("Receive Data:" + receiveStr);
+
 
 			} catch (Exception e) {
 				e.printStackTrace();

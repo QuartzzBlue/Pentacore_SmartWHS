@@ -23,7 +23,6 @@ public class ForkLift implements Serializable{
 		this.battery = battery;
 		this.temperature = temperature;
 	}
-
 	public int getStatus() {
 		return status;
 	}

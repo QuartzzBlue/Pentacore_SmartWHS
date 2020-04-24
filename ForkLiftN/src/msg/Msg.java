@@ -28,7 +28,6 @@ public class Msg implements Serializable {
         this.srcID = srcID;
         this.dstnIP = dstnIP;
         this.dstnID = dstnID;
-
     }
 
     public String getSrcIP() {
