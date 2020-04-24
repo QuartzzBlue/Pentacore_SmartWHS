@@ -3,8 +3,6 @@ package client;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;

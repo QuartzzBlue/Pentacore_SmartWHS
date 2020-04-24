@@ -39,11 +39,11 @@ public class Sender implements Runnable {
 				Msg msg = new Msg ("ecu01","ecu01");
 				Thread.sleep(1000);
 				if(num<300) {
-					msg.setForkLift(0, 0, 0,num,35); //charging
+					msg.setForkLift(0, 0, 0,num,0,0); //charging
 					num++;
 				}
 				else {
-					msg.setForkLift(0, 0,0, num,35); //working
+					msg.setForkLift(0, 0,0, num,0,0); //working
 					num--;
 				}
 				System.out.println("Send : " + num);
