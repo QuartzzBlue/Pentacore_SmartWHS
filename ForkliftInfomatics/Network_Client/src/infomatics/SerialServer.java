@@ -48,6 +48,14 @@ public class SerialServer implements SerialPortEventListener {
 		Main.executorService.submit(r);
 
 		System.out.println("Start CAN Network!!!");
+		
+		///////////////
+		
+//		while(true) {
+//			Main.executorService.execute(new SerialWrite("0000"));
+//			Thread.sleep(1000);
+//		}
+		//////////////
 	}
 
 	public void connect() throws Exception {
@@ -101,9 +109,9 @@ public class SerialServer implements SerialPortEventListener {
 					receiveId = receiveStr.substring(4, 12);
 					receiveData = receiveStr.substring(24, 28);
 
-					// System.out.println("From (id) : " + receiveId);
-
-					// System.out.println("Data : " + receiveData);
+//					System.out.println("From (id) : " + receiveId);
+//
+//					System.out.println("Data : " + receiveData);
 
 					if (receiveId.equals("13000003")) { // battery
 						battery = Integer.parseInt(receiveData);
@@ -131,7 +139,7 @@ public class SerialServer implements SerialPortEventListener {
 					}
 					
 					if(!tmpid.equals(SerialWrite.sendId)) {
-						Runnable r = new SerialWrite("0000");
+						Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
 						Main.executorService.execute(r);
 					}
 
@@ -163,7 +171,7 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				r.setMsg(msg);
-				Main.executorService.submit(r);
+				//Main.executorService.submit(r);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
