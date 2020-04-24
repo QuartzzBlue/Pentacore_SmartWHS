@@ -31,7 +31,7 @@ public class Main {
 		while (true) {
 
 			// 수신한 stock 의 x 좌표와 y좌표에 따라 forklift 의 위치가 변경되는 로직 구현
-			if (SerialClient.stockLocX % 4 == 2 && !done) { // 랙의 왼쪽에 위치
+			if (SerialClient.stockLocX > 0 && SerialClient.stockLocX % 4 == 2 && !done) { // 랙의 왼쪽에 위치
 
 				if (!back) {
 					if (forkliftLocX != SerialClient.stockLocX - 2) {
@@ -60,7 +60,7 @@ public class Main {
 
 				}
 
-			} else if (SerialClient.stockLocX %4==3 && !done) { // 랙의 오른쪽에 위치
+			} else if (SerialClient.stockLocY > 0 && SerialClient.stockLocX %4==3 && !done) { // 랙의 오른쪽에 위치
 				if (!back) {
 					if (forkliftLocX < SerialClient.stockLocX + 1) {
 						if(!flag) {
@@ -96,6 +96,11 @@ public class Main {
 					}
 
 				}
+			}
+			if(done) {
+				back = false;
+				flag = false;
+				done = false;
 			}
 		
 

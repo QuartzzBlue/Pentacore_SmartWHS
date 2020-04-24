@@ -80,15 +80,18 @@ public class SerialClient implements SerialPortEventListener {
 					int numBytes = bin.read(readBuffer);
 				}
 				receiveStr = new String(readBuffer);
-				System.out.println("Receive Data:" + receiveStr);
+				// System.out.println("Receive Data:" + receiveStr);
 
 				if (receiveStr.substring(1, 4).equals("U28")) {
+					if (receiveStr.substring(4, 12).equals("10000000")) {
 
-					stockLocX = Integer.parseInt(receiveStr.substring(24, 26));
-					stockLocY = Integer.parseInt(receiveStr.substring(26, 28));
-					Main.back = false;
-					Main.flag = false;
-					Main.done = false;
+						System.out.println("From id : " + receiveStr.substring(1, 12));
+
+						stockLocX = Integer.parseInt(receiveStr.substring(24, 26));
+						stockLocY = Integer.parseInt(receiveStr.substring(26, 28));
+
+
+					}
 
 				}
 
