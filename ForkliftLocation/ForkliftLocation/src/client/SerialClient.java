@@ -19,9 +19,6 @@ public class SerialClient implements SerialPortEventListener {
 	static String receiveStr;
 	static int stockLocX;
 	static int stockLocY;
-	static String id = "14000004";
-	static String data = "0000000000000000";
-	static String msg = id + data;
 	static OutputStream out;
 	boolean flag = false;
 
@@ -89,9 +86,9 @@ public class SerialClient implements SerialPortEventListener {
 
 					stockLocX = Integer.parseInt(receiveStr.substring(24, 26));
 					stockLocY = Integer.parseInt(receiveStr.substring(26, 28));
-					SerialWrite.back = false;
-					SerialWrite.flag = false;
-					SerialWrite.done = false;
+					Main.back = false;
+					Main.flag = false;
+					Main.done = false;
 
 				}
 

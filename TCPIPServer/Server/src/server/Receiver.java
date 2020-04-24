@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import msg.Msg;
+import msg.Task;
 
 public class Receiver implements Runnable {
 	
@@ -19,6 +20,10 @@ public class Receiver implements Runnable {
 	ObjectOutputStream oos;
 
 	Socket socket;
+	
+	//TEST
+	Task[] tasks = new Task[4];
+	int i=0;
 	
 	public Receiver() {}
 	
@@ -43,6 +48,12 @@ public class Receiver implements Runnable {
 	@Override
 	public void run() {
 		
+		//TEST
+		tasks[0] = new Task(0,"PC",3,3,5);
+		tasks[1] = new Task(1,"TV",5,7,7);
+		tasks[2] = new Task(0,"Monitor",2,10,9);
+		tasks[3] = new Task(1,"PHONE",6,14,5);
+		
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
 		int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
 		String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
@@ -55,9 +66,15 @@ public class Receiver implements Runnable {
 			Msg msg = null;
 			try {
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
-				msg = (Msg) ois.readObject();
-				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
-				System.out.println("접속 : "+msg.getSrcID());				
+				//msg = (Msg) ois.readObject();
+				//TEST
+				msg = new Msg("Web","tabletServer");
+				msg.setTask(tasks[i%4].getIo(), tasks[i%4].getName(), tasks[i%4].getQty(), tasks[i%4].getLocX(), tasks[i%4].getLocY());
+				ActiveConnection.idToIp.put("tabletServer","/70.12.226.134");
+				
+				//
+				//ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
+				//System.out.println("접속 : "+msg.getSrcID());				
 				
 				//tabletServer 접속할때는 Sender 할 필요 없다
 				if(msg.getTask()!=null) {
@@ -65,6 +82,11 @@ public class Receiver implements Runnable {
 					Runnable r= new Sender(msg);
 					Main.executorService.submit(r);
 				}
+				
+				//TEST
+				i++;
+				Thread.sleep(3000);
+				
 				
 				
 				

@@ -19,9 +19,6 @@ public class SerialClient implements SerialPortEventListener{
 	InputStream in;
 	BufferedInputStream bin;
 	static String receiveStr;
-	static String id = "13000003";
-	static String data = "3000000000000000";
-	static String msg = id + data;
 	String receiveId;
 	String receiveData;
 	static OutputStream out;
@@ -84,16 +81,18 @@ public class SerialClient implements SerialPortEventListener{
 					int numBytes = bin.read(readBuffer);
 				}
 				receiveStr = new String(readBuffer);
-				System.out.println("Receive Data:" + receiveStr);
-				
+				System.out.println("Recieve Data : "+receiveStr);
 				receiveId=receiveStr.substring(4,12);
 				
 				if(receiveId.equals("10000000")){ //working
-					SerialWrite.d = -2;
+					Main.d = -2;
+					System.out.println("Working");
 				}else if (receiveId.equals("10000001")){ //waiting
-					SerialWrite.d = -1;
+					Main.d = -1;
+					System.out.println("Waiting");
 				}else if (receiveId.equals("10000002")) { //charging
-					SerialWrite.d = 10;
+					Main.d = 10;
+					System.out.println("Charging");
 				}
 
 			} catch (Exception e) {
@@ -102,6 +101,7 @@ public class SerialClient implements SerialPortEventListener{
 			break;
 		}
 	}// serialEvent method
+
 
 	
 
