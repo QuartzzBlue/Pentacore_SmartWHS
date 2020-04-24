@@ -84,13 +84,8 @@ public class SerialClient implements SerialPortEventListener {
 
 				if (receiveStr.substring(1, 4).equals("U28")) {
 					if (receiveStr.substring(4, 12).equals("10000000")) {
-
-						System.out.println("From id : " + receiveStr.substring(1, 12));
-
 						stockLocX = Integer.parseInt(receiveStr.substring(24, 26));
 						stockLocY = Integer.parseInt(receiveStr.substring(26, 28));
-
-
 					}
 
 				}
