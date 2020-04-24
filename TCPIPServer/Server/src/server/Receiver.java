@@ -68,15 +68,18 @@ public class Receiver implements Runnable {
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 				//msg = (Msg) ois.readObject();
 				//TEST
-				msg = new Msg("Web","tabletServer");
-				msg.setTask(tasks[i%4].getIo(), tasks[i%4].getName(), tasks[i%4].getQty(), tasks[i%4].getLocX(), tasks[i%4].getLocY());
-				ActiveConnection.idToIp.put("tabletServer","/70.12.226.134");
+//				msg = new Msg("Web","tabletServer");
+//				msg.setTask(tasks[i%4].getIo(), tasks[i%4].getName(), tasks[i%4].getQty(), tasks[i%4].getLocX(), tasks[i%4].getLocY());
+//				ActiveConnection.idToIp.put("tabletServer","/70.12.226.134");
 				
 				//
-				//ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
+				
 				//System.out.println("접속 : "+msg.getSrcID());				
 				
 				//tabletServer 접속할때는 Sender 할 필요 없다
+				
+				ActiveConnection.idToIp.put(msg.getSrcID(),socket.getInetAddress().toString());
+				
 				if(msg.getTask()!=null) {
 					System.out.println("Receive Task (IO,name,qty,x,y): " + msg.getTask().getIo() + ","+msg.getTask().getName()+","+msg.getTask().getQty()+","+msg.getTask().getLocX()+","+msg.getTask().getLocY());
 					Runnable r= new Sender(msg);
@@ -84,8 +87,8 @@ public class Receiver implements Runnable {
 				}
 				
 				//TEST
-				i++;
-				Thread.sleep(3000);
+//				i++;
+//				Thread.sleep(10000);
 				
 				
 				
