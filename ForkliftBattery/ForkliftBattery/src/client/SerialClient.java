@@ -89,11 +89,11 @@ public class SerialClient implements SerialPortEventListener{
 				receiveId=receiveStr.substring(4,12);
 				
 				if(receiveId.equals("10000000")){ //working
-					SerialWrite.d = -3;
-				}else if (receiveId.equals("10000001")){ //waiting
 					SerialWrite.d = -2;
+				}else if (receiveId.equals("10000001")){ //waiting
+					SerialWrite.d = -1;
 				}else if (receiveId.equals("10000002")) { //charging
-					SerialWrite.d = 3;
+					SerialWrite.d = 10;
 				}
 
 			} catch (Exception e) {

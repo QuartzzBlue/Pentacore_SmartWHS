@@ -3,8 +3,6 @@ package client;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
@@ -12,8 +10,8 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-public class SerialClient implements SerialPortEventListener{
-	
+public class SerialClient implements SerialPortEventListener {
+
 	CommPortIdentifier commPortIdentifier;
 	CommPort commPort;
 	InputStream in;
@@ -22,10 +20,11 @@ public class SerialClient implements SerialPortEventListener{
 	static int stockLocX;
 	static int stockLocY;
 	static String id = "15000005";
-	static String data = "000000000000000";
+	static String data = "0000000000000000";
 	static String msg = id + data;
 	static OutputStream out;
-	
+	boolean flag = false;
+
 	public SerialClient() {
 	}
 
@@ -39,31 +38,31 @@ public class SerialClient implements SerialPortEventListener{
 		System.out.println("SerialWrite Thread Run");
 		System.out.println("Start CAN Network!!!");
 	}
-	
+
 	public void connect() throws Exception {
 		if (commPortIdentifier.isCurrentlyOwned()) {
 			System.out.println("Port is currently in use....");
 		} else {
 			commPort = commPortIdentifier.open(this.getClass().getName(), 5000);
-		
+
 			if (commPort instanceof SerialPort) {
 				SerialPort serialPort = (SerialPort) commPort;
 				serialPort.addEventListener(this);
 				serialPort.notifyOnDataAvailable(true);
-				serialPort.setSerialPortParams(921600, // ≈ÎΩ≈º”µµ
-						SerialPort.DATABITS_8, // µ•¿Ã≈Õ ∫Ò∆Æ
-						SerialPort.STOPBITS_1, // stop ∫Ò∆Æ
-						SerialPort.PARITY_NONE); // ∆–∏Æ∆º
+				serialPort.setSerialPortParams(921600, // ÌÜµÏã†ÏÜçÎèÑ
+						SerialPort.DATABITS_8, // Îç∞Ïù¥ÌÑ∞ ÎπÑÌä∏
+						SerialPort.STOPBITS_1, // stop ÎπÑÌä∏
+						SerialPort.PARITY_NONE); // Ìå®Î¶¨Ìã∞
 				in = serialPort.getInputStream();
 				bin = new BufferedInputStream(in);
 				out = serialPort.getOutputStream();
 			} else {
 				System.out.println("this port is not serial ");
-			} 
-				
+			}
+
 		}
 	}
-	
+
 	@Override
 	public void serialEvent(SerialPortEvent event) {
 		switch (event.getEventType()) {
@@ -86,6 +85,8 @@ public class SerialClient implements SerialPortEventListener{
 				}
 
 				receiveStr = new String(readBuffer);
+				System.out.println("Receive Data:" + receiveStr);
+
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -93,7 +94,5 @@ public class SerialClient implements SerialPortEventListener{
 			break;
 		}
 	}// serialEvent method
-
-	
 
 }
