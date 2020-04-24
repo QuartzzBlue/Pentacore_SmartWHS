@@ -95,7 +95,7 @@ public class SerialServer implements SerialPortEventListener {
 				receiveStr = new String(readBuffer);
 				System.out.println("Receive Data:" + receiveStr);
 
-				// ECU 로부터 can 송신하면
+				// ECU 濡쒕��꽣 can �넚�떊�븯硫�
 				if (receiveStr.substring(1, 4).equals("U28")) {
 
 					receiveId = receiveStr.substring(4, 12);
@@ -118,15 +118,15 @@ public class SerialServer implements SerialPortEventListener {
 						temperature = Integer.parseInt(receiveData);
 						System.out.println("temperature : " + temperature);
 					}
-					
+
 					//
-					if (locX == 11 && locY == 13&& battery <= 990) { //300이하고 작업 상태가 아닐때
-						SerialWrite.sendId = "10000002"; // 충전 상태로 변경
+					if (locX == 11 && locY == 13 && battery <= 980) {
+						SerialWrite.sendId = "10000002";
 						System.out.println("Charging");
-					} 
-					
-					if (battery == 999 &&locX == 11 && locY == 13 ) {
-						SerialWrite.sendId = "10000001"; // 대기 상태로 변경
+					}
+
+					if (battery == 999 && locX == 11 && locY == 13) {
+						SerialWrite.sendId = "10000001";
 						System.out.println("Waiting");
 					}
 					
@@ -134,11 +134,11 @@ public class SerialServer implements SerialPortEventListener {
 						Runnable r = new SerialWrite("0000");
 						Main.executorService.execute(r);
 					}
-					
+
 					tmpid = SerialWrite.sendId;
-					
+
 					//
-					
+
 					if (SerialWrite.sendId.equals("10000000")) { // working
 						status = 0;
 					}
@@ -153,7 +153,7 @@ public class SerialServer implements SerialPortEventListener {
 						Receiver.task = null;
 					}
 				}
-				
+
 				msg = new Msg("forklift1", "tabletServer");
 				msg.setForkLift(status, locX, locY, battery, temperature, 0);
 
