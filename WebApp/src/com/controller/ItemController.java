@@ -211,27 +211,8 @@ public class ItemController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		//System.out.println(invList.get(1).getInvoicedate());
 		return invList;
 
-//		JSONArray ja = new JSONArray();
-//		for (InvoiceVO i : invList) {
-//			JSONObject json = new JSONObject();
-//			json.put("invoiceid", i.getInvoiceid());
-//			json.put("empno", i.getEmpno());
-//			json.put("empname", i.getEmpname());
-//			json.put("invoicedate", i.getInvoicedate());
-//			ja.put(json);
-//		}
-		
-//		rs.setContentType("text/html; charset=utf-8");
-//		PrintWriter out;
-//		try {
-//			out = rs.getWriter();
-//			out.print(ja.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 	@RequestMapping("/invoicedtlsearch.pc")
@@ -299,8 +280,8 @@ public class ItemController {
 		}
 		Runnable r = new Sender(msg);
 		Main.executorService.execute(r);
+		//·Î±× Âï±â
 		logger.info(itName + " " + xPoint + " " + yPoint);
-		//logger.debug(itName + " " + xPoint + " " + yPoint);
 	}
 
 }

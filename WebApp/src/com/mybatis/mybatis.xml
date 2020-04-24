@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<typeAlias type="com.vo.ItemVO" alias="item"/>
 		<typeAlias type="com.vo.InvoiceVO" alias="invoice"/>
 		<typeAlias type="com.vo.InvoicedetailVO" alias="invoicedetail"/>
+		<typeAlias type="com.vo.EmployeeVO" alias="employee"/>
 	</typeAliases>
 	
 	<mappers>
@@ -17,6 +18,7 @@ PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
 		<mapper resource="com/mybatis/itemmapper.xml"/>
 		<mapper resource="com/mybatis/invoicemapper.xml"/>
 		<mapper resource="com/mybatis/invoicedetailmapper.xml"/>
+		<mapper resource="com/mybatis/employeemapper.xml"/>
 	</mappers>
 </configuration>
 

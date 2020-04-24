@@ -17,9 +17,17 @@
          <!-- 파일로 로그를 남김 -->
          <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
                   <file>C:\logs\logback\data.log</file>
-                  <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            			<fileNamePattern>C:\logs\logback\%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                   <!-- 로그를 남기는 파일의 용량이 50KB가 넘으면 이를 압축 파일로 만들고 새로 로그 파일로 만들라는 정책 -->
+                  <triggeringPolicy
+                           class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                           <MaxFileSize>100KB</MaxFileSize>
+                  </triggeringPolicy>
+                  
+                  <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            			<fileNamePattern>C:\logs\logback\data.%i.log</fileNamePattern>
             			<!--<maxHistory>30</maxHistory>  보관의 기간 -->
+            			<MinIndex>1</MinIndex>
+                        <MaxIndex>10</MaxIndex>
         		  </rollingPolicy>
                   <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
                            <Pattern>
@@ -28,11 +36,7 @@
                   </encoder>
 
 
-                  <!-- 로그를 남기는 파일의 용량이 50KB가 넘으면 이를 압축 파일로 만들고 새로 로그 파일로 만들라는 정책 -->
-                  <!-- <triggeringPolicy
-                           class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-                           <MaxFileSize>10KB</MaxFileSize>
-                  </triggeringPolicy> -->
+                 
 
 
 
@@ -69,8 +73,7 @@
          -->
 
          <logger name="com.controller" level="info">
-
-			<appender-ref ref="fileAppender" />
+				<appender-ref ref="fileAppender" />
          </logger>
 
 
@@ -79,7 +82,7 @@
          <!-- root는 글로벌 로거를 의미하며, 위의 logger에 해당하지 않으면 root 로거가 실행된다. -->
 
          <root level="WARN">
-				  <!-- <appender-ref ref="fileAppender" /> -->
+				  <appender-ref ref="consoleAppender" />
          </root>
 
 

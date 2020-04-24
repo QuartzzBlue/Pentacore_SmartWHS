@@ -55,10 +55,10 @@
         						</div>
                                 <form class="mt-5 mb-5 login-input" method="post" action="login.pc">
                                     <div class="form-group">
-                                        <input type="text" name="empno" class="form-control" placeholder="Employee ID">
+                                        <input type="text" name="empno" id="empno" class="form-control" placeholder="Employee ID">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="emppwd" class="form-control" placeholder="Password">
+                                        <input type="password" name="emppw" id="emppw" class="form-control" placeholder="Password">
                                     </div>
                                     <span class="error-msg text-danger">
                                     	<c:choose>
