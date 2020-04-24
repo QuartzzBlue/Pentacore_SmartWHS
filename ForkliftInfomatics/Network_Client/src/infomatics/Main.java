@@ -16,7 +16,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		port = sc.nextLine();
 		
-		SerialServer sserialServer = new SerialServer(port);
+		SerialServer serialServer = new SerialServer(port);
 	
 		String address = "70.12.226.134";
 		Client client = new Client(address,8888);
