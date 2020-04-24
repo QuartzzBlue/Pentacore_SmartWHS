@@ -46,16 +46,8 @@ class Receiver implements Runnable {
 
 				System.out.println("Receiver [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: " + threadName);
 
-				Thread.sleep(10000);
+				msg = (Msg) ois.readObject();
 
-				//msg = (Msg) ois.readObject();
-//				//Test
-//				msg = new Msg("tabletServer","ForkliftInfomatics");
-//				msg.setTask(1, "PHONE", 2, 15, 5);
-//				task = msg.getTask();
-//				
-//				//
-				
 				if (msg != null) {
 					System.out.println("Received Task - " + "srcid: " + msg.getSrcID() + " dstnid : " + msg.getDstnID()
 							+ " IO : " + msg.getTask().getIo() + " LocX : " + msg.getTask().getLocX() + " LocY : "
@@ -74,8 +66,9 @@ class Receiver implements Runnable {
 					} else {
 						loc += msg.getTask().getLocX() + "";
 					}
-					SerialWrite.data = loc;
-					Runnable r = new SerialWrite(loc);
+
+					SerialWrite.sendData = SerialWrite.sendData.substring(0,SerialWrite.sendData.length()-loc.length())+loc;
+					Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
 					Main.executorService.submit(r);
 				}
 

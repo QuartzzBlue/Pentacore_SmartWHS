@@ -101,9 +101,9 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				receiveStr = new String(readBuffer);
-				System.out.println("Receive Data:" + receiveStr);
+//				System.out.println("Receive Data:" + receiveStr);
 
-				// ECU 濡쒕��꽣 can �넚�떊�븯硫�
+				// ECU 嚥≪뮆占쏙옙苑� can 占쎈꽊占쎈뻿占쎈릭筌롳옙
 				if (receiveStr.substring(1, 4).equals("U28")) {
 
 					receiveId = receiveStr.substring(4, 12);
@@ -128,7 +128,7 @@ public class SerialServer implements SerialPortEventListener {
 					}
 
 					//
-					if (locX == 11 && locY == 13 && battery <= 980) {
+					if (locX == 11 && locY == 13 && battery <= 300) {
 						SerialWrite.sendId = "10000002";
 						System.out.println("Charging");
 					}
@@ -138,12 +138,10 @@ public class SerialServer implements SerialPortEventListener {
 						System.out.println("Waiting");
 					}
 					
-					if(!tmpid.equals(SerialWrite.sendId)) {
+					if(!SerialWrite.sendId.equals("10000000")) {
 						Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
 						Main.executorService.execute(r);
 					}
-
-					tmpid = SerialWrite.sendId;
 
 					//
 
@@ -171,7 +169,7 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				r.setMsg(msg);
-				//Main.executorService.submit(r);
+				Main.executorService.submit(r);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
