@@ -101,6 +101,8 @@ public class Main {
 				back = false;
 				flag = false;
 				done = false;
+				SerialClient.stockLocX=0;
+				SerialClient.stockLocY=0;
 			}
 		
 
