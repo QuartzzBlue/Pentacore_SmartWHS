@@ -29,7 +29,7 @@ public class SerialServer implements SerialPortEventListener {
 	int locX = 11;
 	int locY = 13;
 	int temperature = 50;
-	String tmpid = SerialWrite.sendId;
+	static String tmpid=" ";
 
 	boolean flag = false;
 
@@ -81,7 +81,7 @@ public class SerialServer implements SerialPortEventListener {
 	}
 
 	@Override
-	public void serialEvent(SerialPortEvent event) {
+	public synchronized void serialEvent(SerialPortEvent event) {
 		switch (event.getEventType()) {
 		case SerialPortEvent.BI:
 		case SerialPortEvent.OE:
@@ -101,18 +101,13 @@ public class SerialServer implements SerialPortEventListener {
 				}
 
 				receiveStr = new String(readBuffer);
-//				System.out.println("Receive Data:" + receiveStr);
+				System.out.println("Receive Data:" + receiveStr);
 
-				// ECU 嚥≪뮆占쏙옙苑� can 占쎈꽊占쎈뻿占쎈릭筌롳옙
 				if (receiveStr.substring(1, 4).equals("U28")) {
 
 					receiveId = receiveStr.substring(4, 12);
 					receiveData = receiveStr.substring(24, 28);
-
-//					System.out.println("From (id) : " + receiveId);
-//
-//					System.out.println("Data : " + receiveData);
-
+					
 					if (receiveId.equals("13000003")) { // battery
 						battery = Integer.parseInt(receiveData);
 						System.out.println("battery : " + battery);
@@ -128,22 +123,22 @@ public class SerialServer implements SerialPortEventListener {
 					}
 
 					//
-					if (locX == 11 && locY == 13 && battery <= 300) {
+					if (locX == 11 && locY == 13 && battery <= 990) {
 						SerialWrite.sendId = "10000002";
 						System.out.println("Charging");
 					}
 
-					if (battery == 999 && locX == 11 && locY == 13) {
+					if (battery == 999 && locX == 11 && locY == 13 || receiveId.equals("14000005")) {
 						SerialWrite.sendId = "10000001";
 						System.out.println("Waiting");
 					}
-					
-					if(!SerialWrite.sendId.equals("10000000")) {
+											
+//					if(!tmpid.equals(SerialWrite.sendId)) {
 						Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
 						Main.executorService.execute(r);
-					}
+//					}
 
-					//
+					tmpid = SerialWrite.sendId;
 
 					if (SerialWrite.sendId.equals("10000000")) { // working
 						status = 0;

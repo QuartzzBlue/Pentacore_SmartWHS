@@ -38,15 +38,13 @@ public class SerialWrite implements Runnable {
 
 	@Override
 	public void run() {
-
-		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Main.executorService;
-		int poolSize = threadPoolExecutor.getPoolSize();// �뒪�젅�뱶 �� �궗�씠利� �뼸湲�
-		String threadName = Thread.currentThread().getName();// �뒪�젅�뱶 ���뿉 �엳�뒗 �빐�떦 �뒪�젅�뱶 �씠由� �뼸湲�
-
+		
+		System.out.println("Send : " + data);
+		
 		byte[] outData = data.getBytes();
 		try {
+			
 			SerialServer.out.write(outData);
-			System.out.println("***********Msg Send**********");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
