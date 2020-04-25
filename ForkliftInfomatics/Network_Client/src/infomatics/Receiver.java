@@ -70,6 +70,8 @@ class Receiver implements Runnable {
 					SerialWrite.sendData = SerialWrite.sendData.substring(0,SerialWrite.sendData.length()-loc.length())+loc;
 					Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
 					Main.executorService.submit(r);
+					SerialServer.tmpid = SerialWrite.sendId;
+					
 				}
 
 			} catch (Exception e) {
