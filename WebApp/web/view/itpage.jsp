@@ -715,7 +715,6 @@ hr{
 				});
 			//}
 			
-			
 			$("#invListInfo").html(" * 테이블을 클릭하면 주문서 상세 정보를 볼 수 있습니다.");
 			
 			$(document).on("mouseenter", "#invListTBody", function(){
