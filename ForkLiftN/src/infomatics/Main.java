@@ -8,14 +8,14 @@ public class Main {
 	
 	static ExecutorService executorService = Executors.newFixedThreadPool(7);
 	static String num;
-	static String address = "70.12.226.134";
+	static String address = "192.168.0.10";
 	static int port = 8888;
 
 
 	public static void main(String[] args) {
-//		num = args[0];
 		num = "3";
-		
+//		num = args[0];
+//		
 //		if(!args[0].equals("1") && !args[0].equals("2") && !args[0].equals("3") && !args[0].equals("4")) {
 //			System.out.println("1, 2, 3, 4 중 하나의 값을 입력해주세요.");
 //			return;

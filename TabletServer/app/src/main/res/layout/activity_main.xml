@@ -545,6 +545,17 @@
                 android:text="  태스크 목록"
                 android:textSize="20sp" />
 
+            <Button
+                android:id="@+id/assignTaskButton"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="  태스크 할당"
+                android:textSize="16sp"
+                android:textColor="@color/colorwhite"
+                android:background="@color/colorNavy"
+                android:layout_margin="7dp"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerView_taskQueue"
                 android:layout_width="match_parent"
@@ -553,6 +564,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>
+
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

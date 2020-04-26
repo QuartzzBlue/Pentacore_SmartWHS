@@ -28,7 +28,6 @@ public class Msg implements Serializable {
         this.srcID = srcID;
         this.dstnIP = dstnIP;
         this.dstnID = dstnID;
-
     }
 
     public String getSrcIP() {
@@ -77,6 +76,10 @@ public class Msg implements Serializable {
             task.setQty(qty);
             task.setName(name);
         }
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public ForkLift getForkLift() {

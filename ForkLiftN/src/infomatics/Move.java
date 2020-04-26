@@ -1,26 +1,33 @@
 package infomatics;
 
+import msg.Task;
+
 public class Move implements Runnable {
 
+	public Move() {
+		System.out.println("move constructed");
+	}
 	@Override
 	public void run() {
+		System.out.println("move run");
 		if (Status.stockX%4==2) {
+			System.out.println("Status.stockX%4==2");
 			if (Status.stockX-2 < Status.currentX ) {
-				while(Status.currentX == Status.stockX-2) {
+				while(!(Status.currentX == Status.stockX-2)) {
 					--Status.currentX;
 					waitOneSecond();
 				}
-				while(Status.currentY == Status.stockY) {
+				while(!(Status.currentY == Status.stockY)) {
 					--Status.currentY;
 					waitOneSecond();
 				}
 				++Status.currentX;
 				waitOneSecond();
-				while(Status.currentY == Status.defaultY-1) {
+				while(!(Status.currentY == Status.defaultY-1)) {
 					++Status.currentY;
 					waitOneSecond();
 				}
-				while(Status.currentX == Status.defaultX) {
+				while(!(Status.currentX == Status.defaultX)) {
 					if(Status.currentX < Status.defaultX) ++Status.currentX;
 					else --Status.currentX;
 					waitOneSecond();
@@ -33,21 +40,21 @@ public class Move implements Runnable {
 			} else if (Status.currentX <= Status.stockX-2) {
 				--Status.currentY;
 				waitOneSecond();
-				while(Status.currentX == Status.stockX-2) {
+				while(!(Status.currentX == Status.stockX-2)) {
 					++Status.currentX;
 					waitOneSecond();
 				}
-				while(Status.currentY == Status.stockY) {
+				while(!(Status.currentY == Status.stockY)) {
 					--Status.currentY;
 					waitOneSecond();
 				}
 				++Status.currentX;
 				waitOneSecond();
-				while(Status.currentY == Status.defaultY) {
+				while(!(Status.currentY == Status.defaultY)) {
 					++Status.currentY;
 					waitOneSecond();
 				}
-				while(Status.currentX == Status.defaultX) {
+				while(!(Status.currentX == Status.defaultX)) {
 					if(Status.currentX < Status.defaultX) ++Status.currentX;
 					else --Status.currentX;
 					waitOneSecond();
@@ -61,22 +68,23 @@ public class Move implements Runnable {
 			
 			
 		} else if (Status.stockY%4==3) {
+			System.out.println("Status.stockX%4==3");
 			if (Status.stockX+1 < Status.currentX ) {
-				while(Status.currentX == Status.stockX+1) {
+				while(!(Status.currentX == Status.stockX+1)) {
 					--Status.currentX;
 					waitOneSecond();
 				}
-				while(Status.currentY == Status.stockY) {
+				while(!(Status.currentY == Status.stockY)) {
 					--Status.currentY;
 					waitOneSecond();
 				}
 				++Status.currentX;
 				waitOneSecond();
-				while(Status.currentY == Status.defaultY) {
+				while(!(Status.currentY == Status.defaultY)) {
 					++Status.currentY;
 					waitOneSecond();
 				}
-				while(Status.currentX == Status.defaultX) {
+				while(!(Status.currentX == Status.defaultX)) {
 					if(Status.currentX < Status.defaultX) ++Status.currentX;
 					else --Status.currentX;
 					waitOneSecond();
@@ -87,21 +95,21 @@ public class Move implements Runnable {
 			} else if (Status.currentX <= Status.stockX+1) {
 				--Status.currentY;
 				waitOneSecond();
-				while(Status.currentX == Status.stockX+1) {
+				while(!(Status.currentX == Status.stockX+1)) {
 					++Status.currentX;
 					waitOneSecond();
 				}
-				while(Status.currentY == Status.stockY) {
+				while(!(Status.currentY == Status.stockY)) {
 					--Status.currentY;
 					waitOneSecond();
 				}
 				++Status.currentX;
 				waitOneSecond();
-				while(Status.currentY == Status.defaultY) {
+				while(!(Status.currentY == Status.defaultY)) {
 					++Status.currentY;
 					waitOneSecond();
 				}
-				while(Status.currentX == Status.defaultX) {
+				while(!(Status.currentX == Status.defaultX)) {
 					if(Status.currentX < Status.defaultX) ++Status.currentX;
 					else --Status.currentX;
 					waitOneSecond();
@@ -126,6 +134,7 @@ public class Move implements Runnable {
 	}
 	
 	public void taskDoneChangeStatus() {
+		Status.task = null;
 		if(Status.battery<300) Status.status = 2;
 		else Status.status = 1;
 	}

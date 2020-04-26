@@ -77,6 +77,10 @@ public class Msg implements Serializable {
             task.setName(name);
         }
     }
+    
+    public void setTask(Task task) {
+    	this.task = task;
+    }
 
     public ForkLift getForkLift() {
         return forkLift;

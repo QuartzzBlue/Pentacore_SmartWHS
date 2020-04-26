@@ -41,11 +41,12 @@ public class Sender implements Runnable{
 				try {
 					Msg msg = new Msg(Status.forkLiftID, "tabletserver");
 					msg.setForkLift(Status.status, Status.currentX, Status.currentY, Status.battery, Status.temparature, 0);
+					msg.setTask(Status.task);
 					oos.writeObject(msg);
 					System.out.println("TabletServer로 Msg전송  → "+"ID:"+Status.forkLiftID+", 상태:"+Status.status
 							+", 위치:("+Status.currentX+","+Status.currentY
 							+"), 배터리:"+Status.battery
-							+", 온도:"+Status.temparature);
+							+", 온도:"+Status.temparature+", 태스크:"+Status.task);
 				} catch (IOException e) {
 					System.out.println("Exception at Sender.java : "+e.getMessage());
 					flag = false;

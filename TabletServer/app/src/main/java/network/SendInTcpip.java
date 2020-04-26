@@ -36,7 +36,7 @@ public class SendInTcpip implements Runnable {
 		dstnID = msg.getDstnID();
 		dstnIP = ActiveConnection.idToIp.get(dstnID);
 		msg.setDstnIP(dstnIP);
-		ObjectOutputStream oos = ActiveConnection.ipToOos.get(dstnID);
+		ObjectOutputStream oos = ActiveConnection.ipToOos.get(dstnIP);
 
 		System.out.println("SendInTcpip [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
 		System.out.println("srcip : "+msg.getSrcIP()+", srcid : "+msg.getSrcID()+", dstnip : "+msg.getDstnIP()
@@ -45,6 +45,8 @@ public class SendInTcpip implements Runnable {
 		if(oos != null) {
 			try {
 				oos.writeObject(msg);
+				MainActivity.forkLiftMap.get(msg.getDstnID()).setTask(msg.getTask());
+				MainActivity.printConsole("지게차"+msg.getDstnID()+"에 Task를 할당했습니다.");
 			} catch (IOException e) {
 				ActiveConnection.ipToOos.remove(dstnIP);
 				ActiveConnection.idToIp.remove(dstnID);

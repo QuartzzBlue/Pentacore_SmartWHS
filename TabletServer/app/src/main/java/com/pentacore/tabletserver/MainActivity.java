@@ -29,6 +29,7 @@ import logistics.ForkLiftViewSet;
 import logistics.TaskQueueAdapter;
 import logistics.Warehouse;
 import msg.Msg;
+import msg.Task;
 import network.Client;
 import network.Server;
 import network.SendInTcpip;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     static ConstraintLayout layoutWarehouseMap;
     public static Queue taskQueue;
-    public static Queue waitingForkLiftQueue;
+    public static Queue<String> waitingForkLiftQueue;
     public static Queue consoleQueue;
 
     private static RecyclerView taskQueueRecyclerView;
@@ -68,10 +69,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainActivity = this;
-
-        //added by yeojin
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
 
         // Run TabletServer
         int port=8888;
@@ -131,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         forkLiftViewSetMap.put("forklift4", forkLiftViewSet4);
 
         taskQueue = new LinkedList();
-        waitingForkLiftQueue = new LinkedList();
+        waitingForkLiftQueue = new LinkedList<String>();
         consoleQueue = new LinkedList();
 
         LinearLayoutManager taskQueueLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -154,6 +151,14 @@ public class MainActivity extends AppCompatActivity {
                 btnClick();
             }
         });
+
+        View assignTaskButton = findViewById(R.id.assignTaskButton);
+        assignTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                assignTask();
+            }
+        });
     }
 
     boolean firstFocusOnWindowFlag = true;
@@ -171,10 +176,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btnClick() {
-        locateForkLift(forkLiftViewSet1.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
-        locateForkLift(forkLiftViewSet2.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
-        locateForkLift(forkLiftViewSet3.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
-        locateForkLift(forkLiftViewSet4.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
+        int[] arrayX = {2, 3, 6, 7, 10, 11, 14, 15, 18, 19, 22, 23};
+        int[] arrayY = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+
+        Task task = new Task(
+                (int)(Math.random()*2),
+                "item_no_"+(int)(Math.random()*99),
+                (int)(Math.random()*10),
+                arrayX[(int)(Math.random()*arrayX.length)],
+                arrayY[(int)(Math.random()*arrayY.length)]
+        ); // int io, String name, int qty, int locX, int locY
+        MainActivity.taskQueue.offer(task);
+//        locateForkLift(forkLiftViewSet1.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
+//        locateForkLift(forkLiftViewSet2.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
+//        locateForkLift(forkLiftViewSet3.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
+//        locateForkLift(forkLiftViewSet4.forkLiftView, (int)(Math.random()*26), (int)(Math.random()*14));
     }
 
     public static void locateForkLift(View forkLiftView, int dstnX, int dstnY) {
@@ -216,22 +232,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void assignTask() {
-        if (waitingForkLiftQueue.isEmpty() || taskQueue.isEmpty()) return;
-            logistics.ForkLift forkLift = (logistics.ForkLift)waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
-            MainActivity.forkLiftMap.get(forkLift.getName()).setStatus(WORKING); // status만 일단 먼저 바꿈
+        if (taskQueue.isEmpty()) {
+            Toast.makeText(MainActivity.mainActivity,"현재 태스크가 없습니다.",Toast.LENGTH_SHORT).show();
+            return;
+        } else if (waitingForkLiftQueue.isEmpty()) {
+            Toast.makeText(MainActivity.mainActivity,"대기중인 지게차가 없습니다.",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            msg.Task task = (msg.Task)(taskQueue.poll());
-            Msg msg = new Msg("warehouse1", forkLift.getName()); // srcID, dstnID
-            msg.setTask(task.getIo(), task.getName(), task.getQty(), task.getLocX(), task.getLocY());
+        String polledForkLift = waitingForkLiftQueue.poll(); // 여기서 가져온 ID를 밑에 Msg에 담아서
+        logistics.ForkLift forkLift = forkLiftMap.get(polledForkLift);
+        MainActivity.forkLiftMap.get(forkLift.getName()).setStatus(WORKING); // status만 일단 먼저 바꿈
 
-            Runnable sendInTcpip = new SendInTcpip(msg); //전송
-            MainActivity.executorService.submit(sendInTcpip);
+        msg.Task task = (msg.Task)(taskQueue.poll());
+        Msg msg = new Msg("warehouse1", forkLift.getName()); // srcID, dstnID
+        msg.setTask(task);
+        forkLift.setTask(task);
 
-            MainActivity.printConsole("지게차"+forkLift.getName()+"에 Task를 할당했습니다.");
-            //Console.log(n번 지게차에 task 내용 뭐뭐 를 할당하였습니다.);
+        Runnable sendInTcpip = new SendInTcpip(msg); //전송
+        MainActivity.executorService.submit(sendInTcpip);
 
-            // taskUI 바꿔주는 메소드 호출
-            taskQueueAdapter.notifyDataSetChanged();
+        // taskUI 바꿔주는 메소드 호출
+        updateTaskQueueUI();
     }
 
     public static void updateTaskQueueUI() {
