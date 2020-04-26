@@ -16,6 +16,12 @@
     <!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-latest.js"></script>
     <style>
+    body {
+    	background-image: url('images/warehouse.png');
+    	background-repeat: no-repeat;
+    	background-position: center;
+    	background-size : cover;
+    }
     .card-main-title{
     	text-align: center;
     }
@@ -40,9 +46,6 @@
     ********************-->
 
     
-
-
-
     <div class="login-form-bg h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100">
