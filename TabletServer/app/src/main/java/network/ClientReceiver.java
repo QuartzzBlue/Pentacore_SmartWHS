@@ -67,9 +67,13 @@ public class ClientReceiver implements Runnable {
 //                System.out.println("taskQueue Size : "+MainActivity.taskQueue.size());
 
 //                // taskQueue랑 forkLiftQueue랑 비교해서 할당하는 메소드 호출
-                MainActivity.assignTask();
             } catch (ClassNotFoundException | IOException e) {
                 System.out.println("Error at ClientReceiver");
+
+                String dstnIP = "70.12.113.200";
+                int dstnPort = 9999;
+                Runnable client = new Client(dstnIP, dstnPort);
+                MainActivity.executorService.execute(client);
 //                e.printStackTrace();
                 break;
             }

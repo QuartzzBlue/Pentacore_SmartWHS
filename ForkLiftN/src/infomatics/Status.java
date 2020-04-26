@@ -21,6 +21,7 @@ public class Status {
 	static int stockX = 0;
 	static int stockY = 0;
 	
+	static msg.Task task;
 }
 
 

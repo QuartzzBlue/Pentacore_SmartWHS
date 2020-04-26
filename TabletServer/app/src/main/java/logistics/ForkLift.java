@@ -1,11 +1,16 @@
 package logistics;
 
+import java.io.Serializable;
+
+import msg.Task;
+
 public class ForkLift {
     String name;
     int currentX;
     int currentY;
 
     String currentTask;
+    msg.Task task;
     int status;
 
     int temparature;
@@ -75,4 +80,8 @@ public class ForkLift {
     public void setCurrentTask(String currentTask) {
         this.currentTask = currentTask;
     }
+
+    public Task getTask() { return task; }
+
+    public void setTask(Task task) { this.task = task;};
 }

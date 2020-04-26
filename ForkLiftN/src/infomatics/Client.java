@@ -29,8 +29,8 @@ public class Client{
 
 		System.out.println("Connected to Tablet Server : " + address);
 		
-//		Runnable receiver = new Receiver(socket);
-//		Main.executorService.submit(receiver);
+		Runnable receiver = new Receiver(socket);
+		Main.executorService.submit(receiver);
 		
 		Runnable sender = new Sender(socket);
 		Main.executorService.submit(sender);

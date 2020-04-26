@@ -41,7 +41,7 @@ public class Client implements Runnable {
 
         } catch (Exception outerE) {
             System.out.println("Exception while making socket at Client.java");
-            outerE.printStackTrace();
+//            outerE.printStackTrace();
             while (true) {
                 System.out.println("Retry to make socket at Client.java");
                 MainActivity.printConsole("Retry to make socket at Client.java");
@@ -53,14 +53,14 @@ public class Client implements Runnable {
                     break;
                 } catch (Exception innerE) {
                     System.out.println("Exception while making socket at Client.java");
-                    innerE.printStackTrace();
+//                    innerE.printStackTrace();
                 }
             }
         }
 
         try {
-            ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) MainActivity.executorService;
-            int poolSize = threadPoolExecutor.getPoolSize();//스레드 풀 사이즈 얻기
+
+            int poolSize = ((ThreadPoolExecutor)MainActivity.executorService).getPoolSize();//스레드 풀 사이즈 얻기
             String threadName = Thread.currentThread().getName();//스레드 풀에 있는 해당 스레드 이름 얻기
             System.out.println(" Client [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
             Runnable clientReceiver = new ClientReceiver(socket);
@@ -77,7 +77,8 @@ public class Client implements Runnable {
                     MainActivity.executorService.submit(clientReceiver);
                     System.out.println("Client Receiver Generated");
                 } catch (Exception innerE) {
-                    innerE.printStackTrace();
+                    System.out.println("Exception occured while generating ClientReceiver");
+//                    innerE.printStackTrace();
                 }
             }
         }

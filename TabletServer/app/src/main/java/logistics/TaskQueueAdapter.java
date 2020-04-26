@@ -63,6 +63,7 @@ public class TaskQueueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(taskQueue.get(position)==null) return;
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setItem( (Task)(taskQueue.get(position)));
     }

@@ -63,6 +63,8 @@ public class ServerReceiver implements Runnable {
         while(ois!=null) {
             try {
                 msg = (Msg) ois.readObject();
+                ActiveConnection.idToIp.put(msg.getSrcID(), socket.getInetAddress().toString());
+
                 msg.ForkLift forkLiftFromMsg = msg.getForkLift();
                 msg.Task taskFromMsg = msg.getTask();
                 StringBuilder sb = new StringBuilder();
@@ -81,13 +83,14 @@ public class ServerReceiver implements Runnable {
 //                MainActivity.printConsole(msg.getSrcID()+"로부터 수신, Status:"+forkLiftFromMsg.getStatus()+", Battery"+forkLiftFromMsg.getBattery()+", XY:"+forkLiftFromMsg.getLocX()+","+forkLiftFromMsg.getLocY());
 
                 // HTTP로 msg객체의 내용 전달하기
-                logistics.ForkLift forkLift = MainActivity.forkLiftMap.get(msg.getSrcID());
-            if(forkLiftFromMsg.getStatus()==WAITING && !MainActivity.waitingForkLiftQueue.contains(forkLift) ) {
-                MainActivity.waitingForkLiftQueue.offer(forkLift);
-                MainActivity.printConsole("지게차"+forkLift.getName()+"을 대기열에 추가했습니다.");
-                MainActivity.assignTask();
-            }
+                String forkLiftID = msg.getSrcID();
+                logistics.ForkLift forkLift = MainActivity.forkLiftMap.get(forkLiftID);
 
+                if(forkLiftFromMsg.getStatus()==WAITING && !MainActivity.waitingForkLiftQueue.contains(forkLiftID)) {
+                    MainActivity.waitingForkLiftQueue.offer(forkLiftID);
+                } else if(forkLiftFromMsg.getStatus()!=WAITING && MainActivity.waitingForkLiftQueue.contains(forkLiftID)) {
+                    MainActivity.waitingForkLiftQueue.remove(forkLiftID);
+                }
 
 			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
 				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
@@ -125,7 +128,6 @@ public class ServerReceiver implements Runnable {
             forkLift.setCurrentX(forkLiftFromMsg.getLocX());
             forkLift.setCurrentY(forkLiftFromMsg.getLocY());
             forkLift.setStatus(forkLiftFromMsg.getStatus());
-
 
             // 바뀐 상태 정보 UI에 반영
             MainActivity.updateForkLiftUI(msg.getSrcID());
