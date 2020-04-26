@@ -116,13 +116,15 @@ hr{
 													<td><input type="number" class="form-control"
 														id="itemqtypb" name="itemqtypb" placeholder="개수"></td>
 													<td><div class="whInfo"><input type="text" class="form-control"
-														id="wareid_R" name="wareid" placeholder="창고ID" readonly>
+														id="wareid" name="wareid" placeholder="창고ID" readonly>
 														<select class="form-control" id="warename"
 														name="warename" style="width: 150px;"
 														onchange="setWareID(this)">
 															<option>창고명</option>
-															<option value="ware00_R">이천 제1물류창고</option>
-															<!--  <option value="ware01">CSS</option>-->
+															<option value="ware00">이천 제1물류창고</option>
+															<option value="ware01">천안 제1물류창고</option>
+															<option value="ware02">덕평 제1물류창고</option>
+															<option value="ware03">이천 제2물류창고</option>
 													</select></div></td>
 													
 													<td id = "modalTd"><input type="text" class="form-control" id="itemloc"
@@ -437,7 +439,7 @@ hr{
 
 	<script>
 		// warehouse id list
-		var wareIdList = [ "wh1111", "#" ];
+		var wareIdList = [ "wh1111", "wh1112", "wh1113", "wh1114" ];
 
 		// invoice detail item list
 		var jsonInvoice = Array();
@@ -449,30 +451,15 @@ hr{
 		var sessionEmpId = "<%=session.getAttribute("empno") %>"
 		var sessionEmpName = "<%=session.getAttribute("empname") %>"
 		var sessionEmpJob = "<%=session.getAttribute("empjob") %>"
+		var sessionWareId = "<%=session.getAttribute("wareid") %>"
 
-		//console.log("empInfo : " + sessionEmpId + ", " + sessionEmpName + ", " + sessionEmpJob);
-		
-		
 		////////////////////////함수
-		
-		/*
-		var tooltip = document.querySelector('.tooltipbutton');
-		Popper.createPopper(tooltip, {
-		    placement: 'right',
-		  });
-		
-		$(function () {
-		  	$('[data-toggle="popover"]').popover({ trigger: "hover"});
-		})*/
-		
-		
+
 		function setWareID(w) {
-			var target = document.getElementById("wareid_"
-					+ w.value.substring(7, 8));
-			if (w.value.substring(0, 6) == "ware00")
-				target.value = wareIdList[0];
-			else
-				target.value = "";
+			var target = $("#registeritList").find("input[name=wareid]");
+			var index = w.value.substring(5, 6);
+			index *= 1;
+			target.val(wareIdList[index]);
 		}
 		
 		$('#theModal').on('show.bs.modal', function(e) {
@@ -480,10 +467,7 @@ hr{
 			var button = $(e.relatedTarget);
 			var modal = $(this);
 
-			// load content from HTML string
-			//modal.find('.modal-body').html("Nice modal body baby...");
-
-			// or, load content from value of data-remote url
+			
 			modal.find('.modal-body').load(button.data("remote"));
 			
 
@@ -497,18 +481,15 @@ hr{
 				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
 			}
 			
-			//   console.log('result : '+$("#modal-result").val());    
 		})
 		
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function() {
 			$(document.body).delegate(".selectedItList", "click", function() {
-				//selectedRow.push(table.row());
 				var itemid = $(this).find("td").eq(0).text();
 				var itemname = $(this).find("td").eq(1).text();
 				var wareid = $(this).find("td").eq(6).text();
 				var warename = $(this).find("td").eq(7).text();
-				//alert($("#setItInfo").find("input[name=itemid]").val());
 				$("#setItInfo").find("input[name=itemid]").val(itemid);
 				$("#setItInfo").find("input[name=itemname]").val(itemname);
 				$("#setItInfo").find("input[name=wareid]").val(wareid);
@@ -567,12 +548,17 @@ hr{
 		});
 
 
-		//Item list update
-		var updateItem = function() {
+		// Item list table
+		var getItemlist = function() {
+			var url = 'itemsearch.pc?wareid=';
+			//관리자 아닐 경우에는 소속 창고의 아이템만 볼 수 있음
+			if(sessionEmpJob == "일반"){
+				url = 'itemsearch.pc?wareid='+ sessionWareId;
+			}
 			//https://datatables.net/
 			var itTable = $('#itListBody').DataTable({
 				ajax : {
-					url : 'itemsearch.pc',
+					url : url,
 					dataSrc : ''
 				},columns : [ 
 					{data : 'itemid'}, 
@@ -584,7 +570,10 @@ hr{
 					{data : 'wareid'}, 
 					{data : 'warename'}, 
 					{data : 'itemloc'}, 
-					{data : 'itemstock'} ]
+					{data : 'itemstock'}],
+				columnDefs: [
+					{ targets: 3 , render: $.fn.dataTable.render.number( ',' ) }]
+					
 
 			});
 			$(document).on("mouseenter", "#itListTBody", function(){
@@ -598,10 +587,12 @@ hr{
 		// Register Invoice
 		$(function() {
 			$(document.body).delegate("#ivRegister","click",function() {
+					
+				
 						$.ajax({
 							type : "post" // 포스트방식
 							,
-							url : "invoiceregister.pc" // url 주소
+							url : "invoiceregister.pc?empno="+sessionEmpId+"&empname="+sessionEmpName // url 주소
 							,
 							data : JSON.stringify(jsonInvoice),
 							dataType : "text",
@@ -640,7 +631,6 @@ hr{
 							}
 						});
 					});
-			//updateItem();
 			
 			
 		});
@@ -758,7 +748,7 @@ hr{
 
 	});
 		$(document).ready(function() {
-			updateItem();
+			getItemlist();
 			history.replaceState({}, null, location.pathname);
 		});
 		

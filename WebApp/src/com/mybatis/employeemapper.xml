@@ -11,7 +11,6 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 	<update id="update" parameterType="employee">
 		UPDATE employee
 		<set> 
-			<if test = "empno != null">empno=#{empno},</if>
 			<if test = "empname != null">empname=#{empname},</if>
 			<if test = "emppw != null">emppw=#{emppw},</if>
 			<if test = "empjob != null">empjob=#{empjob},</if>
@@ -20,7 +19,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 			<if test = "wareid != null">wareid=#{wareid},</if>
 			<if test = "warename != null">warename=#{warename}</if>
 		</set>
-		WHERE itemid=#{itemid}
+		WHERE empno=#{empno}
 	</update>
 	
 	<delete id="delete" parameterType="employee">
