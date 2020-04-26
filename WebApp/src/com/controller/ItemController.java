@@ -43,7 +43,7 @@ public class ItemController {
 	Service<InvoicedetailVO> invdtlservice;
 
 	/* static 변수들 */
-	public static String wareNameList[] = { "이천 제1물류창고" };
+	public static String wareNameList[] = { "이천 제1물류창고", "천안 제1물류창고", "덕평 제1물류창고", "이천 제2물류창고"};
 	private static Set<String> itMap = new HashSet<String>();
 	private static Client client = null;
 	private static Msg msg = null;
@@ -92,9 +92,13 @@ public class ItemController {
 	}
 
 	@RequestMapping("/itemsearch.pc")
-	public void itemsearch(HttpServletResponse rs, ItemVO iv) {
+	public void itemsearch(HttpServletResponse rs, ItemVO iv, HttpServletRequest request) {
 		
-		
+		String wareid = request.getParameter("wareid");
+		if(wareid != null) {
+			iv.setWareid(wareid);
+			System.out.println("wareid : " + wareid);
+		}
 		ArrayList<ItemVO> itemList = null;
 		try {
 			itemList = itservice.selectAll(iv);
@@ -137,11 +141,12 @@ public class ItemController {
 	}
 
 	@RequestMapping("/invoiceregister.pc")
-	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson) {
+	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson, HttpServletRequest request) {
 		if(itNameMapper == null) {
 			itNameMapper = new ItemNameMapper();
 		}
 		
+		System.out.println(request.getParameter("empno") + ", " + request.getParameter("empname"));
 		System.out.println(ivJson);
 		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
 		String response = null;
@@ -156,6 +161,9 @@ public class ItemController {
 				ivd.setWarename((String) temp.get("warename"));
 				ivd.setInvoicedtlqty(Integer.parseInt((String) temp.get("invoicedtlqty")));
 				ivd.setInvoicestat((String) temp.get("invoicestat"));
+				//****************수정된 부분*********************
+				ivd.setEmpno(request.getParameter("empno"));
+				ivd.setEmpname(request.getParameter("empname"));
 				ivdList.add(ivd);
 
 				//item location 가져오기 
@@ -270,6 +278,7 @@ public class ItemController {
 		msg = new Msg("Web", "ForkliftInfomatics");
 		msg.setTask(io, itName, ivQty, xPoint, yPoint);
 
+		
 		String address = "70.12.113.200";
 		if (client == null) {
 			try {
@@ -282,6 +291,7 @@ public class ItemController {
 		Main.executorService.execute(r);
 		//로그 찍기
 		logger.info(itName + " " + xPoint + " " + yPoint);
+		
 	}
 
 }

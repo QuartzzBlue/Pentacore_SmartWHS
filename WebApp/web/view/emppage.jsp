@@ -19,6 +19,19 @@
 	color: rgba(0, 0, 0, 0.5); /* RGBA Color (Alternative Transparency) */
 	-webkit-filter: blur(2px);
 }
+
+.card .card-body canvas {
+	margin-bottom: 20px;
+}
+
+#btn-section {
+	text-align: right;
+	padding-bottom: 14px;
+}
+
+#empListTBody td button {
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -42,15 +55,101 @@
 								<h4>Donut Chart - 창고 별 직원 수</h4>
 							</div>
 							<hr></hr>
-							<div id="morris-donut-chart"></div>
+							<canvas id="doughnutChart"></canvas>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-8">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">Visit Chart</h4>
-							<div id="morris-area-chart0"></div>
+							<div class="card-title">
+								<h4>Employee Register</h4>
+								<div data-toggle="tooltip" data-placement="right"
+									title="직원 정보를 추가할 수 있습니다. 초기 비밀번호는 '000000'으로 설정됩니다. ">
+									<button class="fas fa-question-circle"></button>
+								</div>
+							</div>
+							<hr></hr>
+							<form name="addEmployee" method="post" action="empregister.pc">
+								<div id="empForm">
+									<h4>Mandatory Fields</h4>
+									<section>
+										<div class="row">
+											<div class="col-lg-4">
+												<div class="form-group">
+													<input type="text" id="empno" name="empno"
+														class="form-control" placeholder="ID" required>
+												</div>
+											</div>
+											<div class="col-lg-4">
+												<div class="form-group">
+													<input type="text" id="empname" name="empname"
+														class="form-control" placeholder="Name" required>
+												</div>
+											</div>
+											<div class="col-lg-4">
+												<div class="form-group">
+													<select class="form-control" id="empjob" name="empjob"
+														required>
+														<option value="">Position</option>
+														<option value="관리자">관리자</option>
+														<option value="일반">일반</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</section>
+									<h4>Warehouse Details</h4>
+									<section>
+										<div class="row">
+											<div class="col-6">
+												<div class="form-group">
+													<input type="text" class="form-control" id="wareid"
+														name="wareid" placeholder="창고ID" readonly required>
+												</div>
+											</div>
+											<div class="col-6">
+												<div class="form-group">
+													<select class="form-control" id="warename" name="warename"
+														onchange="setWareID(this)">
+														<option>창고명</option>
+														<option value="ware00">이천 제1물류창고</option>
+														<option value="ware01">천안 제1물류창고</option>
+														<option value="ware02">덕평 제1물류창고</option>
+														<option value="ware03">이천 제2물류창고</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</section>
+									<h4>Account Details</h4>
+									<section>
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<input type="email" name="empemail" class="form-control"
+														placeholder="Email" required>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<input type="tel" name="empphone" class="form-control"
+														placeholder="Phone Number" required>
+												</div>
+											</div>
+										</div>
+									</section>
+									<section id="btn-section">
+										<button type="button" id="resetEmpForm"
+											class="btn mb-1 btn-secondary">Reset</button>
+										<button type="submit" id="addEmpForm"
+											class="btn mb-1 btn-info">
+											Confirm<span class="btn-icon-right"><i
+												class="fa fa-check"></i></span>
+										</button>
+									</section>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -66,9 +165,7 @@
 									title="직원 조회 테이블입니다.">
 									<button class="fas fa-question-circle"></button>
 								</div>
-								
-									<button type="button" id="addEmpBtn" class="btn mb-1 btn-info" data-toggle="modal" data-target="#addEmp" data-remote="view/modal/addEmp.jsp">Add Employee<span class="btn-icon-right"><i class="fa fa-check"></i></span></button>
-								
+
 							</div>
 							<hr></hr>
 							<div class="table-responsive">
@@ -83,6 +180,7 @@
 											<th>Phone</th>
 											<th>Warehouse ID</th>
 											<th>Warehouse Name</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody id="empListTBody">
@@ -90,54 +188,21 @@
 									</tbody>
 								</table>
 
-								<!-- emp 추가 -->
-								<div class="modal fade" id="addEmp" tabindex="-1" role="dialog">
-									<div class="modal-dialog modal-lg" role="document">
-										<div class="modal-content">
-											<!-- <input type="hidden" id="selectedInvId"> 
-											<input type="hidden" id="selectedInvDate"> -->
-											<div class="modal-header">
-												<h5 class="modal-title">Employee Register</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												
-
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-primary"
-													data-dismiss="modal">Close</button>
-											</div>
-										</div>
-									</div>
-								</div>
 
 								<!-- emp 수정 -->
 								<div class="modal fade" id="modifyEmp" tabindex="-1"
 									role="dialog">
 									<div class="modal-dialog modal-lg" role="document">
-										<div class="modal-content">
-											<!-- <input type="hidden" id="selectedInvId"> 
-											<input type="hidden" id="selectedInvDate"> -->
-											<div class="modal-header">
-												<h5 class="modal-title">Employee Info Modification</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body"></div>
-											<div class="modal-footer">
-												<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-												<button type="button" class="btn btn-primary"
-													data-dismiss="modal">Close</button>
-											</div>
-										</div>
+										<input type="hidden" name="tempno"> <input
+											type="hidden" name="tempname"> <input type="hidden"
+											name="tempjob"> <input type="hidden" name="tempemail">
+										<input type="hidden" name="tempphone"> <input
+											type="hidden" name="twareid"> <input type="hidden"
+											name="twarename">
+										<div class="modal-content"></div>
 									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -147,9 +212,34 @@
 		</div>
 	</div>
 
-	<script src="./plugins/raphael/raphael.min.js"></script>
-	<script src="./plugins/morris/morris.min.js"></script>
+
+	<!-- chart.js -->
+	<script src="./plugins/chart.js/Chart.bundle.min.js"></script>
+	<script src="./js/plugins-init/chartjs-init.js"></script>
+
 	<script>
+		// warehouse id list
+		var wareIdList = [ "wh1111", "wh1112", "wh1113", "wh1114" ];
+
+		var rowIdxTarget;
+		
+		function setWareID(w) {
+			var index = w.value.substring(5, 6);
+			index *= 1;
+			$('#wareid').val(wareIdList[index]);
+
+		}
+
+		$( '#resetEmpForm' ).click( function() {
+			$('#empForm').find("input[name=empno]").val("");
+			$('#empForm').find("input[name=empname]").val("");
+			$('#empForm').find("input[name=empjob]").val("");
+			$('#empForm').find("input[name=empemail]").val("");
+			$('#empForm').find("input[name=empphone]").val("");
+			$('#empForm').find("input[name=wareid]").val("");
+			$('#empForm').find("input[name=warename]").val("");
+		} );
+		
 		var getEmpList = function() {
 
 			var empTable = $('#empListBody').DataTable({
@@ -172,73 +262,131 @@
 					data : 'wareid'
 				}, {
 					data : 'warename'
-				} ]
+				}, {
+			        data : null,
+			        render : function ( data, type, row, meta ) {
+			            return '&ensp;&nbsp;<button class="far fa-edit" id="modifyEmpBtn" data-toggle="modal" data-target="#modifyEmp" data-remote="view/modal/modEmp.jsp" style="cursor:pointer;"></button>'
+			            + '&emsp;<button class="fas fa-user-times" id="deleteEmpBtn" style="cursor:pointer;"></button>';  
+			    }}]
 			});
 
 		};
 		
-		$('#addEmp').on('show.bs.modal', function(e) {
+		$(function() {
+			$(document.body).delegate("#modifyEmpBtn","click",function() {
+				rowIdxTarget = $(this).closest("tr").find("td");
+			});
+		});
+		
+		
+		$(function() {
+			$(document.body).delegate("#deleteEmpBtn","click",function() {
+				
+				var result = confirm("정말로 삭제하시겠습니까?");
+				if(result){
+					var empid = $(this).closest("tr").find("td").eq(0).text();
+					
+					$.ajax({
+						type : "post",
+						url : "empdelete.pc?empno="+empid,
+						success : function() { 
+							$('#empListBody').DataTable().ajax.reload();
+							drawPieChart();
+						},
+						error : function(request, status, error) { 
+							console.log("code:" + request.status + "\n"
+									+ "message:" + request.responseText
+									+ "\n" + "error:" + error);
+						}
+					});
+				}
+				
+			});
+		});
+			
+		
+		$('#modifyEmp').on('show.bs.modal', function(e) {
 
 			var button = $(e.relatedTarget);
 			var modal = $(this);
-
-			modal.find('.modal-body').load(button.data("remote"));
 			
+			
+			
+			$(".modal-dialog").find("input[name=tempno]").val(rowIdxTarget.eq(0).text());
+			$(".modal-dialog").find("input[name=tempname]").val(rowIdxTarget.eq(1).text());
+			$(".modal-dialog").find("input[name=tempjob]").val(rowIdxTarget.eq(2).text());
+			$(".modal-dialog").find("input[name=tempemail]").val(rowIdxTarget.eq(3).text());
+			$(".modal-dialog").find("input[name=tempphone]").val(rowIdxTarget.eq(4).text());
+			$(".modal-dialog").find("input[name=twareid]").val(rowIdxTarget.eq(5).text());
+			$(".modal-dialog").find("input[name=twarename]").val(rowIdxTarget.eq(6).text());
+			
+			modal.find('.modal-content').load(button.data("remote"));
 
 		});
-/*
-		$(document).on("mouseenter", "#empListTBody", function() {
-			$('#empListTBody tr').addClass("selectedEmp");
-			$('#empListTBody tr').attr('data-toggle', "modal");
-			$('#empListTBody tr').attr('data-target', "#empCrud");
-			//$('#empListTBody tr').attr('data-remote', "view/modal/empCrud.jsp");
+		/*
+		$(document).on(
+				"mouseenter",
+				"#empListTBody",
+				function() {
+					//$('#empListTBody tr').addClass("selectedEmp");
+					$('#empListTBody tr td modifyEmp').attr('data-toggle', "modal");
+					$('#empListTBody tr td modifyEmp').attr('data-target', "#modifyEmp");
+					$('#empListTBody tr td modifyEmp').attr('data-remote', "view/modal/empInfo.jsp");
 
-		});*/
+				});
+		*/
+		var drawPieChart = function() {
+			$.ajax({
+				type : "post",
+				url : "getempnumbywh.pc",
+				dataType : "text",
+				contentType : "application/json; charset=UTF-8",
+				success : function(response) {
 
-		var drawDonutChart = function(data) {
+					var obj = $.parseJSON(response);
+					
+					var ctx = document.getElementById("doughnutChart");
+					ctx.height = 200;
+					var myChart = new Chart(ctx, {
+						type : 'doughnut',
+						data : {
+							datasets : [ {
+								//data : [ 45, 25, 20, 10 ],
+								data : obj.data,
+								backgroundColor : [ "rgba(117, 113, 249,0.9)",
+										"rgba(117, 113, 249,0.7)",
+										"rgba(117, 113, 249,0.5)",
+										"rgba(144, 104, 190,0.7)" ],
+								hoverBackgroundColor : [ "rgba(117, 113, 249,0.9)",
+										"rgba(117, 113, 249,0.7)",
+										"rgba(117, 113, 249,0.5)",
+										"rgba(144, 104, 190,0.7)" ]
 
-			console.log(data);
-			Morris.Donut({
-				element : 'morris-donut-chart',
-				data : data,
-				resize : true,
-				colors : [ '#4d7cff', '#7571F9', '#9097c4' ]
+							} ],
+							labels : obj.labels
+						},
+						options : {
+							responsive : true
+						}
+					});
+
+				},
+				error : function(request, status, error) {
+					console.log("code:" + request.status + "\n"
+							+ "message:" + request.responseText + "\n"
+							+ "error:" + error);
+				}
 			});
 
 		};
 
-		/*
-		$("#addEmpBtn").on(click : function() {
-							
-		});
-		*/
-		
-		
-		$(document).ready(
-				function() {
-					history.replaceState({}, null, location.pathname);
-					getEmpList();
-
-					//donut chart 그리기
-					$.ajax({
-						type : "post",
-						url : "getempnumbywh.pc",
-						dataType : "text",
-						contentType : "application/json; charset=UTF-8",
-						success : function(response) {
-
-							var data = $.parseJSON(response);
-							drawDonutChart(data);
-
-						},
-						error : function(request, status, error) {
-							console.log("code:" + request.status + "\n"
-									+ "message:" + request.responseText + "\n"
-									+ "error:" + error);
-						}
-					});
-
-				});
+		$(document).ready(function() {
+			history.replaceState({}, null, location.pathname);
+			//donut chart 그리기
+			drawPieChart();
+			getEmpList();
+					
+		});		
 	</script>
 
 </body>

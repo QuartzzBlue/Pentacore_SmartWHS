@@ -69,7 +69,7 @@
                                     <button class="btn login-form__btn submit w-100">Sign In</button>
                                     
                                 </form>
-                                <p class="mt-5 login-form__footer">비밀번호가 기억나지 않는다면  <a href="page-register.html" class="text-primary">관리자(인사팀)</a> 으로 문의해주세요.</p>
+                                <p class="mt-5 login-form__footer">비밀번호가 기억나지 않는다면  <a href="page-register.html" class="text-primary">관리자</a> 에게 문의해주세요.</p>
                             </div>
                         </div>
                     </div>

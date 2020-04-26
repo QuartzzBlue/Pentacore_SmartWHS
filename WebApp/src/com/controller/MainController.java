@@ -56,6 +56,7 @@ public class MainController {
 			session.setAttribute("empno", empCheck.getEmpno());
 			session.setAttribute("empname", empCheck.getEmpname());
 			session.setAttribute("empjob", empCheck.getEmpjob());
+			session.setAttribute("wareid", empCheck.getWareid());
 		}else {
 			System.out.println("뭔가 문제가 이따");
 		}
