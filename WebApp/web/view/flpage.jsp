@@ -89,7 +89,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
 	<script src="js/settings.js"></script>
