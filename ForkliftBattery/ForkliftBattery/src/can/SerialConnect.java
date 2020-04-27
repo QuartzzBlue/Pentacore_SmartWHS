@@ -1,4 +1,4 @@
-package client;
+package can;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -12,55 +12,62 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-public class SerialClient implements SerialPortEventListener{
-	
+public class SerialConnect implements SerialPortEventListener {
+
 	CommPortIdentifier commPortIdentifier;
 	CommPort commPort;
 	InputStream in;
 	BufferedInputStream bin;
 	static String receiveStr;
-	String receiveId;
-	String receiveData;
+	static String receiveId = "10000001";
+	static String receiveData;
 	static OutputStream out;
+	static boolean error = false;
+	static Difference D = new Difference(-1);
+
 	
-	public SerialClient() {
+	
+	public SerialConnect() {
 	}
 
-	public SerialClient(String portName) throws Exception {
+	public SerialConnect(String portName) throws Exception {
+
 		commPortIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+
 		System.out.println("Identified Com Port!");
 		connect();
 		System.out.println("Connect Com Port!");
-		Runnable r = new SerialWrite();
-		Main.executorService.submit(r);
-		System.out.println("SerialWrite Thread Run");
+		Thread SerialStart = new Thread(new SerialWrite());
+		SerialStart.start();
 		System.out.println("Start CAN Network!!!");
+		SerialStart.join();
+		Runnable rSerialWrite = new MySerialWriteThread();
+		Thread th = new Thread(rSerialWrite);
+		th.start();
 	}
-	
+
 	public void connect() throws Exception {
 		if (commPortIdentifier.isCurrentlyOwned()) {
 			System.out.println("Port is currently in use....");
 		} else {
 			commPort = commPortIdentifier.open(this.getClass().getName(), 5000);
-		
+
 			if (commPort instanceof SerialPort) {
 				SerialPort serialPort = (SerialPort) commPort;
 				serialPort.addEventListener(this);
 				serialPort.notifyOnDataAvailable(true);
-				serialPort.setSerialPortParams(921600, // 통신속도
-						SerialPort.DATABITS_8, // 데이터 비트
-						SerialPort.STOPBITS_1, // stop 비트
-						SerialPort.PARITY_NONE); // 패리티
+				serialPort.setSerialPortParams(921600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+						SerialPort.PARITY_NONE);
 				in = serialPort.getInputStream();
 				bin = new BufferedInputStream(in);
 				out = serialPort.getOutputStream();
 			} else {
 				System.out.println("this port is not serial ");
-			} 
-				
+			}
+
 		}
 	}
-	
+
 	@Override
 	public void serialEvent(SerialPortEvent event) {
 		switch (event.getEventType()) {
@@ -81,28 +88,51 @@ public class SerialClient implements SerialPortEventListener{
 					int numBytes = bin.read(readBuffer);
 				}
 				receiveStr = new String(readBuffer);
-				System.out.println("Recieve Data : "+receiveStr);
-				receiveId=receiveStr.substring(4,12);
 				
-				if(receiveId.equals("10000000")){ //working
-					Main.d = -2;
-					System.out.println("Working");
-				}else if (receiveId.equals("10000001")){ //waiting
-					Main.d = -1;
-					System.out.println("Waiting");
-				}else if (receiveId.equals("10000002")) { //charging
-					Main.d = 10;
-					System.out.println("Charging");
+				if (receiveStr.substring(1, 4).equals("U28")) {
+					System.out.println("Recieve Data : " + receiveStr);
+					receiveId = receiveStr.substring(4, 12);
+					D.setD(receiveId);
 				}
+			
 
 			} catch (Exception e) {
 				e.printStackTrace();
+				error = true;
 			}
 			break;
 		}
-	}// serialEvent method
-
-
+	}
 	
+}
+
+class Difference {
+	
+	int d;
+	
+	Difference(){}
+	
+	Difference(int d){
+		this.d = d;
+	}
+	
+	public synchronized void setD(String receiveId) {
+		
+		if (receiveId.equals("10000000")) { // working
+			d = -2;
+			System.out.println("Working");
+		} else if (receiveId.equals("10000001")) { // waiting
+			d = -1;
+			System.out.println("Waiting");
+		} else if (receiveId.equals("10000002")) { // charging
+			d = 10;
+			System.out.println("Charging");
+		}
+
+	}
+	
+	public synchronized int getD() {
+		return d;
+	}
 
 }
