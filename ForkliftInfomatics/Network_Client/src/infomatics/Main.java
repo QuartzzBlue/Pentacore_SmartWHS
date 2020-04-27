@@ -10,20 +10,39 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-		
-		String port;
-		System.out.println("Port Number : ");
-		Scanner sc = new Scanner(System.in);
-		port = sc.nextLine();
-		
-		SerialServer serialServer = new SerialServer(port);
+		Thread makeConnectionThread = new Thread(new makeConnection());
+		makeConnectionThread.start();
 	
-		String address = "70.12.226.134";
-		Client client = new Client(address,8888);
-		//Tablet Server ÀÇ Client
 		
+		//String address = "70.12.226.134";
+		//Client client = new Client(address,8888);
 		
-		
+	}
+}
 
+class makeConnection implements Runnable
+{
+	String port;
+	SerialConnect serialConnect;
+	@Override
+	public void run() {
+		try {
+			System.out.println("Port Number : ");
+			Scanner sc = new Scanner(System.in);
+			port = sc.nextLine();
+			serialConnect = new SerialConnect(port);
+		} catch (Exception e) {
+			while (true) {
+				try {
+					System.out.println("Retry to Connect Port..");
+					System.out.println("Port Number : ");
+					Scanner sc = new Scanner(System.in);
+					port = sc.nextLine();
+					serialConnect = new SerialConnect(port);
+					break;
+				} catch (Exception e1) {
+				}
+			}
+		}
 	}
 }

@@ -5,18 +5,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class SerialWrite implements Runnable {
 
-	static String data;
-	static String sendId = "10000001";
-	static String sendData = "0000000000000000";
-	static String msg = sendId + sendData;
+	String data;
+	String sendId = "10000001";
+	String sendData = "0000000000000000";
+	String msg = sendId + sendData;
 
 	public SerialWrite() {
 		this.data = ":G11A9\r";
 	}
 
-	public SerialWrite(String msg) {
-		this.data = convertData(msg);
+	public SerialWrite(String sendId, String sendData) {
+		this.data = convertData(sendId+sendData);
 	}
+
 	
 	public String convertData(String msg) {
 		msg = msg.toUpperCase();
@@ -38,13 +39,11 @@ public class SerialWrite implements Runnable {
 
 	@Override
 	public void run() {
-		
-		System.out.println("Send : " + data);
-		
+
 		byte[] outData = data.getBytes();
 		try {
 			
-			SerialServer.out.write(outData);
+			SerialConnect.out.write(outData);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
