@@ -16,7 +16,7 @@ public class Battery implements Runnable {
 				if(Status.battery<300) Status.status=2;
 				Status.battery-=1;
 			} else if(Status.status==2) {
-				if(Status.battery>990) Status.status=1;
+				if(Status.battery>980) Status.status=1;
 				Status.battery+=10;
 			}			
 			waitOneSecond();

@@ -14,5 +14,10 @@
     <color name="colorCharging">#DC143C</color>
     <color name="colorwhite">#FFFFFF</color>
 
+    <color name="colorYellow">#F2BE39</color>
+    <color name="colorBlack">#0C0D0D</color>
+    <color name="colorLightGrey">#D8D7D7</color>
+    <color name="colorDarkGrey">#3C3D3E</color>
+    <color name="colorWhite">#E7E5DA</color>
 
 </resources>

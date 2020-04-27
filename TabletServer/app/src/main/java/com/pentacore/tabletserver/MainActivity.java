@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if(!firstFocusOnWindowFlag) return;
-        layoutWarehouseMap = findViewById(R.id.layoutWarehouseMap);
+        layoutWarehouseMap = findViewById(R.id.layoutWarehouseMap4);
         warehouse.setScreenSize(layoutWarehouseMap.getWidth(), layoutWarehouseMap.getHeight());
 
         locateForkLift(forkLiftViewSet1.forkLiftView, 11, 13);

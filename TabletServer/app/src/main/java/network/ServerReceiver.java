@@ -93,7 +93,13 @@ public class ServerReceiver implements Runnable {
                 }
 
 			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
-				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+			    String status = "WAITING";
+			    if(forkLiftFromMsg.getStatus() == 0) {
+			        status = "WORKING";
+                } else if (forkLiftFromMsg.getStatus() == 2) {
+			        status = "CHARGING";
+                }
+				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + status + "로 변경되었습니다.");
 
 				JSONObject jsonObject = new JSONObject();
 				try {
