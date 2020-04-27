@@ -76,7 +76,7 @@
 												<td><span>${fl.forkpurdate }</span></td>
 												<td>${fl.forkmodel}</td>
 												<td>${fl.forklastcheckdate}</td>
-												<td id="flstatus${status.count}">${status.count}</td>
+												<td id="flstatus${status.count}"><span class="badge badge-success">WAITING</span></td>
 												<td>${fl.forkdist}</td>
 											</tr>
 										</c:forEach>
@@ -194,16 +194,16 @@
 		
 	}
 	function printFLStatus(num) {
-		var text = 'null';
+		var text = '';
 		if(num==0) {
-			text = "WORKING";
+			text = '<span class="badge badge-danger">WORKING</span>';
 		} else if (num==1) {
-			text = "WAITING";
+			text = '<span class="badge badge-success">WAITING</span>';
 		} else if (num==2) {
-			text = "CHARGING";
+			text = '<span class="badge badge-info">CHARGING</span>';
 		}
 		
-		return text
+		return text;
 	}
 	
 
@@ -211,21 +211,9 @@
 		setInterval(function() {
 			console.log(forkliftstatus())}, 3000);
 		}
+		
 	);
-	/*
-  	function forkdistadd(){ 
-  		console.log("===forkdistadd===");
-  		console.log(forkliftstatus(data));
-  		var map = new Map(JSON.parse(forkliftstatus()));
-  		var status = map.get(status);
-  		var distanceDriven = map.get(distanceDriven);
-  		
-  		if(status == 1){
-  			distanceDriven += distanceDriven;
-  		}
-  		console.log("총 주행거리는" + distanceDriven)
-  	}
-	*/
+
   	
   	
 

@@ -29,8 +29,9 @@
 <!-- Chartist -->
 <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
 <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+
 <!-- Custom Stylesheet -->
-<link href="css/style.css?213" rel="stylesheet">
+<link href="css/style.css?9sdsdf" rel="stylesheet">
 
 
 <!-- Page plugins css -->
@@ -50,7 +51,42 @@
 	href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
 	
+<style type="text/css">
+body {
+	background-color: lightgray;
+}
+.header-right ul>li span{
+	font-family: CenturyGothic;
+	color : #E7E5DA;
+}
+.header-right ul>li i{
+	color : #E7E5DA;
+	font-size: 1.3rem;
+}
+.header-right ul>li #loginUserN{
+	font-family: CenturyGothic;
+	color : #EFC638;
+	
+}
+/*
+.header-menu a{
+	font-family: CenturyGothic;
+}*/
+/*
+.header-menu span{
+	width: 60%;
+}
+.header-menu span a{
+	width: 50px;
+	margin : 0px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top:20px;
+	padding-bottom:20px;
+	border : 1px solid lightgray;
+}*/
 
+</style>
 </head>
 
 <body>
@@ -83,9 +119,9 @@
 		<div class="nav-header">
 			<div class="brand-logo">
 				<a href="index.html"> <b class="logo-abbr"><img
-						src="images/logo.png" alt=""> </b> <span class="logo-compact"><img
-						src="./images/logo-compact.png" alt=""></span> <span
-					class="brand-title"> <img src="images/logo-text.png" alt="">
+						src="images/SWM.png" alt=""> </b> <span class="logo-compact"><img
+						src="images/SWM.png" alt=""></span> <span
+					class="brand-title">  <img src="images/MySWM03.png" alt="" height="47px"> 
 				</span>
 				</a>
 			</div>
@@ -107,20 +143,20 @@
 
 			<div class="header-menu">
 				<span> <!-- 상품 입출고 --> <a href="itpage.pc"
-					aria-expanded="false" class="header-menu-list"> <i
-						class="icon-note menu-icon"></i> <span class="nav-text">Stock</span>
+					aria-expanded="false" class="header-menu-list-first"> <i
+						class="icon-note menu-icon"></i> <span class="nav-text">STOCK</span>
 				</a> <!-- 지게차 관리 --> <a href="flpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-speedometer menu-icon"></i>
-						<span class="nav-text">Forklift</span>
+						<span class="nav-text">FORKLIFT</span>
 				</a> <!-- 솔루션 --> <a href="solpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-globe-alt menu-icon"></i>
-						<span class="nav-text">Solution</span>
+						<span class="nav-text">SOLUTION</span>
 				</a><!-- 직원 관리 페이지 --> 
 						<c:choose>
 							<c:when test="${empjob eq '관리자'}">
 								<a href="emppage.pc" aria-expanded="false"
-									class="header-menu-list"> <i class="icon-user menu-icon"></i>
-									<span class="nav-text">Employee</span>
+									class="header-menu-list-last"> <i class="icon-user menu-icon"></i>
+									<span class="nav-text">EMPLOYEE</span>
 								</a>
 							</c:when>
 							
@@ -139,19 +175,17 @@
 			<div class="header-right">
 				<ul class="clearfix">
 					<!-- 메일박스 -->
-					<li class="icons dropdown"><a href="javascript:void(0)"
-						data-toggle="dropdown"> <i class="mdi mdi-email-outline"></i>
+					<li class="icons dropdown"><i class="mdi mdi-email-outline"></i>
 							<!-- <span class="badge badge-pill gradient-1">3</span> -->
-					</a></li>
+					</li>
 					<!-- 알림 -->
-					<li class="icons dropdown"><a href="javascript:void(0)"
-						data-toggle="dropdown"> <i class="mdi mdi-bell-outline"></i> <!-- <span class="badge badge-pill gradient-2">3</span> -->
-					</a></li>
+					<li class="icons dropdown"><i class="mdi mdi-bell-outline"></i> <!-- <span class="badge badge-pill gradient-2">3</span> -->
+					</li>
 					
 					<li class = "icons">
 						<c:choose>
 							<c:when test="${empno != null}">
-								${empname} 님 환영합니다.
+								<span id="loginUserN" >${empname}</span> <span>&nbsp;님 환영합니다.</span>
 							</c:when>
 							
 							<c:otherwise>

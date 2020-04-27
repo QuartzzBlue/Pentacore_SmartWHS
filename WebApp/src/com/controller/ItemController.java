@@ -142,14 +142,17 @@ public class ItemController {
 
 	@RequestMapping("/invoiceregister.pc")
 	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson, HttpServletRequest request) {
+		// Location HashMap이 로드 안 된 경우
 		if(itNameMapper == null) {
 			itNameMapper = new ItemNameMapper();
 		}
-		
-		System.out.println(request.getParameter("empno") + ", " + request.getParameter("empname"));
-		System.out.println(ivJson);
+//		String empno = request.getParameter("empno");
+//		String empname = request.getParameter("empname");
+//		System.out.println("****" + request.getParameter("empno") + ", " + request.getParameter("empname"));
+//		System.out.println(ivJson);
 		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
 		String response = null;
+		
 		try {
 			JSONArray ivArr = new JSONArray(ivJson);
 			for (int i = 0; i < ivArr.length(); i++) {
@@ -162,8 +165,6 @@ public class ItemController {
 				ivd.setInvoicedtlqty(Integer.parseInt((String) temp.get("invoicedtlqty")));
 				ivd.setInvoicestat((String) temp.get("invoicestat"));
 				//****************수정된 부분*********************
-				ivd.setEmpno(request.getParameter("empno"));
-				ivd.setEmpname(request.getParameter("empname"));
 				ivdList.add(ivd);
 
 				//item location 가져오기 
@@ -184,7 +185,8 @@ public class ItemController {
 			
 			InvoiceVO newInvoice = new InvoiceVO();
 			newInvoice.setDtllist(ivdList);
-
+			newInvoice.setEmpno(request.getParameter("empno"));
+			newInvoice.setEmpname(request.getParameter("empname"));
 			invservice.insert(newInvoice);
 			
 			response = "SUCCESS";
@@ -206,14 +208,14 @@ public class ItemController {
 		String startdate = request.getParameter("sd");
 		String enddate = request.getParameter("ed");
 		
-		System.out.println("empno : " + empno + "empname : " + empname + "sd : " + startdate + ", ed : " + enddate);
+		System.out.println("empno : " + empno + ". empname : " + empname + ", sd : " + startdate + ", ed : " + enddate);
 		
 		ArrayList<InvoiceVO> invList = null;
 		InvoiceVO temp = new InvoiceVO();
 		temp.setStartdate(startdate);
 		temp.setEnddate(enddate);
 		temp.setEmpno(empno);
-		temp.setEmpno(empname);
+		temp.setEmpname(empname);
 		try {
 			invList = invservice.selectAll(temp);
 		} catch (Exception e) {

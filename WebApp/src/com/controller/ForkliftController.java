@@ -47,10 +47,10 @@ public class ForkliftController {
 		
 		//밑에는 예시고 JSON 형태안에 JSON을 또담아서 id와 distance가 변수 하나로 갈 수 있게끔 하자
 		JSONObject distInput = new JSONObject();
-		distInput.put("forklift1", "[74254, 72345, 62341, 58903, 72345, 63452, 67543]");
-		distInput.put("forklift2", "[68315, 76473, 73245, 75334, 68432, 69450, 71435]");
-		distInput.put("forklift3", "[73621, 67258, 73589, 82351, 77127, 72357, 80032]");
-		distInput.put("forklift4", "[62318, 76235, 67542, 75611, 73012, 73516, 74525]");
+		distInput.put("forklift1", "[74254, 43445, 62341, 58903, 72345, 63452, 67543]");
+		distInput.put("forklift2", "[68315, 76473, 73245, 75334, 68432, 34260, 71435]");
+		distInput.put("forklift3", "[73621, 67258, 73589, 82351, 52127, 72357, 80032]");
+		distInput.put("forklift4", "[62318, 76235, 67542, 45611, 73012, 73516, 74525]");
 		
 		PrintWriter out = res.getWriter();
 		System.out.println("distInput is " +distInput.toJSONString());
