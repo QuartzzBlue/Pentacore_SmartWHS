@@ -23,6 +23,7 @@ class Receiver implements Runnable {
 	static int status = 2; // waiting
 	static Task task;
 	String loc;
+	String sendData;
 
 	public Receiver() {
 	}
@@ -54,7 +55,6 @@ class Receiver implements Runnable {
 							+ msg.getTask().getLocY() + " itemName : " + msg.getTask().getName() + " Qty : "
 							+ msg.getTask().getQty());
 
-					SerialWrite.sendId = "10000000";
 					if (msg.getTask().getLocX() < 10) {
 						loc = "0" + msg.getTask().getLocX();
 					} else {
@@ -66,11 +66,13 @@ class Receiver implements Runnable {
 					} else {
 						loc += msg.getTask().getLocX() + "";
 					}
+					
+					SerialConnect.tmpId = "10000000";
 
-					SerialWrite.sendData = SerialWrite.sendData.substring(0,SerialWrite.sendData.length()-loc.length())+loc;
-					Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
+					sendData = sendData.substring(0,sendData.length()-loc.length())+loc;
+					Runnable r = new SerialWrite("10000000",sendData);
 					Main.executorService.submit(r);
-					SerialServer.tmpid = SerialWrite.sendId;
+					
 					
 				}
 
