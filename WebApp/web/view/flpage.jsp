@@ -76,8 +76,8 @@
 												<td><span>${fl.forkpurdate }</span></td>
 												<td>${fl.forkmodel}</td>
 												<td>${fl.forklastcheckdate}</td>
-												<td id="flstatus${status.count}">${status.count}</td>
-												<td>${fl.forkdist}</td>
+												<td id="flstatus${status.count}"><span class="badge badge-success">WAITING</span></td>
+												<td id="fldist${status.count}">${fl.forkdist}</td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -89,7 +89,6 @@
 			</div>
 		</div>
 	</div>
-	</div>
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
 	<script src="js/settings.js"></script>
@@ -100,7 +99,6 @@
 
 	<script
 		src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
-	<!-- <script src="./js/plugins-init/chartist.init.js"></script> -->
 	<script>
 
     
@@ -138,7 +136,7 @@
 			  	      axisY: {
 			  	        offset: 80,
 			  	        labelInterpolationFnc: function(value) {
-			  	          return value + ' m'
+			  	          return (value/10) + ' m'
 			  	        },
 			  	        scaleMinSpace: 15
 			  	      },
@@ -171,8 +169,7 @@
 			//contentType : "/json; charset=UTF-8",
 			success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
 				
-				console.log("success");
-			  	console.log(data);
+				console.log(data);
 			  	var json = eval('('+data+')');
 			  	console.log(eval('('+json.forklift1+')').status);
 			  	$('#flstatus1').html(printFLStatus(eval('('+json.forklift1+')').status));
@@ -183,7 +180,7 @@
 			  	console.log(eval('('+json.forklift4+')').status);
 			  	$('#flstatus4').html(printFLStatus(eval('('+json.forklift4+')').status));
 			  	 
-			  	$('#flDistanceDriven').html(eval('('+json.forklift1+')').distanceDriven)
+			  	//$('#flDistanceDriven').html(eval('('+json.forklift1+')').distanceDriven)
 			  	
 			},
 			error : function(e) { 
@@ -193,39 +190,71 @@
 		});
 		
 	}
+	
+	function forkliftdistance(){
+	  	var flstatus;
+	  	var forklift1 = {};
+	  	var forklift2 = {};
+	  	var forklift3 = {};
+	  	var forklift4 = {};
+	  	
+		$.ajax({
+			url : "getDist.pc", //URL 주소
+			//contentType : "/json; charset=UTF-8",
+			success : function(data) { //응답이 성공 상태 코드를 반환하면 호출되는 함수
+				
+			  	
+			  	 
+			  	console.log("**dist1 : " + data.forklift1 );
+			  	console.log("**dist2 : " + data.forklift2 );
+			  	console.log("**dist3 : " + data.forklift3 );
+			  	console.log("**dist4 : " + data.forklift4 );
+			  	
+			  	console.log(data.forklift1);
+			  	$('#fldist1').html(data.forklift1);
+			  	console.log(data.forklift2);
+			  	$('#fldist2').html(data.forklift2);
+			  	console.log(data.forklift3);
+			  	$('#fldist3').html(data.forklift3);
+			  	console.log(data.forklift4);
+			  	$('#fldist4').html(data.forklift4);
+			  	//$('#flDistanceDriven').html(eval('('+json.forklift1+')').distanceDriven)
+			  	
+			},
+			error : function(e) { 
+				console.log("에러는"   +e.responseText);
+			}
+			
+		});
+		
+	}
+	
 	function printFLStatus(num) {
-		var text = 'null';
+		console.log("!!");
+		var text = '';
 		if(num==0) {
-			text = "WORKING";
+			text = '<span class="badge badge-danger">WORKING</span>';
 		} else if (num==1) {
-			text = "WAITING";
+			text = '<span class="badge badge-success">WAITING</span>';
 		} else if (num==2) {
-			text = "CHARGING";
+			text = '<span class="badge badge-info">CHARGING</span>';
 		}
 		
-		return text
+		return text;
 	}
 	
 
 	$(document).ready(function() {
 		setInterval(function() {
-			console.log(forkliftstatus())}, 3000);
-		}
-	);
-	/*
-  	function forkdistadd(){ 
-  		console.log("===forkdistadd===");
-  		console.log(forkliftstatus(data));
-  		var map = new Map(JSON.parse(forkliftstatus()));
-  		var status = map.get(status);
-  		var distanceDriven = map.get(distanceDriven);
-  		
-  		if(status == 1){
-  			distanceDriven += distanceDriven;
-  		}
-  		console.log("총 주행거리는" + distanceDriven)
-  	}
-	*/
+			forkliftstatus()
+		}, 3000);
+		
+		setInterval(function() {
+			forkliftdistance()
+		}, 3000);
+		
+	});
+
   	
   	
 

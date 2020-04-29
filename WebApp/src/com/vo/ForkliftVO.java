@@ -8,12 +8,12 @@ public class ForkliftVO {
 	Date forkpurdate;
 	String forkmodel;
 	Date forklastcheckdate;
-	int forkdist;
+	long forkdist;
 	
 	public ForkliftVO() {}
 	
 	public ForkliftVO(String forkid, String wareid, Date forkpurdate, String forkmodel, Date forklastcheckdate,
-			int forkdist) {
+			long forkdist) {
 		this.forkid = forkid;
 		this.wareid = wareid;
 		this.forkpurdate = forkpurdate;
@@ -51,10 +51,10 @@ public class ForkliftVO {
 	public void setForklastcheckdate(Date forklastcheckdate) {
 		this.forklastcheckdate = forklastcheckdate;
 	}
-	public int getForkdist() {
+	public long getForkdist() {
 		return forkdist;
 	}
-	public void setForkdist(int forkdist) {
+	public void setForkdist(long forkdist) {
 		this.forkdist = forkdist;
 	}
 	@Override
