@@ -324,18 +324,7 @@
 			modal.find('.modal-content').load(button.data("remote"));
 
 		});
-		/*
-		$(document).on(
-				"mouseenter",
-				"#empListTBody",
-				function() {
-					//$('#empListTBody tr').addClass("selectedEmp");
-					$('#empListTBody tr td modifyEmp').attr('data-toggle', "modal");
-					$('#empListTBody tr td modifyEmp').attr('data-target', "#modifyEmp");
-					$('#empListTBody tr td modifyEmp').attr('data-remote', "view/modal/empInfo.jsp");
-
-				});
-		*/
+		
 		var drawPieChart = function() {
 			$.ajax({
 				type : "post",

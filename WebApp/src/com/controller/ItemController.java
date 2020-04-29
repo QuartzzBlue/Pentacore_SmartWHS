@@ -2,7 +2,9 @@ package com.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ import server.Sender;
 
 @Controller
 public class ItemController {
+	
 	@Resource(name = "itservice")
 	Service<ItemVO> itservice;
 
@@ -55,6 +58,11 @@ public class ItemController {
 	public String itemregister(ModelAndView mv, ItemVO newItem) {
 
 		System.out.println("**" + newItem.toString());
+		
+		//바코드 넘버 생성
+		String itemid = generateBarcode();
+		newItem.setItemid(itemid);
+		
 		try {
 			itservice.insert(newItem);
 		} catch (Exception e) {
@@ -146,10 +154,7 @@ public class ItemController {
 		if(itNameMapper == null) {
 			itNameMapper = new ItemNameMapper();
 		}
-//		String empno = request.getParameter("empno");
-//		String empname = request.getParameter("empname");
-//		System.out.println("****" + request.getParameter("empno") + ", " + request.getParameter("empname"));
-//		System.out.println(ivJson);
+
 		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
 		String response = null;
 		
@@ -240,27 +245,7 @@ public class ItemController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		//System.out.println(invList.get(1).getInvoicedate());
 		return invdtlList;
-
-//		JSONArray ja = new JSONArray();
-//		for (InvoiceVO i : invList) {
-//			JSONObject json = new JSONObject();
-//			json.put("invoiceid", i.getInvoiceid());
-//			json.put("empno", i.getEmpno());
-//			json.put("empname", i.getEmpname());
-//			json.put("invoicedate", i.getInvoicedate());
-//			ja.put(json);
-//		}
-		
-//		rs.setContentType("text/html; charset=utf-8");
-//		PrintWriter out;
-//		try {
-//			out = rs.getWriter();
-//			out.print(ja.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	public void sendTask(String ivStat, String itName, int ivQty, String itLoc) {
@@ -293,6 +278,21 @@ public class ItemController {
 		Main.executorService.execute(r);
 		//로그 찍기
 		logger.info(itName + " " + xPoint + " " + yPoint);
+		
+	}
+	
+	public String generateBarcode() {
+		SimpleDateFormat form = new SimpleDateFormat ( "yyyyMM");
+		Date temp = new Date();
+		String barcode = form.format(temp);
+		barcode += (char)((Math.random() * 26) + 65);
+		for(int i = 0; i < 3; i++) {
+			int iValue = (int) (Math.random()*9);
+			barcode += iValue;
+		}
+		System.out.println("Barcode : "+ barcode);
+		
+		return barcode;
 		
 	}
 

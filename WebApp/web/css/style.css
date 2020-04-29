@@ -160,7 +160,7 @@ body {
 	line-height: 1.5;
 	color: #6D6B65;
 	text-align: left;
-	background-color: ##D8D7D7;
+	background-color: #E0E0E0;
 }
 
 [tabindex="-1"]:focus {
@@ -9715,6 +9715,7 @@ sub {
 
 .content-body .container-fluid {
 	padding: 15px 30px 0;
+	background-color : #D3D3D3;
 }
 /*
 @media ( max-width : 767px) {
@@ -10753,7 +10754,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 	}
 }
 
-/*.nk-sidebar {
+.nk-sidebar {
   wid th: 15.1875rem;
   padd ing-bottom: 112px;
   heig ht: 100%;
@@ -10849,7 +10850,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 .metismenu .active > .has-arrow:after, .metismenu .has-arrow[aria-expanded=true]:after {
   transform: rotate(225deg) translateY(-50%);
   -webkit-transform: rotate(225deg) translateY(-50%); }
-*/
+
 @media ( max-width : 767px) {
 	.nav-header {
 		width: 3.75rem;
@@ -11547,7 +11548,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 		width: calc(1199px - 3.75rem);
 	}
 }
-/*
+
 @media (min-width: 767px) {
   [data-sidebar-style="compact"] .nk-sidebar {
     width: 9.375rem; }
@@ -11564,7 +11565,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     padding-left: 9.375rem; }
   [data-sidebar-style="compact"] .content-body {
     margin-left: 9.375rem; } }
-*/
+
 [data-layout="vertical"][data-sidebar-style="compact"] .nk-sidebar .metismenu ul ul a
 	{
 	padding: 0.625rem 0.9375rem;

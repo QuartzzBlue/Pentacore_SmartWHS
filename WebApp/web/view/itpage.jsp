@@ -33,6 +33,14 @@
 	border-bottom : 1px solid #DEE2E6;
 	background-color : F2F2F2;
 }
+th{
+	font-size : 17px;
+}
+
+td{
+	height : 55px;
+	font-size : 13px;
+}
 </style>
 </head>
 
@@ -48,7 +56,7 @@
 						<div class="card-body">
 						
 							<div class="card-title">
-								<h4>Product Register</h4><div data-toggle="tooltip" data-placement="right" title="입/출고를 진행할 아이템을 등록합니다."><button class="fas fa-question-circle"></button></div>
+								<h4>Product Register</h4><div data-toggle="tooltip" data-placement="right" title="입/출고를 진행할 아이템을 등록합니다. Item ID는 자동으로 생성됩니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
@@ -64,7 +72,6 @@
 													<th>Weight<span class="text-danger">*</span></th>
 													<th>Qty<span class="text-danger">*</span></th>
 													<th>Warehouse<span class="text-danger" >*</span></th>
-													<!-- <th>Warehouse Name<span class="text-danger">*</span></th> -->
 													<th>Location<span class="text-danger">*</span></th>
 												</tr>
 											</thead>
@@ -72,7 +79,7 @@
 
 												<tr id = "registeritList">
 													<td><input type="text" class="form-control"
-														id="itemid" name="itemid" placeholder="상품 ID" required></td>
+														id="itemid" name="itemid" style="width: 120px;" placeholder="Auto-Generated" readonly></td>
 													<td><input type="text" class="form-control"
 														id="itemname" name="itemname" placeholder="상품명"
 														style="width: 115px;" required></td>
@@ -101,8 +108,9 @@
 															<option value="ware03">이천 제2물류창고</option>
 													</select></div></td>
 													
-													<td id = "modalTd"><input type="text" class="form-control" id="itemloc"
-														name="itemloc" placeholder="위치" style="width : 80px"readonly>
+													<td id = "modalTd" style="height:70px;">
+													<input type="text" class="form-control" id="itemloc"
+														name="itemloc" placeholder="위치" readonly>
 														
 														<!-- ----------Modal-------- -->
 														<i class="mdi mdi-magnify" id="mdi-search" 
@@ -121,9 +129,9 @@
 																	</div>
 																	<div class="modal-body"></div>
 																	<div class="modal-footer">
-																		<!-- <button type="button" class="btn btn-secondary"
-																			data-dismiss="modal">Close</button> -->
-																		<button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+																		<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal" style="margin-left : 7px;">Close</button>
+																		<button type="button" id="confirmItLoc" class="btn btn-primary">Confirm</button>
 																	</div>
 																</div>
 															</div>
@@ -172,9 +180,9 @@
 											<th>Item ID</th>
 											<th>Item Name</th>
 											<th>Category</th>
-											<th>Price (KRW/box)</th>
-											<th>Weight (KG/box)</th>
-											<th>Qty (per box)</th>
+											<th>Price</th>
+											<th>Weight</th>
+											<th>Qty</th>
 											<th>Warehouse ID</th>
 											<th>Warehouse Name</th>
 											<th>Location</th>
@@ -349,58 +357,7 @@
 					</div>
 				</div>
 			</div>
-<!-- Table 
-			<div class="row">
-				
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-body">
-							<div class="card-title">
-								<h4>Product list</h4>
-							</div>
-							<div class="table-responsive">
-								<table class="table table-xs mb-0">
-									<thead>
-										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
-											<th>Category</th>
-											<th>Price (KRW/box)</th>
-											<th>Weight (KG/box)</th>
-											<th>Quantity (per box)</th>
-											<th>Warehouse Name</th>
-											<th>Location</th>
-											<th>Stock</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Sarah Smith</td>
-											<td>iPhone X</td>
-											<td><span>United States</span></td>
-											<td>
-												<div>
-													<div class="progress" style="height: 6px">
-														<div class="progress-bar bg-success" style="width: 50%"></div>
-													</div>
-												</div>
-											</td>
-											<td><i class="fa fa-circle-o text-success  mr-2"></i>
-												Paid</td>
-											<td><span>Last Login</span> <span class="m-0 pl-3">10 sec ago</span>
-											</td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
 
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>-->
 		</div>
 		<!-- / container-fluid mt-3 -->
 		<!-- #/ container -->
@@ -439,7 +396,20 @@
 			
 
 		});
-
+		
+		
+		$( '#confirmItLoc' ).click( function() {
+			console.log('data : ' + itemPosition);
+			if(itemPosition == null){
+				alert("자리를 선택해 주세요!");
+			}else{
+				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+				$('#theModal').modal('hide');
+				$(".modal-backdrop").remove();
+			}
+			
+		} );
+/*
 		$('#theModal').on('hide.bs.modal', function() {
 			console.log('data : ' + itemPosition);
 			if(itemPosition == null){
@@ -449,7 +419,8 @@
 			}
 			
 		})
-		
+*/
+
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function() {
 			$(document.body).delegate(".selectedItList", "click", function() {
@@ -506,8 +477,10 @@
 		// Delete item from invoice
 		$(function() {
 			$(document.body).delegate(".deleteIvItem", "click", function() {
+				
 				var idx = $(this).closest("tr").find("td").eq(0).text();
-				jsonInvoice.splice(idx, 1);
+				var temp = idx.split('');
+				jsonInvoice.splice(temp[1], 1);
 
 				updateIvDetail();
 
@@ -582,6 +555,7 @@
 									*/
 									/* dataTable 전체 업데이트 */
 									$('#itListBody').DataTable().ajax.reload();
+									$("#setItInfo").find("select[name=invoicestat]").find('option:first').attr('selected', 'selected');
 									
 									} else if (token = "ERROR") {
 										

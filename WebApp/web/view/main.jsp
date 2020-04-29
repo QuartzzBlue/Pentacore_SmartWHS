@@ -18,8 +18,14 @@
 <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
 
 <!-- Bootstrap -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 	
+	
+<link rel="stylesheet" href="css/hamburger.css?1" />
+
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
 	href="images/favicon.png">
@@ -28,10 +34,11 @@
 	rel="stylesheet">
 <!-- Chartist -->
 <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-<link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+<link rel="stylesheet"
+	href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
 
 <!-- Custom Stylesheet -->
-<link href="css/style.css?9sdsdf" rel="stylesheet">
+<link href="css/style.css?qwefsdsfddsfs" rel="stylesheet">
 
 
 <!-- Page plugins css -->
@@ -50,24 +57,38 @@
 <link
 	href="./plugins/tables/css/datatable/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
-	
+
 <style type="text/css">
 body {
 	background-color: lightgray;
 }
-.header-right ul>li span{
+
+.header-right ul>li span {
 	font-family: CenturyGothic;
-	color : #E7E5DA;
+	color: #E7E5DA;
 }
-.header-right ul>li i{
-	color : #E7E5DA;
+
+.header-right ul>li i {
+	color: #E7E5DA;
 	font-size: 1.3rem;
 }
-.header-right ul>li #loginUserN{
+
+.header-right ul>li #loginUserN {
 	font-family: CenturyGothic;
-	color : #EFC638;
-	
+	color: #EFC638;
 }
+
+.nav-header .brand-logo a {
+	padding: 1.7rem 2.5rem;
+	display: block;
+}
+
+@media ( min-width: 1300px ) {
+	.nav-header{
+		width : 15.1234rem;
+	}
+}
+
 /*
 .header-menu a{
 	font-family: CenturyGothic;
@@ -85,7 +106,6 @@ body {
 	padding-bottom:20px;
 	border : 1px solid lightgray;
 }*/
-
 </style>
 </head>
 
@@ -119,9 +139,9 @@ body {
 		<div class="nav-header">
 			<div class="brand-logo">
 				<a href="index.html"> <b class="logo-abbr"><img
-						src="images/SWM.png" alt=""> </b> <span class="logo-compact"><img
-						src="images/SWM.png" alt=""></span> <span
-					class="brand-title">  <img src="images/MySWM03.png" alt="" height="47px"> 
+						src="images/MS.png" alt=""> </b> <span class="logo-compact" height="35px"><img
+						src="images/MS.png" alt="" height="35px"></span> <span class="brand-title">
+						<img src="images/MySWM01_i.png" alt="" height="35px">
 				</span>
 				</a>
 			</div>
@@ -135,36 +155,44 @@ body {
             Header start
         ***********************************-->
 		<div class="header">
-
+			<div class="spinner-master">
+			    <input type="checkbox" id="spinner-form" />
+			    <label for="spinner-form" class="spinner-spin">
+			    <div class="spinner diagonal part-1"></div>
+			    <div class="spinner horizontal"></div>
+			    <div class="spinner diagonal part-2"></div>
+			    </label>
+			  </div>
 
 			<!--**********************************
 		           Menu start
 		        ***********************************-->
 
-			<div class="header-menu">
-				<span> <!-- 상품 입출고 --> <a href="itpage.pc"
+			<div id="menu" class="header-menu menu">
+				 <!-- 상품 입출고 --> <a href="itpage.pc"
 					aria-expanded="false" class="header-menu-list-first"> <i
-						class="icon-note menu-icon"></i> <span class="nav-text">STOCK</span>
-				</a> <!-- 지게차 관리 --> <a href="flpage.pc" aria-expanded="false"
+						class="icon-note menu-icon"></i> <span class="nav-text">STOCK</span></a>
+						
+				 <!-- 지게차 관리 --> <a href="flpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-speedometer menu-icon"></i>
-						<span class="nav-text">FORKLIFT</span>
-				</a> <!-- 솔루션 --> <a href="solpage.pc" aria-expanded="false"
+						<span class="nav-text">FORKLIFT</span></a>
+						
+						<!-- 솔루션 --> <a href="solpage.pc" aria-expanded="false"
 					class="header-menu-list"> <i class="icon-globe-alt menu-icon"></i>
-						<span class="nav-text">SOLUTION</span>
-				</a><!-- 직원 관리 페이지 --> 
-						<c:choose>
-							<c:when test="${empjob eq '관리자'}">
-								<a href="emppage.pc" aria-expanded="false"
-									class="header-menu-list-last"> <i class="icon-user menu-icon"></i>
-									<span class="nav-text">EMPLOYEE</span>
-								</a>
-							</c:when>
-							
-							<c:otherwise>
-							</c:otherwise>
-						</c:choose>
-					
-				</span>
+						<span class="nav-text">SOLUTION</span></a>
+				
+				<!-- 직원 관리 페이지 --> <c:choose>
+						<c:when test="${empjob eq '관리자'}">
+							<a href="emppage.pc" aria-expanded="false"
+								class="header-menu-list-last"> <i
+								class="icon-user menu-icon"></i> <span class="nav-text">EMPLOYEE</span>
+							</a>
+						</c:when>
+				
+						<c:otherwise>
+						</c:otherwise>
+					</c:choose>
+				
 			</div>
 
 			<!--**********************************
@@ -176,44 +204,28 @@ body {
 				<ul class="clearfix">
 					<!-- 메일박스 -->
 					<li class="icons dropdown"><i class="mdi mdi-email-outline"></i>
-							<!-- <span class="badge badge-pill gradient-1">3</span> -->
-					</li>
+						<!-- <span class="badge badge-pill gradient-1">3</span> --></li>
 					<!-- 알림 -->
-					<li class="icons dropdown"><i class="mdi mdi-bell-outline"></i> <!-- <span class="badge badge-pill gradient-2">3</span> -->
-					</li>
-					
-					<li class = "icons">
+					<li class="icons dropdown"><i class="mdi mdi-bell-outline"></i>
+						<!-- <span class="badge badge-pill gradient-2">3</span> --></li>
+
+					<li class="icons">
 						<c:choose>
 							<c:when test="${empno != null}">
-								<span id="loginUserN" >${empname}</span> <span>&nbsp;님 환영합니다.</span>
+								<span id="loginUserN">${empname}</span>
+								<span>&nbsp;님 환영합니다.</span>
 							</c:when>
-							
+
 							<c:otherwise>
 							</c:otherwise>
 						</c:choose>
 					</li>
 					<!-- 개인 아이콘 -->
 					<li class="icons">
-						<div class="user-img c-pointer position-relative dropdown">
-							<span class="activity active"></span> 
-							<img src="images/user/1.png" height="40" width="40" alt="dropdown-toggle" data-toggle="dropdown">
-						</div>
-						<div class="animated fadeIn dropdown-menu">
-							<div class="dropdown-content-body">
-								<ul>
-									<li><a href="app-profile.html"><i class="icon-user"></i>
-											<span>Profile</span></a></li>
-									<li><a href="javascript:void()"> <i
-											class="icon-envelope-open"></i> <span>Inbox</span>
-											<div class="badge gradient-3 badge-pill gradient-1">3</div>
-									</a></li>
-
-									<li><a href="page-lock.html"><i class="icon-lock"></i>
-											<span>Lock Screen</span></a></li>
-									<li><a href="page-login.html"><i class="icon-key"></i>
-											<span>Logout</span></a></li>
-								</ul>
-							</div>
+						<div class="user-img c-pointer">
+							<span class="activity active"></span> <img
+								src="images/user/1.png" height="40" width="40"
+								alt="dropdown-toggle" data-toggle="dropdown">
 						</div>
 					</li>
 				</ul>
@@ -223,9 +235,7 @@ body {
 	<!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
-
-
+	
 	<!--**********************************
             Content body start <Center>
         ***********************************-->
@@ -267,9 +277,9 @@ body {
 	<!--**********************************
         Scripts
     ***********************************-->
-    
-    
-    <script src="plugins/common/common.min.js"></script>
+
+
+	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
 	<script src="js/settings.js"></script>
 	<script src="js/gleek.js"></script>
@@ -281,7 +291,7 @@ body {
 	<!-- Circle progress 
 	<script src="./plugins/circle-progress/circle-progress.min.js"></script>-->
 
-	
+
 	<!-- Morrisjs -->
 	<script src="./plugins/raphael/raphael.min.js"></script>
 	<script src="./plugins/morris/morris.min.js"></script>
@@ -294,37 +304,40 @@ body {
 		src="./plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js"></script>
 
 	<script src="./js/dashboard/dashboard-1.js"></script>
-	
+
 
 
 	<script src="./plugins/moment/moment.js"></script>
-	
+
 	<!-- Clock Plugin JavaScript -->
 	<script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
 	<!-- Color Picker Plugin JavaScript -->
-	 <script
+	<script
 		src="./plugins/jquery-asColorPicker-master/libs/jquery-asColor.js"></script>
 	<script
 		src="./plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js"></script>
 	<script
 		src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
-	
-	
+
+
 	<!-- Date Picker Plugin JavaScript -->
 	<script
 		src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script
 		src="./plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
-	<script src="./js/plugins-init/form-pickers-init.js"></script>\
-	
-    
+	<script src="./js/plugins-init/form-pickers-init.js"></script>
+	\
+
+
 	<!-- Table -->
 	<script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
 	<!--<script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>  -->
-	<script src="./plugins/tables/js/datatable-init/datatable-basic.min.js?12"></script>
+	<script
+		src="./plugins/tables/js/datatable-init/datatable-basic.min.js?12"></script>
 	<script src="./plugins/tables/js/datatable-init/datatable-api.min.js"></script>
-	<script src="./plugins/tables/js/datatable-init/datatable-styling.min.js"></script>
-	
+	<script
+		src="./plugins/tables/js/datatable-init/datatable-styling.min.js"></script>
+
 
 	<!-- Modal -->
 	<script
