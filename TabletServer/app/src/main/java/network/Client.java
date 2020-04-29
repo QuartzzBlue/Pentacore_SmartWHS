@@ -41,7 +41,7 @@ public class Client implements Runnable {
 
         } catch (Exception outerE) {
             System.out.println("Exception while making socket at Client.java");
-//            outerE.printStackTrace();
+            outerE.printStackTrace();
             while (true) {
                 System.out.println("Retry to make socket at Client.java");
                 MainActivity.printConsole("Retry to make socket at Client.java");
@@ -53,7 +53,7 @@ public class Client implements Runnable {
                     break;
                 } catch (Exception innerE) {
                     System.out.println("Exception while making socket at Client.java");
-//                    innerE.printStackTrace();
+                    innerE.printStackTrace();
                 }
             }
         }

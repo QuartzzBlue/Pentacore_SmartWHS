@@ -33,7 +33,7 @@ public class SendInHttp implements Runnable {
 
             System.out.println("SendInHttp [총 스레드 개수:" + poolSize + "] 작업 스레드 이름: "+threadName);
             //URL url = new URL ("http://70.12.113.195/WebApp/receivefl.pc");
-            URL url = new URL ("http://70.12.229.135/WebApp/receivefl.pc");
+            URL url = new URL ("http://70.12.113.195/WebApp/receivefl.pc");
             con = (HttpURLConnection)url.openConnection();
             con.setRequestProperty("Content-Type", "application/json; utf-8");
             con.setDoOutput(true);
@@ -47,6 +47,7 @@ public class SendInHttp implements Runnable {
             con.getInputStream();
 
         } catch (IOException e) {
+            System.out.println("Error at SendInHttp : "+e.getMessage());
             //e.printStackTrace();
         } finally {
             try {

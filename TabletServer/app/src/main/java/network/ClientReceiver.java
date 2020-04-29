@@ -74,7 +74,7 @@ public class ClientReceiver implements Runnable {
                 int dstnPort = 9999;
                 Runnable client = new Client(dstnIP, dstnPort);
                 MainActivity.executorService.execute(client);
-//                e.printStackTrace();
+                e.printStackTrace();
                 break;
             }
 
