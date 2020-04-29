@@ -41,6 +41,7 @@ public class ForkliftController {
 		distInput.put("forklift2", "[8315, 7647, 3245, 7533, 6842, 4420, 6923]");
 		distInput.put("forklift3", "[7362, 6725, 7389, 8235, 5217, 7237, 4924]");
 		distInput.put("forklift4", "[6231, 7223, 6752, 4561, 7302, 7356, 9823]");
+
 		
 		PrintWriter out = res.getWriter();
 		System.out.println("distInput is " +distInput.toJSONString());
@@ -93,6 +94,7 @@ public class ForkliftController {
 				int newdist = fldist.get(id)+dist;
 				System.out.println(fldist.get(id) + " + " + dist + " = " + newdist);
 				fldist.put(id, newdist);
+
 			}else {
 				fldist.put(id, dist);
 			}
@@ -115,7 +117,7 @@ public class ForkliftController {
 		}
 		
 		for(ForkliftVO fl : fllist) {
-			fldist.put(fl.getForkid(), fl.getForkdist());
+			fldist.put(fl.getForkid(), (int) fl.getForkdist());
 		}
 		
 	}

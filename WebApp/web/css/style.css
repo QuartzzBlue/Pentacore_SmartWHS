@@ -9716,12 +9716,12 @@ sub {
 .content-body .container-fluid {
 	padding: 15px 30px 0;
 	background-color : #D3D3D3;
+
 }
 /*
 @media ( max-width : 767px) {
 	.content-body .container-fluid {
-		padding: 1.5rem 1.5rem 0;
-		padding: 0.9375rem 0.9375rem 0;
+		padding: 0px 0px;
 	}
 }*/
 
@@ -19560,7 +19560,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not ([data-layou
 }
 
 [data-container="boxed"] .content-body .container-fluid {
-	padding: 0.9375rem 0 0;
+	padding: 0px 0px;
 }
 
 [data-container="boxed"][data-layout="vertical"] .page-titles {

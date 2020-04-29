@@ -5,7 +5,6 @@ import msg.Task;
 public class Move implements Runnable {
 
 	public Move() {
-		System.out.println("move constructed");
 	}
 	@Override
 	public void run() {
@@ -67,7 +66,7 @@ public class Move implements Runnable {
 			
 			
 			
-		} else if (Status.stockY%4==3) {
+		} else if (Status.stockX%4==3) {
 			System.out.println("Status.stockX%4==3");
 			if (Status.stockX+1 < Status.currentX ) {
 				while(!(Status.currentX == Status.stockX+1)) {

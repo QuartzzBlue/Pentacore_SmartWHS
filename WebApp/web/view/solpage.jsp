@@ -38,6 +38,7 @@
 .search-after{
 	display: none;
 }
+
 </style>
 </head>
 <body>
@@ -115,13 +116,12 @@
 										</div>
 									</div>
 									<hr></hr>
-									<div id="chartScript" style="display: inline-block;"></div>
+									<div id="chartScript" style="display: inline-block; position: relative;"></div>
 
 									<canvas id="singelBarChart" width="500" height="250"></canvas>
 								</div>
 							</div>
 						</div>
-
 			</div><!-- row end -->
 		</div>
 	</div>
@@ -189,6 +189,7 @@
 		        jQuery('.search-after').hide(); 
 		    }
 			$('body').scrollTop(0);
+
 		});
 
 		$(document)
@@ -203,6 +204,7 @@
 											display(chartdata);
 
 											html += "<span style ='font-size:1.15rem;'>Solution 적용 시, 배터리 효율성 </span>"
+
 											html += "<span class = 'text-danger' style ='font-weight:bold; font-size:1.15rem;'>"
 													+ data[2] + "%</span>";
 											html += "<span style ='font-size:1.15rem;'> 증가</span>";

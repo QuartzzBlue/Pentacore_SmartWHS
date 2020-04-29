@@ -81,7 +81,6 @@
 												<td>${fl.forklastcheckdate}</td>
 												<td id="flstatus${status.count}"><span class="badge badge-success">WAITING</span></td>
 												<td id="fldist${status.count}"><span id="fldi${status.count}">${fl.forkdist}</span><span>m</span></td>
-											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
@@ -139,7 +138,7 @@
 			  	      axisY: {
 			  	        offset: 80,
 			  	        labelInterpolationFnc: function(value) {
-			  	          return value + ' m'
+			  	          return (value/10) + ' m'
 			  	        },
 			  	        scaleMinSpace: 15
 			  	      },
@@ -194,6 +193,7 @@
 		
 	}
 	
+
 	function forkliftdistance(){
 	  	var flstatus;
 	  	var forklift1 = {};
@@ -232,6 +232,7 @@
 		
 	}
 	
+
 	function printFLStatus(num) {
 		console.log("!!");
 		var text = '';

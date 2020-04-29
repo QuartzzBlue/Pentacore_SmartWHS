@@ -12,7 +12,7 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import msg.Msg;
 
-public class SerialServer implements SerialPortEventListener {
+public class SerialConnect implements SerialPortEventListener {
 
 	CommPortIdentifier commPortIdentifier;
 	CommPort commPort;
@@ -21,41 +21,36 @@ public class SerialServer implements SerialPortEventListener {
 	static OutputStream out;
 	static String receiveStr;
 
-	static String receiveId;
-	static String receiveData;
+	String receiveId;
+	String receiveData;
 	Msg msg;
 	int status = 1;
 	int battery = 999;
 	int locX = 11;
 	int locY = 13;
 	int temperature = 50;
-	static String tmpid=" ";
+	static String tmpId=" ";
+	String sendId="10000001";
 
 	boolean flag = false;
 
 	Sender r = new Sender(msg);
 
-	public SerialServer() {
+	public SerialConnect() {
 	}
 
-	public SerialServer(String portName) throws Exception {
+	public SerialConnect(String portName) throws Exception {
 		commPortIdentifier = CommPortIdentifier.getPortIdentifier(portName);
 		System.out.println("Identified Com Port!");
 		connect();
 		System.out.println("Connect Com Port!");
-
+		Thread SerialStart = new Thread(new SerialWrite());
+		SerialStart.start();
+		System.out.println("Start CAN Network!!!");
+		SerialStart.join();
 		Runnable r = new SerialWrite();
 		Main.executorService.submit(r);
 
-		System.out.println("Start CAN Network!!!");
-		
-		///////////////
-		
-//		while(true) {
-//			Main.executorService.execute(new SerialWrite("0000"));
-//			Thread.sleep(1000);
-//		}
-		//////////////
 	}
 
 	public void connect() throws Exception {
@@ -124,32 +119,32 @@ public class SerialServer implements SerialPortEventListener {
 
 					//
 					if (locX == 11 && locY == 13 && battery <= 990) {
-						SerialWrite.sendId = "10000002";
+						sendId = "10000002";
 						System.out.println("Charging");
 					}
 
 					if (battery == 999 && locX == 11 && locY == 13 || receiveId.equals("14000005")) {
-						SerialWrite.sendId = "10000001";
+						sendId = "10000001";
 						System.out.println("Waiting");
 					}
 											
-//					if(!tmpid.equals(SerialWrite.sendId)) {
-						Runnable r = new SerialWrite(SerialWrite.sendId+SerialWrite.sendData);
+//					if(!tmpId.equals(sendId)) {
+						Runnable r = new SerialWrite(sendId,"0000000000000000");
 						Main.executorService.execute(r);
 //					}
+					
+					tmpId = sendId;
 
-					tmpid = SerialWrite.sendId;
-
-					if (SerialWrite.sendId.equals("10000000")) { // working
+					if (sendId.equals("10000000")) { // working
 						status = 0;
 					}
 
-					else if (SerialWrite.sendId.equals("10000001")) { // waiting
+					else if (sendId.equals("10000001")) { // waiting
 						status = 1;
 						Receiver.task = null;
 					}
 
-					else if (SerialWrite.sendId.equals("10000002")) { // charging
+					else if (sendId.equals("10000002")) { // charging
 						status = 2;
 						Receiver.task = null;
 					}

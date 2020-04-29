@@ -83,11 +83,13 @@ body {
 	display: block;
 }
 
+
 @media ( min-width: 1300px ) {
 	.nav-header{
 		width : 15.1234rem;
 	}
 }
+
 
 /*
 .header-menu a{
@@ -139,8 +141,8 @@ body {
 		<div class="nav-header">
 			<div class="brand-logo">
 				<a href="index.html"> <b class="logo-abbr"><img
-						src="images/MS.png" alt=""> </b> <span class="logo-compact" height="35px"><img
-						src="images/MS.png" alt="" height="35px"></span> <span class="brand-title">
+						src="images/MySWM01_i.png" alt=""> </b> <span class="logo-compact" height="35px"><img
+						src="images/MySWM01_i.png" alt="" height="35px"></span> <span class="brand-title">
 						<img src="images/MySWM01_i.png" alt="" height="35px">
 				</span>
 				</a>

@@ -93,7 +93,13 @@ public class ServerReceiver implements Runnable {
                 }
 
 			if(forkLift.getStatus() != forkLiftFromMsg.getStatus()) {
-				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + forkLiftFromMsg.getStatus() + "로 변경되었습니다.");
+			    String status = "WAITING";
+			    if(forkLiftFromMsg.getStatus() == 0) {
+			        status = "WORKING";
+                } else if (forkLiftFromMsg.getStatus() == 2) {
+			        status = "CHARGING";
+                }
+				MainActivity.printConsole("지게차" + forkLift.getName() + "의 상태가 " + status + "로 변경되었습니다.");
 
 				JSONObject jsonObject = new JSONObject();
 				try {
@@ -165,11 +171,15 @@ public class ServerReceiver implements Runnable {
     }
 
     public int getDistanceDriven(String targetTask, msg.ForkLift forkLiftFromMsg) {
-        if(forkLiftFromMsg.getStatus()!=0) return 0;
+        System.out.println("---targetTask"+targetTask);
+        if(forkLiftFromMsg.getStatus()==0) return 0;
+        if(!targetTask.contains("(")) return 0;
         int a = targetTask.indexOf('(');
         int b = targetTask.indexOf(')');
         String task = targetTask.substring(a+1, b);
         String[] xy = task.split(",");
+        if(xy[0].startsWith(" ")) xy[0] = xy[0].substring(1);
+        if(xy[1].startsWith(" ")) xy[1] = xy[1].substring(1);
         int stockX = Integer.parseInt(xy[0]);
         int stockY = Integer.parseInt(xy[1]);
 

@@ -406,6 +406,7 @@ td{
 				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
 				$('#theModal').modal('hide');
 				$(".modal-backdrop").remove();
+
 			}
 			
 		} );
