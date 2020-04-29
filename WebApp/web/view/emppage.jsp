@@ -48,8 +48,8 @@
 				</div>
 			</div>  -->
 			<div class="row">
-				<div class="col-lg-4">
-					<div class="card">
+				<div class="col-lg-5">
+					<div class="card" style="height:424.08px;">
 						<div class="card-body">
 							<div class="card-title">
 								<h4>Donut Chart - 창고 별 직원 수</h4>
@@ -59,11 +59,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-8">
+				<div class="col-lg-7">
 					<div class="card">
 						<div class="card-body">
 							<div class="card-title">
 								<h4>Employee Register</h4>
+								
 								<div data-toggle="tooltip" data-placement="right"
 									title="직원 정보를 추가할 수 있습니다. 초기 비밀번호는 '000000'으로 설정됩니다. ">
 									<button class="fas fa-question-circle"></button>
@@ -72,7 +73,7 @@
 							<hr></hr>
 							<form name="addEmployee" method="post" action="empregister.pc">
 								<div id="empForm">
-									<h4>Mandatory Fields</h4>
+									<h5>Mandatory Fields</h5>
 									<section>
 										<div class="row">
 											<div class="col-lg-4">
@@ -99,7 +100,7 @@
 											</div>
 										</div>
 									</section>
-									<h4>Warehouse Details</h4>
+									<h5>Warehouse Details</h5>
 									<section>
 										<div class="row">
 											<div class="col-6">
@@ -122,7 +123,7 @@
 											</div>
 										</div>
 									</section>
-									<h4>Account Details</h4>
+									<h5>Account Details</h5>
 									<section>
 										<div class="row">
 											<div class="col-lg-6">
@@ -265,8 +266,8 @@
 				}, {
 			        data : null,
 			        render : function ( data, type, row, meta ) {
-			            return '&ensp;&nbsp;<button class="far fa-edit" id="modifyEmpBtn" data-toggle="modal" data-target="#modifyEmp" data-remote="view/modal/modEmp.jsp" style="cursor:pointer;"></button>'
-			            + '&emsp;<button class="fas fa-user-times" id="deleteEmpBtn" style="cursor:pointer;"></button>';  
+			            return '<button class="far fa-edit" id="modifyEmpBtn" data-toggle="modal" data-target="#modifyEmp" data-remote="view/modal/modEmp.jsp" style="cursor:pointer;"></button>'
+			            + '&emsp;<button class="fas fa-user-times" id="deleteEmpBtn" style="cursor:pointer;"></button>&nbsp;';  
 			    }}]
 			});
 
@@ -323,18 +324,7 @@
 			modal.find('.modal-content').load(button.data("remote"));
 
 		});
-		/*
-		$(document).on(
-				"mouseenter",
-				"#empListTBody",
-				function() {
-					//$('#empListTBody tr').addClass("selectedEmp");
-					$('#empListTBody tr td modifyEmp').attr('data-toggle', "modal");
-					$('#empListTBody tr td modifyEmp').attr('data-target', "#modifyEmp");
-					$('#empListTBody tr td modifyEmp').attr('data-remote', "view/modal/empInfo.jsp");
-
-				});
-		*/
+		
 		var drawPieChart = function() {
 			$.ajax({
 				type : "post",
@@ -353,10 +343,10 @@
 							datasets : [ {
 								//data : [ 45, 25, 20, 10 ],
 								data : obj.data,
-								backgroundColor : [ "rgba(117, 113, 249,0.9)",
-										"rgba(117, 113, 249,0.7)",
-										"rgba(117, 113, 249,0.5)",
-										"rgba(144, 104, 190,0.7)" ],
+								backgroundColor : [ "#69491A",
+										"#F2AB39",
+										"#E4B660",
+										"#FFD954" ],
 								hoverBackgroundColor : [ "rgba(117, 113, 249,0.9)",
 										"rgba(117, 113, 249,0.7)",
 										"rgba(117, 113, 249,0.5)",

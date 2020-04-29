@@ -11,33 +11,7 @@
 
 
 <style>
-hr{
-	border: none;
-    border-top: 1px solid #DEE2E6;
-    color: #fff;
-    background-color: #fff;
-    height: 1px;
-    width: 100%;
-}
-.card-title{
-	display: flex;
-	text-align: center;
-	align-items: baseline;
-}
-.card-title div button{
-	color: #E9EAEC;
-	opacity: 0.1;                /* Opacity (Transparency) */
-    color: rgba(0, 0, 0, 0.5);   /* RGBA Color (Alternative Transparency) */
-    -webkit-filter: blur(2px);
-}
-.card-title h4{
-	margin : 0;
-}
-.card-title div{
-	margin-left: 9px;
-	font-size: 0.9rem;
-	
-}
+
 .table tbody .whInfo{
 	display : inline-flex;
 }
@@ -59,6 +33,14 @@ hr{
 	border-bottom : 1px solid #DEE2E6;
 	background-color : F2F2F2;
 }
+th{
+	font-size : 17px;
+}
+
+td{
+	height : 55px;
+	font-size : 13px;
+}
 </style>
 </head>
 
@@ -74,7 +56,7 @@ hr{
 						<div class="card-body">
 						
 							<div class="card-title">
-								<h4>Product Register</h4><div data-toggle="tooltip" data-placement="right" title="입/출고를 진행할 아이템을 등록합니다."><button class="fas fa-question-circle"></button></div>
+								<h4>Product Register</h4><div data-toggle="tooltip" data-placement="right" title="입/출고를 진행할 아이템을 등록합니다. Item ID는 자동으로 생성됩니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
 							<div class="table-responsive">
 								<div class="form-validation">
@@ -90,7 +72,6 @@ hr{
 													<th>Weight<span class="text-danger">*</span></th>
 													<th>Qty<span class="text-danger">*</span></th>
 													<th>Warehouse<span class="text-danger" >*</span></th>
-													<!-- <th>Warehouse Name<span class="text-danger">*</span></th> -->
 													<th>Location<span class="text-danger">*</span></th>
 												</tr>
 											</thead>
@@ -98,25 +79,25 @@ hr{
 
 												<tr id = "registeritList">
 													<td><input type="text" class="form-control"
-														id="itemid" name="itemid" placeholder="상품 ID"></td>
+														id="itemid" name="itemid" style="width: 120px;" placeholder="Auto-Generated" readonly></td>
 													<td><input type="text" class="form-control"
 														id="itemname" name="itemname" placeholder="상품명"
-														style="width: 115px;"></td>
+														style="width: 115px;" required></td>
 													<td><select class="form-control" id="itemcate"
-														name="itemcate" style="width: 115px;">
+														name="itemcate" style="width: 115px;" required>
 															<option value="">카테고리</option>
 															<option value="전자제품">전자제품</option>
 															<option value="차량부품">차량부품</option>
 
 													</select></td>
 													<td><input type="number" class="form-control"
-														id="itemprice" name="itemprice" placeholder="단가"></td>
+														id="itemprice" name="itemprice" placeholder="단가" required></td>
 													<td><input type="number" class="form-control"
-														id="itemweightpb" name="itemweightpb" placeholder="무게"></td>
+														id="itemweightpb" name="itemweightpb" placeholder="무게" required></td>
 													<td><input type="number" class="form-control"
-														id="itemqtypb" name="itemqtypb" placeholder="개수"></td>
+														id="itemqtypb" name="itemqtypb" placeholder="개수" required></td>
 													<td><div class="whInfo"><input type="text" class="form-control"
-														id="wareid" name="wareid" placeholder="창고ID" readonly>
+														id="wareid" name="wareid" placeholder="창고ID" readonly required>
 														<select class="form-control" id="warename"
 														name="warename" style="width: 150px;"
 														onchange="setWareID(this)">
@@ -127,8 +108,9 @@ hr{
 															<option value="ware03">이천 제2물류창고</option>
 													</select></div></td>
 													
-													<td id = "modalTd"><input type="text" class="form-control" id="itemloc"
-														name="itemloc" placeholder="위치" style="width : 80px"readonly>
+													<td id = "modalTd" style="height:70px;">
+													<input type="text" class="form-control" id="itemloc"
+														name="itemloc" placeholder="위치" readonly>
 														
 														<!-- ----------Modal-------- -->
 														<i class="mdi mdi-magnify" id="mdi-search" 
@@ -147,9 +129,9 @@ hr{
 																	</div>
 																	<div class="modal-body"></div>
 																	<div class="modal-footer">
-																		<!-- <button type="button" class="btn btn-secondary"
-																			data-dismiss="modal">Close</button> -->
-																		<button type="button" class="btn btn-primary" data-dismiss="modal">Confirm</button>
+																		<button type="button" class="btn btn-secondary"
+																			data-dismiss="modal" style="margin-left : 7px;">Close</button>
+																		<button type="button" id="confirmItLoc" class="btn btn-primary">Confirm</button>
 																	</div>
 																</div>
 															</div>
@@ -198,9 +180,9 @@ hr{
 											<th>Item ID</th>
 											<th>Item Name</th>
 											<th>Category</th>
-											<th>Price (KRW/box)</th>
-											<th>Weight (KG/box)</th>
-											<th>Qty (per box)</th>
+											<th>Price</th>
+											<th>Weight</th>
+											<th>Qty</th>
 											<th>Warehouse ID</th>
 											<th>Warehouse Name</th>
 											<th>Location</th>
@@ -295,65 +277,61 @@ hr{
 							<div class="card-title">
 								<h4>Invoice Search</h4><div data-toggle="tooltip" data-placement="right" title="주문서 내역 조회 기능입니다."><button class="fas fa-question-circle"></button></div>
 							</div><hr></hr>
-
 							<div class="table-responsive">
-								<!-- <form name="itemRegister" method="post"
-									action="invoicesearch.pc"> -->
-									<table class="table">
-										<thead>
-											<tr>
-												<th>Employee ID</th>
-												<th>Employee Name</th>
-												<th>Start Date</th>
-												<th>End Date</th>
-												<th></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr id = "invSearching">
-												<td><input type="text" class="form-control" id="empno"
-													name="empno" placeholder="관리자 사번"></td>
-													<td><input type="text" class="form-control" id="empname"
-													name="empname" placeholder="관리자 이름"></td>
-												<td><div class="input-group">
-														<input type="text" id="startdate" name="startdate"
-															class="form-control mydatepicker"
-															placeholder="yyyy-mm-dd"> <span
-															class="input-group-append"><span
-															class="input-group-text"><i
-																class="mdi mdi-calendar-check"></i></span></span>
-													</div></td>
-												<td><div class="input-group">
-														<input type="text" id="enddate" name="enddate"
-															class="form-control mydatepicker"
-															placeholder="yyyy-mm-dd"> <span
-															class="input-group-append"><span
-															class="input-group-text"><i
-																class="mdi mdi-calendar-check"></i></span></span>
-													</div></td>
-												<td><button type="submit" id="searchInvoice"
-														class="btn mb-1 btn-primary btn-lg">Search</button></td>
-
-											</tr>
-											
-										</tbody>
-									</table>
-								<!-- </form> -->
-
+								<c:choose>
+									<c:when test="${empjob eq '관리자'}">	<!-- 사용자가 관리자일때 -->
+										<table class="table">
+											<thead>
+												<tr>
+													<th>Employee ID</th>
+													<th>Employee Name</th>
+													<th>Start Date</th>
+													<th>End Date</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr id = "invSearching">
+													<td><input type="text" class="form-control" id="empno"
+														name="empno" placeholder="관리자 사번"></td>
+														<td><input type="text" class="form-control" id="empname"
+														name="empname" placeholder="관리자 이름"></td>
+													<td><div class="input-group">
+															<input type="text" id="startdate" name="startdate"
+																class="form-control mydatepicker"
+																placeholder="yyyy-mm-dd"> <span
+																class="input-group-append"><span
+																class="input-group-text"><i
+																	class="mdi mdi-calendar-check"></i></span></span>
+														</div></td>
+													<td><div class="input-group">
+															<input type="text" id="enddate" name="enddate"
+																class="form-control mydatepicker"
+																placeholder="yyyy-mm-dd"> <span
+																class="input-group-append"><span
+																class="input-group-text"><i
+																	class="mdi mdi-calendar-check"></i></span></span>
+														</div></td>
+													<td><button type="submit" id="searchInvoice"
+															class="btn mb-1 btn-primary btn-lg">Search</button></td>
+	
+												</tr>
+												
+											</tbody>
+										</table>
+									</c:when>
+									<c:otherwise>
+									</c:otherwise>
+								</c:choose>
+									
 							</div>
 							<span id="invListInfo"></span>
 							<div class="table-responsive">
 								<table id ="invListBody" class="table table-striped table-bordered">
-									<thead id="invListTHead">
-										<!--<c:if test="${not empty ivTableHeader }">
-										${ivTableHeader }
-										</c:if>-->
-									</thead>
+									<thead id="invListTHead"></thead>
 									<tbody id ="invListTBody"></tbody>
 								</table>
 								<!-- ///////////// Modal ////////////// -->
-								<!-- <i class="mdi mdi-magnify" id="mdi-search" 
-										data-toggle="modal" data-target="#theModal" data-remote="view/modal/itemLoc.jsp"></i> -->
 													
 								<div class="modal fade" id="selectedInvDt" tabindex="-1" role="dialog">
 									<div class="modal-dialog modal-lg" role="document">
@@ -379,58 +357,7 @@ hr{
 					</div>
 				</div>
 			</div>
-<!-- Table 
-			<div class="row">
-				
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-body">
-							<div class="card-title">
-								<h4>Product list</h4>
-							</div>
-							<div class="table-responsive">
-								<table class="table table-xs mb-0">
-									<thead>
-										<tr>
-											<th>Product ID</th>
-											<th>Product Name</th>
-											<th>Category</th>
-											<th>Price (KRW/box)</th>
-											<th>Weight (KG/box)</th>
-											<th>Quantity (per box)</th>
-											<th>Warehouse Name</th>
-											<th>Location</th>
-											<th>Stock</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Sarah Smith</td>
-											<td>iPhone X</td>
-											<td><span>United States</span></td>
-											<td>
-												<div>
-													<div class="progress" style="height: 6px">
-														<div class="progress-bar bg-success" style="width: 50%"></div>
-													</div>
-												</div>
-											</td>
-											<td><i class="fa fa-circle-o text-success  mr-2"></i>
-												Paid</td>
-											<td><span>Last Login</span> <span class="m-0 pl-3">10 sec ago</span>
-											</td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
 
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>-->
 		</div>
 		<!-- / container-fluid mt-3 -->
 		<!-- #/ container -->
@@ -443,9 +370,6 @@ hr{
 
 		// invoice detail item list
 		var jsonInvoice = Array();
-		
-		
-		var invTable;
 		
 		// session Emp Info
 		var sessionEmpId = "<%=session.getAttribute("empno") %>"
@@ -472,7 +396,19 @@ hr{
 			
 
 		});
-
+		
+		
+		$( '#confirmItLoc' ).click( function() {
+			console.log('data : ' + itemPosition);
+			if(itemPosition == null){
+				alert("자리를 선택해 주세요!");
+			}else{
+				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
+				$('#theModal').modal("hide");
+			}
+			
+		} );
+/*
 		$('#theModal').on('hide.bs.modal', function() {
 			console.log('data : ' + itemPosition);
 			if(itemPosition == null){
@@ -482,7 +418,8 @@ hr{
 			}
 			
 		})
-		
+*/
+
 		//(2)item list에서 데이터 선택하면 (3)의 textinput에 자동으로 띄우기 
 		$(function() {
 			$(document.body).delegate(".selectedItList", "click", function() {
@@ -557,6 +494,7 @@ hr{
 			}
 			//https://datatables.net/
 			var itTable = $('#itListBody').DataTable({
+				lengthMenu: [[5, 10, 25, 50], [5, 10, 25, 50]],
 				ajax : {
 					url : url,
 					dataSrc : ''
@@ -590,10 +528,8 @@ hr{
 					
 				
 						$.ajax({
-							type : "post" // 포스트방식
-							,
-							url : "invoiceregister.pc?empno="+sessionEmpId+"&empname="+sessionEmpName // url 주소
-							,
+							type : "post",
+							url : "invoiceregister.pc?empno="+sessionEmpId+"&empname="+sessionEmpName,
 							data : JSON.stringify(jsonInvoice),
 							dataType : "text",
 							contentType : "application/json; charset=UTF-8",
@@ -664,30 +600,31 @@ hr{
 				$("#invoiceDetail").html(html);
 				$("#invoiceDetailTable").addClass("borderbox");
 			}
-			
-			
 		}
-
-		$( '#searchInvoice' ).click( function() {
+		
+		var getInvList = function() {
+			var empno = '';
+			var empname = '';
+			var startdate = '';
+			var enddate = '';
 			
-			var empno = $("#invSearching").find("input[name=empno]").val();
-			var empname = $("#invSearching").find("input[name=empname]").val();
-			var startdate = $("#invSearching").find("input[name=startdate]").val();
-			var enddate = $("#invSearching").find("input[name=enddate]").val();
+			if(sessionEmpJob == '관리자'){
+				empno = $("#invSearching").find("input[name=empno]").val();
+				empname = $("#invSearching").find("input[name=empname]").val();
+				startdate = $("#invSearching").find("input[name=startdate]").val();
+				enddate = $("#invSearching").find("input[name=enddate]").val();
+			}else if(sessionEmpJob == '일반'){
+				empno = sessionEmpId;
+			}
+				
+			
 			
 			console.log(startdate + " ~ " + enddate);
 			
 			$("#invListTHead").html('<tr><th>Invoice ID</th><th>Employee ID</th><th>Employee Name</th><th>Date</th></tr>');
-			/*if(invTable != null){
-				invTable = null;
-				$('#invListBody').DataTable().ajax.reload();
-				$('#invListBody').dataTable( {
-					  "destroy": true
-					});
-			}
-			else{*/
-				//https://datatables.net/
-				invTable = $('#invListBody').DataTable({
+			
+			//https://datatables.net/
+			var invTable = $('#invListBody').DataTable({
 					retrieve: true,
 					searching : false, 
 					paging : true, 
@@ -702,11 +639,11 @@ hr{
 						{data : 'empno'}, 
 						{data : 'empname'}, 
 						{data : 'invoicedate'}]
-				});
-			//}
+			});
 			
 			$("#invListInfo").html(" * 테이블을 클릭하면 주문서 상세 정보를 볼 수 있습니다.");
 			
+			// 테이블 클릭 시 모달 창 띄울 수 있도록 attribute 세팅
 			$(document).on("mouseenter", "#invListTBody", function(){
 				$('#invListTBody tr').addClass("selectedInv");
 				$('#invListTBody tr').attr('data-toggle', "modal");
@@ -714,6 +651,11 @@ hr{
 				$('#invListTBody tr').attr('data-remote', "view/modal/invDetail.jsp");
 				
 			});
+		};
+
+		$( '#searchInvoice' ).click( function() {
+			getInvList();
+			
 		});
 		
 		$(function() {
@@ -750,6 +692,11 @@ hr{
 		$(document).ready(function() {
 			getItemlist();
 			history.replaceState({}, null, location.pathname);
+			
+			if(sessionEmpJob == '일반'){
+				getInvList();
+			}
+				
 		});
 		
 		

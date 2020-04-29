@@ -12,7 +12,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"> -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css?2dsds" rel="stylesheet">
     <!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-latest.js"></script>
     <style>
@@ -22,6 +22,9 @@
     	background-position: center;
     	background-size : cover;
     }
+    .card .card-body {
+		box-shadow: 3px 3px 3px black;
+	}
     .card-main-title{
     	text-align: center;
     }
@@ -54,7 +57,7 @@
                         <div class="card login-form mb-0">
                             <div class="card-body pt-5">
                                 <div class="card-main-title">
-                                	<h3>SMART WAREHOUSE</h3>
+                                	<h3><img src="images/MySWM.png" alt="" height="43px"> </h3>
         						</div>
                                 <form class="mt-5 mb-5 login-input" method="post" action="login.pc">
                                     <div class="form-group">
