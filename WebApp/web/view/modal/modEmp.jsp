@@ -78,7 +78,7 @@
 		function setWareID(w) {
 			var index = w.value.substring(5, 6);
 			index *= 1;
-			$('#wareid').val(wareIdList[index]);
+			$(".whInfo").find("input[name=wareid]").val(wareIdList[index]);
 		};
 		
 		var setDefaultValue = function () {

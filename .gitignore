@@ -13,6 +13,7 @@
 
 # Java class files
 *.class
+target*/
 
 # Generated files
 bin/

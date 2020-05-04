@@ -7,7 +7,7 @@
 
 
 <script src="/WebApp/js/jquery.seat-charts.js"></script>
-<link href="/WebApp/css/jquery.seat-charts.css?1" rel="stylesheet">
+<link href="/WebApp/css/jquery.seat-charts.css" rel="stylesheet">
 
 
 <script>
@@ -53,7 +53,6 @@
 										positionID += temp;
 									}
 									return positionID;
-									//return row + '_' + column;
 								},
 								getLabel : function (character, row, column) {
 									var positionID = colName[column];
@@ -64,7 +63,6 @@
 										positionID += temp;
 									}
 									return positionID;
-									//return seatLabel++;
 									
 									
 								},
@@ -73,11 +71,12 @@
 								if (this.status() == 'available') {
 									console.log(this.settings.id);
 									itemPosition = this.settings.id;
-									$('#setLoc').html('Seleted : ' + itemPosition);
+									$('#setLoc').html('Selected : ' + itemPosition);
 									sc.find('a.available').status('unavailable');
 									return 'selected';
 								} else if (this.status() == 'selected') {
-									//seat has been vacated
+									sc.find('a').status('available');
+									$('#setLoc').html('');
 									return 'available';
 								} else if (this.status() == 'unavailable') {
 									//seat has been already booked
@@ -113,9 +112,10 @@
 				
 				});
 				//Make all available 'c' seats unavailable
+				/*
 				sc.find('E10').status('unavailable');
 				sc.find('2_6').status('unavailable');
-
+				*/
 				/*
 				Get seats with ids 2_6, 1_7 (more on ids later on),
 				put them in a jQuery set and change some css
@@ -131,7 +131,7 @@
 <body>
 
 	<div id="seat-map" class="seatCharts-container"></div>
-	<span id="setLoc"> </span>
+	<span id="setLoc" style="font-weight: bold; margin-left:10px;"> </span>
 
 
 

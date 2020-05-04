@@ -144,16 +144,16 @@ public class MainActivity extends AppCompatActivity {
         consoleQueueAdapter = new ConsoleQueueAdapter(consoleQueue);
         consoleQueueRecyclerView.setAdapter(consoleQueueAdapter);
 
-        View button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        View generateTask = findViewById(R.id.titleTaskQueue);
+        generateTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 btnClick();
             }
         });
 
-        View assignTaskButton = findViewById(R.id.assignTaskButton);
-        assignTaskButton.setOnClickListener(new View.OnClickListener() {
+        View assignTask = findViewById(R.id.titleForkLift);
+        assignTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 assignTask();

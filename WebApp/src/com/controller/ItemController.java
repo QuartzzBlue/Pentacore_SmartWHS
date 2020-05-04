@@ -2,7 +2,9 @@ package com.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,6 +57,11 @@ public class ItemController {
 	public String itemregister(ModelAndView mv, ItemVO newItem) {
 
 		System.out.println("**" + newItem.toString());
+		
+		//바코드 넘버 생성
+		String itemid = generateBarcode();
+		newItem.setItemid(itemid);
+		
 		try {
 			itservice.insert(newItem);
 		} catch (Exception e) {
@@ -142,14 +149,14 @@ public class ItemController {
 
 	@RequestMapping("/invoiceregister.pc")
 	public @ResponseBody String invoiceregister(ModelAndView mv, @RequestBody String ivJson, HttpServletRequest request) {
+		// Location HashMap이 로드 안 된 경우
 		if(itNameMapper == null) {
 			itNameMapper = new ItemNameMapper();
 		}
-		
-		System.out.println(request.getParameter("empno") + ", " + request.getParameter("empname"));
-		System.out.println(ivJson);
+
 		ArrayList<InvoicedetailVO> ivdList = new ArrayList<>();
 		String response = null;
+		
 		try {
 			JSONArray ivArr = new JSONArray(ivJson);
 			for (int i = 0; i < ivArr.length(); i++) {
@@ -162,8 +169,6 @@ public class ItemController {
 				ivd.setInvoicedtlqty(Integer.parseInt((String) temp.get("invoicedtlqty")));
 				ivd.setInvoicestat((String) temp.get("invoicestat"));
 				//****************수정된 부분*********************
-				ivd.setEmpno(request.getParameter("empno"));
-				ivd.setEmpname(request.getParameter("empname"));
 				ivdList.add(ivd);
 
 				//item location 가져오기 
@@ -184,7 +189,8 @@ public class ItemController {
 			
 			InvoiceVO newInvoice = new InvoiceVO();
 			newInvoice.setDtllist(ivdList);
-
+			newInvoice.setEmpno(request.getParameter("empno"));
+			newInvoice.setEmpname(request.getParameter("empname"));
 			invservice.insert(newInvoice);
 			
 			response = "SUCCESS";
@@ -206,14 +212,14 @@ public class ItemController {
 		String startdate = request.getParameter("sd");
 		String enddate = request.getParameter("ed");
 		
-		System.out.println("empno : " + empno + "empname : " + empname + "sd : " + startdate + ", ed : " + enddate);
+		System.out.println("empno : " + empno + ". empname : " + empname + ", sd : " + startdate + ", ed : " + enddate);
 		
 		ArrayList<InvoiceVO> invList = null;
 		InvoiceVO temp = new InvoiceVO();
 		temp.setStartdate(startdate);
 		temp.setEnddate(enddate);
 		temp.setEmpno(empno);
-		temp.setEmpno(empname);
+		temp.setEmpname(empname);
 		try {
 			invList = invservice.selectAll(temp);
 		} catch (Exception e) {
@@ -238,27 +244,7 @@ public class ItemController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-		//System.out.println(invList.get(1).getInvoicedate());
 		return invdtlList;
-
-//		JSONArray ja = new JSONArray();
-//		for (InvoiceVO i : invList) {
-//			JSONObject json = new JSONObject();
-//			json.put("invoiceid", i.getInvoiceid());
-//			json.put("empno", i.getEmpno());
-//			json.put("empname", i.getEmpname());
-//			json.put("invoicedate", i.getInvoicedate());
-//			ja.put(json);
-//		}
-		
-//		rs.setContentType("text/html; charset=utf-8");
-//		PrintWriter out;
-//		try {
-//			out = rs.getWriter();
-//			out.print(ja.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	public void sendTask(String ivStat, String itName, int ivQty, String itLoc) {
@@ -291,6 +277,21 @@ public class ItemController {
 		Main.executorService.execute(r);
 		//로그 찍기
 		logger.info(itName + " " + xPoint + " " + yPoint);
+		
+	}
+	
+	public String generateBarcode() {
+		SimpleDateFormat form = new SimpleDateFormat ( "yyyyMM");
+		Date temp = new Date();
+		String barcode = form.format(temp);
+		barcode += (char)((Math.random() * 26) + 65);
+		for(int i = 0; i < 3; i++) {
+			int iValue = (int) (Math.random()*9);
+			barcode += iValue;
+		}
+		System.out.println("Barcode : "+ barcode);
+		
+		return barcode;
 		
 	}
 
