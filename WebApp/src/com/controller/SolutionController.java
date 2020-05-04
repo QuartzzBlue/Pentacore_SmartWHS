@@ -5,9 +5,6 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.rosuda.REngine.REXP;
-import org.rosuda.REngine.RList;
-import org.rosuda.REngine.Rserve.RConnection;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

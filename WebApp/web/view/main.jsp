@@ -24,7 +24,7 @@
 	crossorigin="anonymous"></script>
 	
 	
-<link rel="stylesheet" href="css/hamburger.css?1" />
+<link rel="stylesheet" href="css/hamburger.css" />
 
 <!-- Favicon icon -->
 <link rel="icon" type="image/png" sizes="16x16"
@@ -284,7 +284,7 @@ body {
 	<script src="plugins/common/common.min.js"></script>
 	<script src="js/custom.min.js"></script>
 	<script src="js/settings.js"></script>
-	<script src="js/gleek.js"></script>
+	<script src="js/gleek.js?1s"></script>
 	<script src="js/styleSwitcher.js"></script>
 	<!-- font awesome -->
 	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>

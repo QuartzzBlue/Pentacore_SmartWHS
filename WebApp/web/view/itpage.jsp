@@ -404,7 +404,7 @@ td{
 				alert("자리를 선택해 주세요!");
 			}else{
 				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
-				$('#theModal').modal('hide');
+				$('#theModal').modal("hide");
 				$(".modal-backdrop").remove();
 
 			}
