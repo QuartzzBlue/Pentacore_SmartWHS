@@ -110,7 +110,7 @@ iv) Tablet에서 지게차 `실시간 상태 확인` 및 ERP로 지게차의 주
 
 v) ERP에서 창고별 `지게차 상태` 및 창고 `운영 내역` 확인
 
-
+<br><br>
 
 **2-2. [🎬YouTube에서 서비스 시연연상 보기](https://youtu.be/eaqHH8ln0Bo)**
 
