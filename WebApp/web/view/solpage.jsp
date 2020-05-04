@@ -34,16 +34,18 @@
 .card .card-body{
 	padding-bottom: 20px;
 }
+
+.search-after{
+	display: none;
+}
+
 </style>
 </head>
 <body>
 	<div class="content-body">
 		<div class="container-fluid mt-3">
 			<div class="row">
-
-				<c:choose>
-					<c:when test="${solChartInfo == null}">
-						<div class="col-lg-12">
+						<div class="col-lg-12 search-before">
 							<div class="card">
 								<div class="card-body">
 									<div class="card-title">
@@ -54,7 +56,6 @@
 										</div>
 									</div>
 									<hr></hr>
-									<form name="solutionSearch" method="post" action="solutionsearch.pc">
 										
 										<div class="col-lg-12" id="dateformBox">
 											<div class="input-group col-lg-5">
@@ -75,22 +76,19 @@
 													<i class="mdi mdi-calendar-check"></i></span></span>
 											</div>
 											<div class="input-group col-lg-2">
-												<button type="submit" class='btn mb-1 btn-primary' id="submitDate">SUBMIT</button>
+												<button type="button" class='btn mb-1 btn-primary' id="submitDate">SUBMIT</button>
 											</div>
 										</div>
-									</form>
 								</div>
 							</div>
 						</div>
-					</c:when>
 
-					<c:otherwise>
 
-						<div class="col-lg-12">
+						<div class="col-lg-12 search-after">
 							<div class="card">
 								<div class="card-body">
 									<div class="card-title">
-										<h4>Single Bar Chart 수정하자</h4>
+										<h4>Solution</h4>
 										<div data-toggle="tooltip" data-placement="right"
 											title="창고 좌표 당 입/출고 빈도수를 나타낸 그래프입니다.">
 											<button class="fas fa-question-circle"></button>
@@ -105,27 +103,23 @@
 							</div>
 						</div>
 
-						<div class="col-lg-12">
+						<div class="col-lg-12 search-after">
 							<div class="card">
 								<div class="card-body">
 									<div class="card-title">
 										<h4>Single Bar Chart</h4>
 										<div data-toggle="tooltip" data-placement="right"
-											title="지게차의 일별 주행거리를 표시합니다.">
+											title="솔루션 적용 시의 효율성 증가를 나타낸 그래프입니다.">
 											<button class="fas fa-question-circle"></button>
 										</div>
 									</div>
 									<hr></hr>
-									<div id="chartScript" style="display: inline-block;"></div>
+									<div id="chartScript" style="display: inline-block; position: relative;"></div>
 
 									<canvas id="singelBarChart" width="500" height="250"></canvas>
 								</div>
 							</div>
 						</div>
-
-					</c:otherwise>
-				</c:choose>
-				
 			</div><!-- row end -->
 		</div>
 	</div>
@@ -139,7 +133,7 @@
 				data : {
 					labels : [ "Before", "After" ],
 					datasets : [ {
-						label : "Driven distance",
+						label : "Total Battery Efficiency",
 						data : data,
 						borderColor : "#F2AB39",
 						borderWidth : "0",
@@ -173,10 +167,26 @@
 
 		};
 		
+		jQuery('#submitDate').click(function () {
+			setTimeout(function() {
+			    if($(".search-after").css("display") == "none"){   
+			        jQuery('.search-after').show();  
+			        jQuery('.search-before').hide();  
+			    }
+			}, 3000);
+
+		});  
+
+
 
 		$(document.body).delegate("#applyBtn", "click", function() {
-			alert("솔루션이 적용되었습니다.")
-			//solChartInfo 지우기
+			alert("솔루션이 적용되었습니다.");
+			if($(".search-before").css("display") == "none"){   
+		        jQuery('.search-before').show();  
+		        jQuery('.search-after').hide(); 
+		    }
+			$('body').scrollTop(0);
+
 		});
 
 		$(document)
@@ -190,7 +200,8 @@
 											var html = '';
 											display(chartdata);
 
-											html += "<span style ='font-size:1.15rem;'>Solution 적용 시, 효율성 </span>"
+											html += "<span style ='font-size:1.15rem;'>Solution 적용 시, 배터리 효율성 </span>"
+
 											html += "<span class = 'text-danger' style ='font-weight:bold; font-size:1.15rem;'>"
 													+ data[2] + "%</span>";
 											html += "<span style ='font-size:1.15rem;'> 증가</span>";

@@ -35,6 +35,7 @@ import server.Sender;
 
 @Controller
 public class ItemController {
+	
 	@Resource(name = "itservice")
 	Service<ItemVO> itservice;
 

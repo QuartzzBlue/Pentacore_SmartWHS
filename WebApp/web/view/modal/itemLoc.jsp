@@ -100,7 +100,10 @@
 									console.log(data[i]);
 									sc.get(data[i]).status('unavailable');
 								}
-
+								///////////////test/////////
+								sc.get('L10').status('available');
+								sc.get('K08').status('available');
+								///////////////////////////
 							
 							},
 							error : function(request, status, error) { 
@@ -111,6 +114,7 @@
 					});
 				
 				});
+				
 				//Make all available 'c' seats unavailable
 				/*
 				sc.find('E10').status('unavailable');
