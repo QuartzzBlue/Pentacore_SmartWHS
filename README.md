@@ -12,25 +12,25 @@
 
 ### 목차
 
-1. **프로젝트 개요**
-1-1. 배경
-1-2. 내용
-1-3. 기대효과
-1-4. 기간 및 절차
-1-5. 인원 및 역할
+1. **프로젝트 개요**<br>
+1-1. 배경<br>
+1-2. 내용<br>
+1-3. 기대효과<br>
+1-4. 기간 및 절차<br>
+1-5. 인원 및 역할<br>
 
-2. **사용자WorkFlow 및 기능소개(동영상)**
+2. **사용자WorkFlow 및 기능소개(동영상)**<br>
 
-3. **시스템 구성도 및 사용 기술**
-3-1. 구성도
-3-2. 기술스택
-3-3. ERD
+3. **시스템 구성도 및 사용 기술**<br>
+3-1. 구성도<br>
+3-2. 기술스택<br>
+3-3. ERD<br>
 
-4. **시스템 컴포넌트별 상세**
-  4-1. ERP (Web Application Server) **Hadoop/R*
-  4-2. TCP/IP Server
-  4-3. 창고 DASHBOARD (Android Tablet)
-  4-4. 지게차 (TCP/IP · CAN Protocol)
+4. **시스템 컴포넌트별 상세**<br>
+    4-1. ERP (Web Application Server) **Hadoop/R*<br>
+    4-2. TCP/IP Server<br>
+    4-3. 창고 DASHBOARD (Android Tablet)<br>
+    4-4. 지게차 (TCP/IP · CAN Protocol)<br>
 
   <br><br><br>
 
@@ -236,7 +236,4 @@ iii) 작업 완료 시 `WORKING` → `WAITING`
 **상태별로 배터리 증가/감소 속도 차이*
 - **ECU③** Temperature : 현재 온도
 
-
-
-
-
+<br><br><br><br><br>
