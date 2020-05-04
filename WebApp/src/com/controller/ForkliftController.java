@@ -1,20 +1,13 @@
 package com.controller;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,34 +15,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.frame.Service;
 import com.vo.ForkliftVO;
-import com.vo.ItemVO;
 
-import msg.ForkLift;
 
 @Controller
 public class ForkliftController {
+	
 	@Resource(name = "flservice")
 	Service<ForkliftVO> flservice;
 	
 	static HashMap<String, Object> flJsonList = new HashMap<>();
 	static JSONObject jo = new JSONObject();
-	static HashMap<String, Long> fldist = new HashMap<>();
+	static HashMap<String, Integer> fldist = new HashMap<>();
 	
 	
-	@ResponseBody 
+	@ResponseBody
 	@RequestMapping("/distance.pc")
 	public void distancefl(HttpServletResponse res) throws IOException {
 		setDrivenDist();
 		//밑에는 예시고 JSON 형태안에 JSON을 또담아서 id와 distance가 변수 하나로 갈 수 있게끔 하자
 		JSONObject distInput = new JSONObject();
-		distInput.put("forklift1", "[74254, 43445, 62341, 58903, 72345, 63452, 67543]");
-		distInput.put("forklift2", "[68315, 76473, 73245, 75334, 68432, 34260, 71435]");
-		distInput.put("forklift3", "[73621, 67258, 73589, 82351, 52127, 72357, 80032]");
-		distInput.put("forklift4", "[62318, 76235, 67542, 45611, 73012, 73516, 74525]");
+		distInput.put("forklift1", "[7425, 4344, 6231, 5890, 7235, 6342, 8324]");
+		distInput.put("forklift2", "[8315, 7647, 3245, 7533, 6842, 4420, 6923]");
+		distInput.put("forklift3", "[7362, 6725, 7389, 8235, 5217, 7237, 4924]");
+		distInput.put("forklift4", "[6231, 7223, 6752, 4561, 7302, 7356, 9823]");
+
 		
 		PrintWriter out = res.getWriter();
 		System.out.println("distInput is " +distInput.toJSONString());
@@ -69,7 +61,7 @@ public class ForkliftController {
 	}
 	
 	@RequestMapping("/getDist.pc")
-	public @ResponseBody HashMap<String, Long> getDist() throws IOException {
+	public @ResponseBody HashMap<String, Integer> getDist() throws IOException {
 
 		return fldist;
 	}
@@ -85,7 +77,8 @@ public class ForkliftController {
 			System.out.println("ojb : "+obj.toJSONString());
 			
 			String id = (String)obj.get("forkliftid");
-			long dist = (long) obj.get("distanceDriven");
+			//long dist = (long) obj.get("distanceDriven");
+			int dist = Integer.parseInt((String) obj.get("distanceDriven"));;
 			jo.put(id, input);
 			ForkliftVO newfl = new ForkliftVO();
 			newfl.setForkid(id);
@@ -98,7 +91,10 @@ public class ForkliftController {
 			
 			//System.out.println("dist : " + dist);
 			if(fldist.containsKey(id)) {
-				fldist.put(id, fldist.get(id)+dist);
+				int newdist = fldist.get(id)+dist;
+				System.out.println(fldist.get(id) + " + " + dist + " = " + newdist);
+				fldist.put(id, newdist);
+
 			}else {
 				fldist.put(id, dist);
 			}
@@ -121,7 +117,7 @@ public class ForkliftController {
 		}
 		
 		for(ForkliftVO fl : fllist) {
-			fldist.put(fl.getForkid(), fl.getForkdist());
+			fldist.put(fl.getForkid(), (int) fl.getForkdist());
 		}
 		
 	}

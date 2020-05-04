@@ -17,6 +17,9 @@
 	text-align: center;
 	align-items: baseline;
 }
+.container-fluid{
+	background-color: #E0E0E0;
+}
 </style>
 </head>
 <body>
@@ -77,8 +80,7 @@
 												<td>${fl.forkmodel}</td>
 												<td>${fl.forklastcheckdate}</td>
 												<td id="flstatus${status.count}"><span class="badge badge-success">WAITING</span></td>
-												<td id="fldist${status.count}">${fl.forkdist}</td>
-											</tr>
+												<td id="fldist${status.count}"><span id="fldi${status.count}">${fl.forkdist}</span><span>m</span></td>
 										</c:forEach>
 									</tbody>
 								</table>
@@ -120,7 +122,7 @@
 				console.log(eval('('+JsonFork.forklift1+')'));
 				
 			  	 new Chartist.Bar('#multi-line-chart', {
-			  	      labels: ['6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'yesterday', 'today'],
+			  	      labels: ['7 days ago', '6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'yesterday'],
 			  	      series: [
 			  	    	eval('('+JsonFork.forklift1+')'),
 			  	    	eval('('+JsonFork.forklift2+')'),
@@ -191,6 +193,7 @@
 		
 	}
 	
+
 	function forkliftdistance(){
 	  	var flstatus;
 	  	var forklift1 = {};
@@ -211,13 +214,13 @@
 			  	console.log("**dist4 : " + data.forklift4 );
 			  	
 			  	console.log(data.forklift1);
-			  	$('#fldist1').html(data.forklift1);
+			  	$('#fldi1').html(data.forklift1);
 			  	console.log(data.forklift2);
-			  	$('#fldist2').html(data.forklift2);
+			  	$('#fldi2').html(data.forklift2);
 			  	console.log(data.forklift3);
-			  	$('#fldist3').html(data.forklift3);
+			  	$('#fldi3').html(data.forklift3);
 			  	console.log(data.forklift4);
-			  	$('#fldist4').html(data.forklift4);
+			  	$('#fldi4').html(data.forklift4);
 			  	//$('#flDistanceDriven').html(eval('('+json.forklift1+')').distanceDriven)
 			  	
 			},
@@ -229,6 +232,7 @@
 		
 	}
 	
+
 	function printFLStatus(num) {
 		console.log("!!");
 		var text = '';

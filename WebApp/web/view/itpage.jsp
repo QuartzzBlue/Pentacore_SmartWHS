@@ -404,7 +404,9 @@ td{
 				alert("자리를 선택해 주세요!");
 			}else{
 				$("#registeritList").find("input[name=itemloc]").val(itemPosition.toString());
-				$('#theModal').modal("hide");
+				$('#theModal').modal('hide');
+				$(".modal-backdrop").remove();
+
 			}
 			
 		} );
@@ -476,8 +478,10 @@ td{
 		// Delete item from invoice
 		$(function() {
 			$(document.body).delegate(".deleteIvItem", "click", function() {
+				
 				var idx = $(this).closest("tr").find("td").eq(0).text();
-				jsonInvoice.splice(idx, 1);
+				var temp = idx.split('');
+				jsonInvoice.splice(temp[1], 1);
 
 				updateIvDetail();
 
@@ -552,6 +556,7 @@ td{
 									*/
 									/* dataTable 전체 업데이트 */
 									$('#itListBody').DataTable().ajax.reload();
+									$("#setItInfo").find("select[name=invoicestat]").find('option:first').attr('selected', 'selected');
 									
 									} else if (token = "ERROR") {
 										
