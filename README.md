@@ -56,12 +56,12 @@
 
 **1-3. 기대효과**
 
-- 창고 무인 자동화를 통한 ***24시간 운영***
-  → 물류센터의 유효 가동시간을 증가
+- 창고 무인 자동화를 통한 ***24시간 운영***<br>
+  → 물류센터의 유효 가동시간을 증가<br>
   → ***물류 처리량 증가*** 및 ***인건비 감소***
 
-- 창고 운영 기록 통계를 바탕으로 한 ***효율적 재고배치*** 솔루션 제공
-  → 지게차 동선 최적화 및 운영 ***비용 감소***
+- 창고 운영 기록 통계를 바탕으로 한 ***효율적 재고배치*** 솔루션 제공<br>
+  → 지게차 동선 최적화 및 운영 ***비용 감소***<br>
 
   <br>
 
@@ -75,19 +75,19 @@
 
 1-5. 인원 및 역할 (5인)
 
-- **강동욱**(팀장) 
+- **강동욱**(팀장) <br>
   : `프로젝트 기획`, `창고DashBoard(Android Tablet) 제작`, `최종 보고 발표`
 
-- **김연주** 
+- **김연주** <br>
   : `Hadoop 서버 구축` , `R을 통한 데이터 분석으로 재고배치효율화 솔루션 도출`
 
-- **백대현** 
+- **백대현** <br>
   : ERP(Web Application Server) `지게차 관리기능 구현`, `DB 구축`
 
-- **이슬** 
+- **이슬** <br>
   : ERP(Web Application Server) `재고 등록·입출고 기능` / `로그인 및 직원 관리기능` / `솔루션 화면` 구현, `DB 구축`
 
-- **최여진** 
+- **최여진** <br>
   : `지게차(LattePanda 및 CanPro활용한 프로젝트 환경) 구축`, `TCP/IP서버 구축`, `각 시스템 컴포넌트 네트워크 연동`, `AWS서버 구축`, `서비스 시연영상 제작`
 
   <br><br><br>
@@ -100,15 +100,7 @@
 
 ![SmartWarehouse_%20IoT/workflow.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F877542fe-07ef-4248-9f73-27904d7d7ffc%2Fworkflow.png?table=block&id=2f6bebf4-9bef-4566-a27e-7275f5854f49&width=1440&cache=v2)
 
-i) ERP(Web)를 통한 재고 입·출고 주문`작업 송신`
-
-ii) Tablet에서 `작업 수신` 및 대기중인 지게차에 `작업 할당`
-
-iii) 지게차는 `작업 수행` 및 주기적으로 Tablet에 자신의 `상태 전송`
-
-iv) Tablet에서 지게차 `실시간 상태 확인` 및 ERP로 지게차의 주요 `운용·상태 정보 송신`
-
-v) ERP에서 창고별 `지게차 상태` 및 창고 `운영 내역` 확인
+i) ERP(Web)를 통한 재고 입·출고 주문`작업 송신`<br>ii) Tablet에서 `작업 수신` 및 대기중인 지게차에 `작업 할당`<br>iii) 지게차는 `작업 수행` 및 주기적으로 Tablet에 자신의 `상태 전송`<br>iv) Tablet에서 지게차 `실시간 상태 확인` 및 ERP로 지게차의 주요 `운용·상태 정보 송신`<br>v) ERP에서 창고별 `지게차 상태` 및 창고 `운영 내역` 확인
 
 <br><br>
 
@@ -154,20 +146,13 @@ v) ERP에서 창고별 `지게차 상태` 및 창고 `운영 내역` 확인
 
 ![SmartWarehouse_%20IoT/WebApp_itempage.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F36b4c55d-3b58-474b-9960-79c1dbd28262%2FWebApp_itempage.png?table=block&id=ee6962fd-0e66-4a4f-9674-b64ecc78843e&width=2530&cache=v2)
 
-i)상품 등록
-
-ii)상품 조회
-
-iii)상품 발주
-
-iv)발주 내역 조회
+i)상품 등록<br>ii)상품 조회<br>iii)상품 발주<br>iv)발주 내역 조회
 
 <br>③ 지게차 관리 화면
 
 ![SmartWarehouse_%20IoT/WebApp_forkliftpage.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fe28dde5e-f309-4a8f-aa78-5823cbe5e437%2FWebApp_forkliftpage.png?table=block&id=c68d0785-3aad-4249-b25f-8f62b0ccf889&width=2530&cache=v2)
 
-i) 최근 일주일간 지게차 주행 거리
-
+i) 최근 일주일간 지게차 주행 거리<br>
 ii) 지게차 상태(실시간으로 반영)
 
 <br>④ 재고 배치 효율화 솔루션 제공 화면
@@ -175,30 +160,27 @@ ii) 지게차 상태(실시간으로 반영)
 ![SmartWarehouse_%20IoT/solution.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F800d441d-8658-4463-81ac-f28ce599b360%2Fsolution.png?table=block&id=d1af7d26-29b5-4859-91da-47abe966a8ef&width=3780&cache=v2)
 
 - HeattMap으로 시각화 : 선택한 기간동안의 창고 상품 좌표별 입출고 건수
-- 입출고 건수가 높은 상품을 창고 입구 가까이에 배치
-→ 동일한 상품 입출고에 대한 지게차 이동거리 감소
+- 입출고 건수가 높은 상품을 창고 입구 가까이에 배치<br>
+→ 동일한 상품 입출고에 대한 지게차 이동거리 감소<br>
 ex) 10m*2회+30m*10회=320m → 10m*10회+30m*2회=160m ***(50%감소)***
-- Hadoop / R
-i) 창고 입출고 내역 및 지게차 이동거리 Log를 Hadoop Server에 저장
-ii) Log전처리(Hadoop) 및 Heatmap(R)사용 창고 내 상품별 입출고 빈도수 시각화
-iii) 상품위치 변경하여 지게차 이동거리가 최소화되는 알고리즘 구현
+- Hadoop / R<br>
+i) 창고 입출고 내역 및 지게차 이동거리 Log를 Hadoop Server에 저장<br>
+ii) Log전처리(Hadoop) 및 Heatmap(R)사용 창고 내 상품별 입출고 빈도수 시각화<br>
+iii) 상품위치 변경하여 지게차 이동거리가 최소화되는 알고리즘 구현<br>
 
 <br>⑤ (관리자 전용) 직원 관리 화면
 
 ![SmartWarehouse_%20IoT/WebApp_employeepage.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fdd429f67-b5aa-4326-b2bb-a101bb78fee1%2FWebApp_employeepage.png?table=block&id=84aaacf1-f508-45b3-8567-cb841cacbbf8&width=2530&cache=v2)
 
-관리자만 접근 가능한 직원관리 화면
-
-i) 창고별 직원수 통계
-
-ii) 직원 등록
-
+관리자만 접근 가능한 직원관리 화면<br>
+i) 창고별 직원수 통계<br>
+ii) 직원 등록<br>
 iii) 직원 조회
 
 <br><br>**4-2. TCP/IP Server**
 
 - ERP(Web)와 창고별 태블릿간 네트워크 중개
-- 새로운 태블릿만 새로 TCP/IP에 연동시, 시스템 변경 없이 창고 추가 가능
+- 새로운 태블릿만 새로 TCP/IP에 연동시, 시스템 변경 없이 창고 추가 가능<br>
 **Thread Pool을 사용한 구현으로, 안정적 네트워크 지원*
 
 <br><br>**4-3. 창고 DASHBOARD (Android Tablet)**
@@ -207,10 +189,10 @@ iii) 직원 조회
 
 i) 지게차 현재 위치 표시 (1초 주기 갱신)
 
-ii) 지게차별 상태 (1초 주기 갱신)
+ii) 지게차별 상태 (1초 주기 갱신)<br>
     **WAITING** · **WORKING** · **CHARGING** / 현재작업 / 온도 / 배터리
 
-iii) 주요 상태메세지
+iii) 주요 상태메세지<br>
     네트워크 연결 상태 / 작업 할당 / 지게차 상태변화 등
 
 iv) ERP(Web)로 부터 수신한 입출고 작업 목록
@@ -221,18 +203,18 @@ iv) ERP(Web)로 부터 수신한 입출고 작업 목록
 
 ![SmartWarehouse_%20IoT/fl.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F4d91494f-feab-4b67-b54a-9bc945b7be93%2Ffl.png?table=block&id=4712b9cc-b30e-4ae6-a527-38932186106c&width=1220&cache=v2)
 
-- **LattePanda, CanPro를 이용한 지게차 구현** <i>*프로젝트 환경</i>
-  i) TABLET과의 외부 통신은 TCP/IP
-  ii) 지게차 **내부** 통신은 **Can Protocol** 사용
+- **LattePanda, CanPro를 이용한 지게차 구현** <i>*프로젝트 환경</i><br>
+  i) TABLET과의 외부 통신은 TCP/IP<br>
+  ii) 지게차 **내부** 통신은 **Can Protocol** 사용<br>
 
-- **CONTROLLER**
-i) TABLET으로부터 입출고 작업 수신(상품 위치, 수량 등)
+- **CONTROLLER**<br>
+i) TABLET으로부터 입출고 작업 수신(상품 위치, 수량 등)<br>
 ii) 1초 주기로 각 ECU의 상태를 TABLET으로 송신
 - **ECU①** Location : 현재 위치
-- **ECU②** Battery
-i) Battery 30% 미만시 `CHARGING`
-ii) 작업 수신 시 `WAITING` → `WORKING`
-iii) 작업 완료 시 `WORKING` → `WAITING`
+- **ECU②** Battery<br>
+i) Battery 30% 미만시 `CHARGING`<br>
+ii) 작업 수신 시 `WAITING` → `WORKING`<br>
+iii) 작업 완료 시 `WORKING` → `WAITING`<br>
 **상태별로 배터리 증가/감소 속도 차이*
 - **ECU③** Temperature : 현재 온도
 
