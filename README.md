@@ -159,7 +159,7 @@ ii) 지게차 상태(실시간으로 반영)
 
 ![SmartWarehouse_%20IoT/solution.png](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F800d441d-8658-4463-81ac-f28ce599b360%2Fsolution.png?table=block&id=d1af7d26-29b5-4859-91da-47abe966a8ef&width=3780&cache=v2)
 
-- HeattMap으로 시각화 : 선택한 기간동안의 창고 상품 좌표별 입출고 건수
+- HeatMap으로 시각화 : 선택한 기간동안의 창고 상품 좌표별 입출고 건수
 - 입출고 건수가 높은 상품을 창고 입구 가까이에 배치<br>
 → 동일한 상품 입출고에 대한 지게차 이동거리 감소<br>
 ex) 10m*2회+30m*10회=320m → 10m*10회+30m*2회=160m ***(50%감소)***
